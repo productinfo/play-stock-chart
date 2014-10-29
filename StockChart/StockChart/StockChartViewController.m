@@ -1,6 +1,6 @@
 //
-//  MyPlayProjectAppDelegate.h
-//  MyPlayProject
+//  StockChartViewController.m
+//  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
 //
@@ -19,10 +19,24 @@
 //  limitations under the License.
 //
 
-@import UIKit;
+#import "StockChartViewController.h"
 
-@interface MyPlayProjectAppDelegate : UIResponder <UIApplicationDelegate>
+@interface StockChartViewController ()
 
-@property (strong, nonatomic) UIWindow *window;
+@end
+
+@implementation StockChartViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end

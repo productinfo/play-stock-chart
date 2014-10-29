@@ -1,6 +1,6 @@
 //
 //  main.m
-//  MyPlayProject
+//  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
 //
@@ -21,11 +21,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MyPlayProjectAppDelegate.h"
+#import "StockChartAppDelegate.h"
 
 int main(int argc, char * argv[])
 {
   @autoreleasepool {
-      return UIApplicationMain(argc, argv, nil, NSStringFromClass([MyPlayProjectAppDelegate class]));
+      return UIApplicationMain(argc, argv, nil, NSStringFromClass([StockChartAppDelegate class]));
   }
 }

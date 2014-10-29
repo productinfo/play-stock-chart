@@ -12,9 +12,9 @@
 		68171BE519ADDBC5000AFEEB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68171BE419ADDBC5000AFEEB /* UIKit.framework */; };
 		68171BEB19ADDBC5000AFEEB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68171BE919ADDBC5000AFEEB /* InfoPlist.strings */; };
 		68171BED19ADDBC5000AFEEB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 68171BEC19ADDBC5000AFEEB /* main.m */; };
-		68171BF119ADDBC5000AFEEB /* MyPlayProjectAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68171BF019ADDBC5000AFEEB /* MyPlayProjectAppDelegate.m */; };
-		68171BF419ADDBC5000AFEEB /* MyPlayProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68171BF219ADDBC5000AFEEB /* MyPlayProject.storyboard */; };
-		68171BF719ADDBC5000AFEEB /* MyPlayProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68171BF619ADDBC5000AFEEB /* MyPlayProjectViewController.m */; };
+		68171BF119ADDBC5000AFEEB /* StockChartAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68171BF019ADDBC5000AFEEB /* StockChartAppDelegate.m */; };
+		68171BF419ADDBC5000AFEEB /* StockChart.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68171BF219ADDBC5000AFEEB /* StockChart.storyboard */; };
+		68171BF719ADDBC5000AFEEB /* StockChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68171BF619ADDBC5000AFEEB /* StockChartViewController.m */; };
 		68171BF919ADDBC5000AFEEB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68171BF819ADDBC5000AFEEB /* Images.xcassets */; };
 		68171C1619ADDC04000AFEEB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68171C1519ADDC04000AFEEB /* QuartzCore.framework */; };
 		68171C2219ADDCD6000AFEEB /* libShinobiPlayUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68171C1D19ADDC45000AFEEB /* libShinobiPlayUtils.a */; };
@@ -45,19 +45,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		68171BDD19ADDBC5000AFEEB /* MyPlayProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlayProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		68171BDD19ADDBC5000AFEEB /* StockChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68171BE019ADDBC5000AFEEB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		68171BE219ADDBC5000AFEEB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		68171BE419ADDBC5000AFEEB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		68171BE819ADDBC5000AFEEB /* MyPlayProject-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MyPlayProject-Info.plist"; sourceTree = "<group>"; };
+		68171BE819ADDBC5000AFEEB /* StockChart-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StockChart-Info.plist"; sourceTree = "<group>"; };
 		68171BEA19ADDBC5000AFEEB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		68171BEC19ADDBC5000AFEEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		68171BEE19ADDBC5000AFEEB /* MyPlayProject-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyPlayProject-Prefix.pch"; sourceTree = "<group>"; };
-		68171BEF19ADDBC5000AFEEB /* MyPlayProjectAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyPlayProjectAppDelegate.h; sourceTree = "<group>"; };
-		68171BF019ADDBC5000AFEEB /* MyPlayProjectAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MyPlayProjectAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		68171BF319ADDBC5000AFEEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MyPlayProject.storyboard; sourceTree = "<group>"; };
-		68171BF519ADDBC5000AFEEB /* MyPlayProjectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MyPlayProjectViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		68171BF619ADDBC5000AFEEB /* MyPlayProjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MyPlayProjectViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		68171BEE19ADDBC5000AFEEB /* StockChart-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StockChart-Prefix.pch"; sourceTree = "<group>"; };
+		68171BEF19ADDBC5000AFEEB /* StockChartAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StockChartAppDelegate.h; sourceTree = "<group>"; };
+		68171BF019ADDBC5000AFEEB /* StockChartAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StockChartAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		68171BF319ADDBC5000AFEEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/StockChart.storyboard; sourceTree = "<group>"; };
+		68171BF519ADDBC5000AFEEB /* StockChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = StockChartViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		68171BF619ADDBC5000AFEEB /* StockChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StockChartViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		68171BF819ADDBC5000AFEEB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		68171BFF19ADDBC5000AFEEB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		68171C1519ADDC04000AFEEB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -84,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				68171C1719ADDC45000AFEEB /* ShinobiPlayUtils.xcodeproj */,
-				68171BE619ADDBC5000AFEEB /* MyPlayProject */,
+				68171BE619ADDBC5000AFEEB /* StockChart */,
 				68171BDF19ADDBC5000AFEEB /* Frameworks */,
 				68171BDE19ADDBC5000AFEEB /* Products */,
 			);
@@ -93,7 +93,7 @@
 		68171BDE19ADDBC5000AFEEB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				68171BDD19ADDBC5000AFEEB /* MyPlayProject.app */,
+				68171BDD19ADDBC5000AFEEB /* StockChart.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,27 +110,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		68171BE619ADDBC5000AFEEB /* MyPlayProject */ = {
+		68171BE619ADDBC5000AFEEB /* StockChart */ = {
 			isa = PBXGroup;
 			children = (
-				68171BEF19ADDBC5000AFEEB /* MyPlayProjectAppDelegate.h */,
-				68171BF019ADDBC5000AFEEB /* MyPlayProjectAppDelegate.m */,
-				68171BF219ADDBC5000AFEEB /* MyPlayProject.storyboard */,
-				68171BF519ADDBC5000AFEEB /* MyPlayProjectViewController.h */,
-				68171BF619ADDBC5000AFEEB /* MyPlayProjectViewController.m */,
+				68171BEF19ADDBC5000AFEEB /* StockChartAppDelegate.h */,
+				68171BF019ADDBC5000AFEEB /* StockChartAppDelegate.m */,
+				68171BF219ADDBC5000AFEEB /* StockChart.storyboard */,
+				68171BF519ADDBC5000AFEEB /* StockChartViewController.h */,
+				68171BF619ADDBC5000AFEEB /* StockChartViewController.m */,
 				68171BF819ADDBC5000AFEEB /* Images.xcassets */,
 				68171BE719ADDBC5000AFEEB /* Supporting Files */,
 			);
-			path = MyPlayProject;
+			path = StockChart;
 			sourceTree = "<group>";
 		};
 		68171BE719ADDBC5000AFEEB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				68171BE819ADDBC5000AFEEB /* MyPlayProject-Info.plist */,
+				68171BE819ADDBC5000AFEEB /* StockChart-Info.plist */,
 				68171BE919ADDBC5000AFEEB /* InfoPlist.strings */,
 				68171BEC19ADDBC5000AFEEB /* main.m */,
-				68171BEE19ADDBC5000AFEEB /* MyPlayProject-Prefix.pch */,
+				68171BEE19ADDBC5000AFEEB /* StockChart-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -147,9 +147,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		68171BDC19ADDBC5000AFEEB /* MyPlayProject */ = {
+		68171BDC19ADDBC5000AFEEB /* StockChart */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 68171C0F19ADDBC5000AFEEB /* Build configuration list for PBXNativeTarget "MyPlayProject" */;
+			buildConfigurationList = 68171C0F19ADDBC5000AFEEB /* Build configuration list for PBXNativeTarget "StockChart" */;
 			buildPhases = (
 				68171BD919ADDBC5000AFEEB /* Sources */,
 				68171BDA19ADDBC5000AFEEB /* Frameworks */,
@@ -160,9 +160,9 @@
 			dependencies = (
 				68171C2119ADDCCB000AFEEB /* PBXTargetDependency */,
 			);
-			name = MyPlayProject;
-			productName = MyPlayProject;
-			productReference = 68171BDD19ADDBC5000AFEEB /* MyPlayProject.app */;
+			name = StockChart;
+			productName = StockChart;
+			productReference = 68171BDD19ADDBC5000AFEEB /* StockChart.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -171,11 +171,11 @@
 		68171BD519ADDBC5000AFEEB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = MyPlayProject;
+				CLASSPREFIX = StockChart;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Alison Clarke";
 			};
-			buildConfigurationList = 68171BD819ADDBC5000AFEEB /* Build configuration list for PBXProject "MyPlayProject" */;
+			buildConfigurationList = 68171BD819ADDBC5000AFEEB /* Build configuration list for PBXProject "StockChart" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -194,7 +194,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				68171BDC19ADDBC5000AFEEB /* MyPlayProject */,
+				68171BDC19ADDBC5000AFEEB /* StockChart */,
 			);
 		};
 /* End PBXProject section */
@@ -223,7 +223,7 @@
 			files = (
 				68171BF919ADDBC5000AFEEB /* Images.xcassets in Resources */,
 				68171BEB19ADDBC5000AFEEB /* InfoPlist.strings in Resources */,
-				68171BF419ADDBC5000AFEEB /* MyPlayProject.storyboard in Resources */,
+				68171BF419ADDBC5000AFEEB /* StockChart.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,9 +234,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68171BF119ADDBC5000AFEEB /* MyPlayProjectAppDelegate.m in Sources */,
+				68171BF119ADDBC5000AFEEB /* StockChartAppDelegate.m in Sources */,
 				68171BED19ADDBC5000AFEEB /* main.m in Sources */,
-				68171BF719ADDBC5000AFEEB /* MyPlayProjectViewController.m in Sources */,
+				68171BF719ADDBC5000AFEEB /* StockChartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,12 +259,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		68171BF219ADDBC5000AFEEB /* MyPlayProject.storyboard */ = {
+		68171BF219ADDBC5000AFEEB /* StockChart.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				68171BF319ADDBC5000AFEEB /* Base */,
 			);
-			name = MyPlayProject.storyboard;
+			name = StockChart.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -348,9 +348,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MyPlayProject/MyPlayProject-Prefix.pch";
-				INFOPLIST_FILE = "MyPlayProject/MyPlayProject-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "StockChart/StockChart-Prefix.pch";
+				INFOPLIST_FILE = "StockChart/StockChart-Info.plist";
+				PRODUCT_NAME = StockChart;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -361,9 +361,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MyPlayProject/MyPlayProject-Prefix.pch";
-				INFOPLIST_FILE = "MyPlayProject/MyPlayProject-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "StockChart/StockChart-Prefix.pch";
+				INFOPLIST_FILE = "StockChart/StockChart-Info.plist";
+				PRODUCT_NAME = StockChart;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -371,7 +371,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		68171BD819ADDBC5000AFEEB /* Build configuration list for PBXProject "MyPlayProject" */ = {
+		68171BD819ADDBC5000AFEEB /* Build configuration list for PBXProject "StockChart" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				68171C0D19ADDBC5000AFEEB /* Debug */,
@@ -380,7 +380,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		68171C0F19ADDBC5000AFEEB /* Build configuration list for PBXNativeTarget "MyPlayProject" */ = {
+		68171C0F19ADDBC5000AFEEB /* Build configuration list for PBXNativeTarget "StockChart" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				68171C1019ADDBC5000AFEEB /* Debug */,

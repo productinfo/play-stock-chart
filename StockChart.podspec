@@ -5,7 +5,7 @@
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
 Pod::Spec.new do |s|
-  s.name             = "MyPlayProject"
+  s.name             = "StockChart"
   s.version          = '0.1.0'
   s.summary          = "<Summary>"
   s.description      = <<-DESC
@@ -21,9 +21,9 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/shinobicontrols'
   s.platform     = :ios, '7.0'
   s.requires_arc = true
-  s.source_files = 'MyPlayProject/MyPlayProject/**/*.{h,m}'
+  s.source_files = 'StockChart/StockChart/**/*.{h,m}'
   s.dependency 'ShinobiPlayUtils'
-  s.resources = ['MyPlayProject/**/*.storyboard', 'MyPlayProject/**/*.xib', 'MyPlayProject/**/*.xcassets']
+  s.resources = ['StockChart/**/*.storyboard', 'StockChart/**/*.xib', 'StockChart/**/*.xcassets']
   s.frameworks = 'QuartzCore', 'Shinobi<Charts/Grids/Essentials/Gauges/Forms>'
   s.xcconfig     = { 'FRAMEWORK_SEARCH_PATHS' => '"$(DEVELOPER_FRAMEWORKS_DIR)" "$(PROJECT_DIR)/../"' }
 end

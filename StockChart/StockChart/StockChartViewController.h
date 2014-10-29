@@ -1,6 +1,6 @@
 //
-//  MyPlayProjectViewController.h
-//  MyPlayProject
+//  StockChartViewController.h
+//  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
 //
@@ -22,6 +22,6 @@
 @import UIKit;
 #import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
 
-@interface MyPlayProjectViewController : SPUGalleryManagedViewController
+@interface StockChartViewController : SPUGalleryManagedViewController
 
 @end

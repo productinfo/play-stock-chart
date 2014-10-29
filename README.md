@@ -8,7 +8,7 @@ Creating a new project from this template project
         . ./duplicate.sh -u <BitBucket username> -r <New Repo Name>
    This should duplicate the template project into a new repository on BitBucket, check out the project into the parent dir of the template project, and cd you into the new checkout.
 
-4. From the newly created directory, open "MyPlayProject" in Xcode (don't worry for now that ShinobiPlayUtils looks broken) and rename the project (click twice on project name in the Project Navigator, then follow the instructions, choosing to rename project content items). Close the project.
+4. From the newly created directory, open "StockChart" in Xcode (don't worry for now that ShinobiPlayUtils looks broken) and rename the project (click twice on project name in the Project Navigator, then follow the instructions, choosing to rename project content items). Close the project.
 
 5. **Make sure you're in the checkout of the new project not the template project.** Run the rename script (replacing `<New Project Name>` with your new name):
 
