@@ -1,0 +1,4 @@
+[submodule "MyPlayProject/ShinobiPlayUtils"]
+	path = MyPlayProject/ShinobiPlayUtils
+	url = git@bitbucket.org:shinobicontrols/shinobi-play-utils.git
+	branch = master
