@@ -1,10 +1,10 @@
 //
-//  StockChartViewController.h
-//  StockChart
+//  ShinobiRangeAnnotationManager.h
+//  RangeSelector
 //
-//  Created by Alison Clarke on 27/08/2014.
-//
-//  Copyright 2014 Scott Logic
+//  Created by Sam Davies on 26/12/2012.
+//  
+//  Copyright 2013 Scott Logic
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -19,11 +19,17 @@
 //  limitations under the License.
 //
 
-@import UIKit;
+#import <Foundation/Foundation.h>
 #import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
+#import "StockChartRangeAnnotationDelegate.h"
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+@interface StockChartRangeAnnotationManager : NSObject
+
+@property (nonatomic, strong) id<StockChartRangeAnnotationDelegate> delegate;
+
+- (id)initWithChart:(ShinobiChart *)chart;
+- (id)initWithChart:(ShinobiChart *)chart minimumSpan:(CGFloat)minSpan;
+- (void)moveRangeSelectorToRange:(SChartRange *)range;
+- (void)setInitialMin:(id)min andMax:(id)max;
 
 @end
