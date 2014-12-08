@@ -15,7 +15,7 @@
 - (id)initWithYValue:(id)yValue xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis {
   // Calculate the annotation width based on the xAxis range
   CGFloat width = [xAxis pixelValueForDataValue:xAxis.axisRange.maximum] - [yAxis.width floatValue];
-  self = [super initWithFrame:CGRectMake(0, 0, width, 1)];
+  self = [super initWithFrame:CGRectMake(100, 0, width, 1)];
   if (self) {
     self.xAxis = xAxis;
     self.yAxis = yAxis;
@@ -35,7 +35,7 @@
   [self.dashedLine moveToPoint:leftPoint];
   [self.dashedLine addLineToPoint:rightPoint];
   [self.dashedLine setLineWidth:2.0f];
-  float lineDash[2] = {8.0, 6.0};
+  CGFloat lineDash[2] = {8.0, 6.0};
   [self.dashedLine setLineDash:lineDash count:2 phase:0.0];
 }
 

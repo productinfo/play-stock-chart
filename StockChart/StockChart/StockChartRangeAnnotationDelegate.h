@@ -26,6 +26,8 @@
 @protocol StockChartRangeAnnotationDelegate <NSObject>
 
 @required
-- (void)rangeAnnotation:(StockChartRangeAnnotationManager*)annotation didMoveToRange:(SChartRange*)range;
+
+- (void)rangeAnnotation:(StockChartRangeAnnotationManager*)annotation didMoveToRange:(SChartRange*)range
+         autoscaleYAxis:(BOOL)autoscale;
 
 @end

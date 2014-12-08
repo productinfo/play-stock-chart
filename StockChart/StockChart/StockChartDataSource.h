@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <ShinobiCharts/ShinobiCharts.h>
 #import "StockChartData.h"
-#import "SChartDatasourceLookup.h"
+#import "StockChartDatasourceLookup.h"
 
-@interface FinancialChartDataSource : NSObject <SChartDatasource, SChartDatasourceLookup>
+@interface StockChartDataSource : NSObject <SChartDatasource, StockChartDatasourceLookup>
 
 @property (nonatomic, strong) StockChartData *chartData;
 

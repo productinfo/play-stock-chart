@@ -250,8 +250,8 @@
 #pragma mark - Utility Methods
 - (void)callRangeDidMoveDelegateWithRange:(SChartRange*)range {
   // We call the delegate a few times, so have wrapped it up in a utility method
-  if (self.delegate && [self.delegate respondsToSelector:@selector(rangeAnnotation:didMoveToRange:)]) {
-    [self.delegate rangeAnnotation:self didMoveToRange:range];
+  if (self.delegate && [self.delegate respondsToSelector:@selector(rangeAnnotation:didMoveToRange:autoscaleYAxis:)]) {
+    [self.delegate rangeAnnotation:self didMoveToRange:range autoscaleYAxis:YES];
   }
 }
 

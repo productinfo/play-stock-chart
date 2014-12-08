@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-static NSInteger const StockChartMovingAverageNPeriod;
+static NSInteger const StockChartMovingAverageNPeriod = 20;
 
 @interface StockChartData : NSObject
 
@@ -26,7 +26,7 @@ static NSInteger const StockChartMovingAverageNPeriod;
 - (NSNumber *)upperBollingerValueForIndex:(NSUInteger)index;
 - (NSUInteger)numberOfDataPoints;
 
-//- (NSNumber *)sampledMinInRangeFromIndex:(NSUInteger)startIdx toIndex:(NSUInteger)endIdx;
-//- (NSNumber *)sampledMaxInRangeFromIndex:(NSUInteger)startIdx toIndex:(NSUInteger)endIdx;
+- (NSNumber *)sampledMinInRangeFromIndex:(NSUInteger)startIdx toIndex:(NSUInteger)endIdx;
+- (NSNumber *)sampledMaxInRangeFromIndex:(NSUInteger)startIdx toIndex:(NSUInteger)endIdx;
 
 @end

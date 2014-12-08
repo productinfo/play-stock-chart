@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Scott Logic. All rights reserved.
 //
 
-#import "RangeChartDataSource.h"
+#import "StockChartRangeChartDataSource.h"
 
 /*
  Data source for the range chart, which displays a single line series mapping dates to close
- values from a FinancialChartData instance
+ values from a StockChartData instance
  */
-@implementation RangeChartDataSource
+@implementation StockChartRangeChartDataSource
 
 - (id)init {
   self = [super init];
@@ -24,29 +24,29 @@
 
 #pragma mark - Datasource Protocol Functions
 
-- (int)sChart:(ShinobiChart *)chart numberOfDataPointsForSeriesAtIndex:(int)seriesIndex {
+- (NSInteger)sChart:(ShinobiChart *)chart numberOfDataPointsForSeriesAtIndex:(NSInteger)seriesIndex {
   return [self.chartData numberOfDataPoints];
 }
 
-- (SChartSeries *)sChart:(ShinobiChart *)chart seriesAtIndex:(int)index {
+- (SChartSeries *)sChart:(ShinobiChart *)chart seriesAtIndex:(NSInteger)index {
   SChartLineSeries *lineSeries = [[SChartLineSeries alloc] init];
   lineSeries.baseline = [NSNumber numberWithInt:0];
   lineSeries.crosshairEnabled = YES;
   return lineSeries;
 }
 
-- (int)numberOfSeriesInSChart:(ShinobiChart *)chart {
+- (NSInteger)numberOfSeriesInSChart:(ShinobiChart *)chart {
   return 1;
 }
 
-- (id<SChartData>)sChart:(ShinobiChart *)chart dataPointAtIndex:(int)dataIndex forSeriesAtIndex:(int)seriesIndex {
+- (id<SChartData>)sChart:(ShinobiChart *)chart dataPointAtIndex:(NSInteger)dataIndex forSeriesAtIndex:(NSInteger)seriesIndex {
   SChartDataPoint *datapoint = [[SChartDataPoint alloc] init];
   datapoint.xValue = self.chartData.dates[dataIndex];
   datapoint.yValue = self.chartData.seriesClose[dataIndex];
   return datapoint;
 }
 
-- (NSArray *)sChart:(ShinobiChart *)chart dataPointsForSeriesAtIndex:(int)seriesIndex {
+- (NSArray *)sChart:(ShinobiChart *)chart dataPointsForSeriesAtIndex:(NSInteger)seriesIndex {
   NSMutableArray *dataPoints = [NSMutableArray array];
   for (int i=0; i<[self.chartData numberOfDataPoints]; i++) {
     SChartDataPoint *datapoint = [[SChartDataPoint alloc] init];

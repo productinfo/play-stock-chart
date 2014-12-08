@@ -1,5 +1,5 @@
 //
-//  SChartDatasourceLookup.h
+//  StockChartDatasourceLookup.h
 //  RangeSelector
 //
 //  Created by Sam Davies on 10/03/2013.
@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SChartDatasourceLookup <NSObject>
+// Protocol to allow lookups of a y value for a given x value and series
+@protocol StockChartDatasourceLookup <NSObject>
 
 @required
 - (id)estimateYValueForXValue:(id)xValue forSeriesAtIndex:(NSUInteger)idx;

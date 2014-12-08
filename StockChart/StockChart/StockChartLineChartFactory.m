@@ -6,17 +6,14 @@
 //  Copyright (c) 2012 Scott Logic. All rights reserved.
 //
 
-#import "LineChartFactory.h"
-#import "FinancialChartDataSource.h"
-#import "ShinobiColourUtilities.h"
-#import "ChartConfigUtilities.h"
-//#import "FixedLabelSizeSChartNumberAxis.h"
+#import "StockChartLineChartFactory.h"
+#import "StockChartDataSource.h"
 
-@implementation LineChartFactory
+@implementation StockChartLineChartFactory
 
 + (id<SChartDatasource>)createChartDatasource {
   // Initialise the data source we will use for the chart
-  return [[FinancialChartDataSource alloc] init];
+  return [[StockChartDataSource alloc] init];
 }
 
 + (ShinobiChart*)createChartWithBounds:(CGRect)bounds dataSource:(id<SChartDatasource>)datasource {

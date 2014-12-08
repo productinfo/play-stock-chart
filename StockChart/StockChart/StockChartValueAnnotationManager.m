@@ -14,7 +14,7 @@
 @interface StockChartValueAnnotationManager ()
 
 @property (nonatomic, strong) ShinobiChart *chart;
-@property (nonatomic, strong) id<SChartDatasourceLookup> datasource;
+@property (nonatomic, strong) id<StockChartDatasourceLookup> datasource;
 @property (nonatomic, assign) NSInteger seriesIndex;
 @property (nonatomic, strong) SChartAnnotation *lineAnnotation;
 @property (nonatomic, strong) SChartAnnotation *textAnnotation;
@@ -29,7 +29,7 @@
   @throw exception;
 }
 
-- (id)initWithChart:(ShinobiChart *)chart datasource:(id<SChartDatasourceLookup>)datasource
+- (id)initWithChart:(ShinobiChart *)chart datasource:(id<StockChartDatasourceLookup>)datasource
         seriesIndex:(NSInteger)seriesIndex
 {
   self = [super init];

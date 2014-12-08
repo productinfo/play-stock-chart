@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <ShinobiCharts/ShinobiCharts.h>
 
-@interface LineChartFactory : NSObject
+@interface StockChartLineChartFactory : NSObject
 
 + (id<SChartDatasource>)createChartDatasource;
 

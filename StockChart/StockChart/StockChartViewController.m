@@ -20,14 +20,15 @@
 //
 
 #import "StockChartViewController.h"
-#import "FinancialChartDataSource.h"
-#import "LineChartFactory.h"
-#import "RangeChartDataSource.h"
+#import "StockChartDataSource.h"
+#import "StockChartLineChartFactory.h"
+#import "StockChartRangeChartDataSource.h"
 //#import "CustomCrosshairTooltip.h"
-#import "ChartConfigUtilities.h"
+#import "StockChartConfigUtilities.h"
 #import <ShinobiCharts/SChartCanvas.h>
 #import "StockChartValueAnnotationManager.h"
 #import "StockChartCommon.h"
+#import "NSArray+StockChartUtils.h"
 
 // Limit the x axis so it has a minimum range of 2 weeks
 const float minXAxisRange = 60 * 60 * 24 * 14;
@@ -44,7 +45,7 @@ const float minYAxisRange = 10.f;
 @property (strong, nonatomic) StockChartValueAnnotationManager *valueAnnotationManager;
 @property (strong, nonatomic) StockChartRangeAnnotationManager *rangeAnnotationManager;
 
-@property (strong, nonatomic) FinancialChartDataSource *mainDatasource;
+@property (strong, nonatomic) StockChartDataSource *mainDatasource;
 @property (strong, nonatomic) id<SChartDatasource> rangeDatasource;
 
 @property (strong, nonatomic) UIView *xAxisBackground;
@@ -72,13 +73,12 @@ const float minYAxisRange = 10.f;
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
   [ShinobiCharts setTheme:theme];
   
-  self.mainDatasource = [[FinancialChartDataSource alloc] init];
+  self.mainDatasource = [[StockChartDataSource alloc] init];
   
-  self.mainChart = [LineChartFactory createChartWithBounds:self.mainView.bounds
+  self.mainChart = [StockChartLineChartFactory createChartWithBounds:self.mainView.bounds
                                                 dataSource:self.mainDatasource];
   self.mainChart.clipsToBounds = NO;
   self.mainChart.title = @"Stock values and trading volume over time";
-  //self.mainChart.xAxis.title = @"z";
   
   // Set double tap in main chart to reset the zoom
   self.mainChart.gestureDoubleTapResetsZoom = YES;
@@ -90,8 +90,8 @@ const float minYAxisRange = 10.f;
   SChartNumberRange *volumeRange = [[SChartNumberRange alloc] initWithMinimum:[NSNumber numberWithInt:0]
                                                                    andMaximum:[NSNumber numberWithDouble:2500000000.f]];
   SChartNumberAxis *volumeYAxis = [[SChartNumberAxis alloc] initWithRange:volumeRange];
-  [ChartConfigUtilities hideAxisMarkings:volumeYAxis];
-  [ChartConfigUtilities hideAxisLine:volumeYAxis];
+  [StockChartConfigUtilities hideAxisMarkings:volumeYAxis];
+  [StockChartConfigUtilities hideAxisLine:volumeYAxis];
   [self.mainChart addYAxis:volumeYAxis];
   
   [self.mainView addSubview:self.mainChart];
@@ -114,17 +114,14 @@ const float minYAxisRange = 10.f;
   
   // Allow the plot area to spill out of its bounds so we can have an annotation outside of it
   self.mainChart.canvas.glView.clipsToBounds = FALSE;
-  //self.mainChart.plotAreaBackgroundColor = [UIColor redColor];
-  //self.mainChart.backgroundColor = [UIColor greenColor];
-  //self.mainChart.canvasAreaBackgroundColor = [UIColor blueColor];
   
   // Create the range chart and annotation
-  self.rangeDatasource = [[RangeChartDataSource alloc] init];
-  self.rangeChart = [LineChartFactory createChartWithBounds:self.rangeView.bounds
+  self.rangeDatasource = [[StockChartRangeChartDataSource alloc] init];
+  self.rangeChart = [StockChartLineChartFactory createChartWithBounds:self.rangeView.bounds
                                                  dataSource:self.rangeDatasource];
   self.rangeChart.title = @"";
-  [ChartConfigUtilities hideAxisMarkings:self.rangeChart.xAxis];
-  [ChartConfigUtilities hideAxisMarkings:self.rangeChart.yAxis];
+  [StockChartConfigUtilities hideAxisMarkings:self.rangeChart.xAxis];
+  [StockChartConfigUtilities hideAxisMarkings:self.rangeChart.yAxis];
   self.rangeChart.delegate = self;
   
   // Add the chart to the correct subview
@@ -161,31 +158,32 @@ const float minYAxisRange = 10.f;
 
 #pragma mark - ShinobiRangeSelectorDelegate protocol
 
-- (void)rangeAnnotation:(StockChartRangeAnnotationManager *)annotation didMoveToRange:(SChartRange *)range {
+- (void)rangeAnnotation:(StockChartRangeAnnotationManager *)annotation didMoveToRange:(SChartRange *)range
+         autoscaleYAxis:(BOOL)autoscale {
   [self.mainChart.xAxis setRangeWithMinimum:range.minimum andMaximum:range.maximum];
   
-  /*if (autoscale == YES)  {
-    FinancialChartData *chartData = self.mainDatasource.chartData;
-    
-    // Get the x-axis value array
-    NSArray *xValues = [[[self.mainChart.series objectAtIndex:1] dataSeries] allXValues];
-    
-    // We need to convert the start and end dates to numbers (as data points are stored as numbers)
-    NSNumber *startValue = [self.mainChart.xAxis transformValueToInternal:startX];
-    NSNumber *endValue = [self.mainChart.xAxis transformValueToInternal:endX];
-    
+  if (autoscale == YES)  {
     // Auto-scale the y axis to match the visible data
-    NSUInteger lowerIndex = [xValues highestIndexWithValueLowerThan:startValue];
-    NSUInteger upperIndex = [xValues highestIndexWithValueLowerThan:endValue];
+    StockChartData *chartData = self.mainDatasource.chartData;
     
-    NSNumber *min = [chartData sampledMinInRangeFromIndex:lowerIndex toIndex:upperIndex];
-    NSNumber *max = [chartData sampledMaxInRangeFromIndex:lowerIndex toIndex:upperIndex];
+    // We need to convert the start and end of the range to dates (the values we get from
+    // the range are numbers)
+    NSDate *startValue = [NSDate dateWithTimeIntervalSince1970:[range.minimum doubleValue]];
+    NSDate *endValue = [NSDate dateWithTimeIntervalSince1970:[range.maximum doubleValue]];
     
-    // Add some scaling
-    double minValue = [min doubleValue] - (0.1 * ([max doubleValue] - [min doubleValue]));
-    double maxValue = [max doubleValue] + (0.1 * ([max doubleValue] - [min doubleValue]));
-    [self.mainChart.yAxis setRangeWithMinimum:[NSNumber numberWithDouble:minValue] andMaximum:[NSNumber numberWithDouble:maxValue]];
-  }*/
+    // Find the index of the dates nearest the start and end values
+    NSUInteger lowerIndex = [chartData.dates indexOfBiggestObjectSmallerThan:startValue inSortedRange:NSMakeRange(0, chartData.dates.count)];
+    NSUInteger upperIndex = [chartData.dates indexOfSmallestObjectBiggerThan:endValue inSortedRange:NSMakeRange(lowerIndex, chartData.dates.count - lowerIndex)];
+    
+    double min = [[chartData sampledMinInRangeFromIndex:lowerIndex toIndex:upperIndex] doubleValue];
+    double max = [[chartData sampledMaxInRangeFromIndex:lowerIndex toIndex:upperIndex] doubleValue];
+    
+    // Add some padding
+    double padding = 0.1 * (max - min);
+    double minValue = min - padding;
+    double maxValue = max + padding;
+    [self.mainChart.yAxis setRangeWithMinimum:@(minValue) andMaximum:@(maxValue)];
+  }
   
   // Update the location of the annotation line
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:range];
@@ -217,7 +215,7 @@ const float minYAxisRange = 10.f;
     double boxWidth = self.mainChart.canvas.glView.frame.size.width + [self.mainChart.yAxis.style.lineWidth doubleValue];
     CGRect xAxisBackgroundFrame = CGRectMake(self.mainChart.canvas.glView.frame.origin.x,
                                              self.mainChart.canvas.glView.frame.size.height,
-                                             boxWidth, 50);
+                                             boxWidth, 32);
     if(!self.xAxisBackground) {
       self.xAxisBackground = [[UIView alloc] initWithFrame:xAxisBackgroundFrame];
       self.xAxisBackground.backgroundColor = [UIColor darkGrayColor];

@@ -7,14 +7,15 @@
 Pod::Spec.new do |s|
   s.name             = "StockChart"
   s.version          = '0.1.0'
-  s.summary          = "<Summary>"
+  s.summary          = "A stock chart with a range selector"
   s.description      = <<-DESC
-                       <Description>
+                       This chart demonstrates the various financial chart types offered by ShinobiCharts, as well
+			as containing a range selector.
                        DESC
   s.homepage         = "http://www.shinobicontrols.com"
   s.license          = 'Apache License, Version 2.0'
   s.author           = { "Alison Clarke" => "aclarke@shinobicontrols.com" }
-  s.source           = { :git => "git@bitbucket.org:shinobicontrols/play-<repo-name>.git", 
+  s.source           = { :git => "git@bitbucket.org:shinobicontrols/play-stock-chart.git", 
                          :tag => s.version.to_s,
                          :submodules => true 
                        }
@@ -23,7 +24,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.source_files = 'StockChart/StockChart/**/*.{h,m}'
   s.dependency 'ShinobiPlayUtils'
-  s.resources = ['StockChart/**/*.storyboard', 'StockChart/**/*.xib', 'StockChart/**/*.xcassets']
-  s.frameworks = 'QuartzCore', 'Shinobi<Charts/Grids/Essentials/Gauges/Forms>'
+  s.resources = ['StockChart/**/*.storyboard', 'StockChart/**/*.xib', 'StockChart/**/*.xcassets', 'StockChart/**/StockChartData.plist']
+  s.frameworks = 'QuartzCore', 'ShinobiCharts'
   s.xcconfig     = { 'FRAMEWORK_SEARCH_PATHS' => '"$(DEVELOPER_FRAMEWORKS_DIR)" "$(PROJECT_DIR)/../"' }
 end

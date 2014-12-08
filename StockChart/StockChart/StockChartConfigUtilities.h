@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <ShinobiCharts/ShinobiCharts.h>
 
-@interface ChartConfigUtilities : NSObject
+@interface StockChartConfigUtilities : NSObject
 
-+ (void)hideAxisMarkings: (SChartAxis*)axis;
++ (void)hideAxisMarkings:(SChartAxis*)axis;
 
-+ (void)hideAxisLine: (SChartAxis*)axis;
++ (void)hideAxisLine:(SChartAxis*)axis;
 
 @end

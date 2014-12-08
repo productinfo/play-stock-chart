@@ -10,7 +10,7 @@
 #import <ShinobiCharts/ShinobiCharts.h>
 #import "StockChartData.h"
 
-@interface RangeChartDataSource : NSObject<SChartDatasource>
+@interface StockChartRangeChartDataSource : NSObject<SChartDatasource>
 
 @property (nonatomic, strong) StockChartData *chartData;
 
