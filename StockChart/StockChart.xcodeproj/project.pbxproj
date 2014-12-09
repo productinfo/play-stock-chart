@@ -20,6 +20,8 @@
 		68171C2219ADDCD6000AFEEB /* libShinobiPlayUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68171C1D19ADDC45000AFEEB /* libShinobiPlayUtils.a */; };
 		682B66261A012BC400B04BDA /* StockChartData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 682B66231A012BC400B04BDA /* StockChartData.plist */; };
 		682B66271A012BC400B04BDA /* StockChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 682B66251A012BC400B04BDA /* StockChartData.m */; };
+		68C0F2B71A37075B00485974 /* StockChartCrosshairTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C0F2B61A37075B00485974 /* StockChartCrosshairTooltip.m */; };
+		68C0F2BA1A37076B00485974 /* StockChartCrosshair.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C0F2B91A37076B00485974 /* StockChartCrosshair.m */; };
 		68E248AE1A35A37B002F698E /* StockChartConfigUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E248AD1A35A37B002F698E /* StockChartConfigUtilities.m */; };
 		68ECA6AB1A01311900645A75 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ECA6AA1A01311900645A75 /* ShinobiCharts.framework */; };
 		68ECA6B21A0131BE00645A75 /* StockChartDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6B11A0131BE00645A75 /* StockChartDataSource.m */; };
@@ -67,7 +69,7 @@
 		68171BE419ADDBC5000AFEEB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		68171BE819ADDBC5000AFEEB /* StockChart-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StockChart-Info.plist"; sourceTree = "<group>"; };
 		68171BEA19ADDBC5000AFEEB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		68171BEC19ADDBC5000AFEEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		68171BEC19ADDBC5000AFEEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; };
 		68171BEE19ADDBC5000AFEEB /* StockChart-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StockChart-Prefix.pch"; sourceTree = "<group>"; };
 		68171BEF19ADDBC5000AFEEB /* StockChartAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StockChartAppDelegate.h; sourceTree = "<group>"; };
 		68171BF019ADDBC5000AFEEB /* StockChartAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StockChartAppDelegate.m; sourceTree = "<group>"; };
@@ -81,6 +83,10 @@
 		682B66231A012BC400B04BDA /* StockChartData.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = StockChartData.plist; sourceTree = "<group>"; };
 		682B66241A012BC400B04BDA /* StockChartData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartData.h; sourceTree = "<group>"; };
 		682B66251A012BC400B04BDA /* StockChartData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartData.m; sourceTree = "<group>"; };
+		68C0F2B51A37075B00485974 /* StockChartCrosshairTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartCrosshairTooltip.h; sourceTree = "<group>"; };
+		68C0F2B61A37075B00485974 /* StockChartCrosshairTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartCrosshairTooltip.m; sourceTree = "<group>"; };
+		68C0F2B81A37076B00485974 /* StockChartCrosshair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartCrosshair.h; sourceTree = "<group>"; };
+		68C0F2B91A37076B00485974 /* StockChartCrosshair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartCrosshair.m; sourceTree = "<group>"; };
 		68E248AC1A35A37B002F698E /* StockChartConfigUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartConfigUtilities.h; sourceTree = "<group>"; };
 		68E248AD1A35A37B002F698E /* StockChartConfigUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartConfigUtilities.m; sourceTree = "<group>"; };
 		68ECA6AA1A01311900645A75 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = Library/Frameworks/ShinobiCharts.framework; sourceTree = DEVELOPER_DIR; };
@@ -164,6 +170,7 @@
 		68171BE619ADDBC5000AFEEB /* StockChart */ = {
 			isa = PBXGroup;
 			children = (
+				68C0F2B41A3706CF00485974 /* Crosshair */,
 				68ECA6FC1A07B60700645A75 /* ValueAnnotations */,
 				68ECA6EB1A07903200645A75 /* RangeChartAnnotations */,
 				682B66211A012BB700B04BDA /* Data */,
@@ -215,6 +222,17 @@
 				68ECA6B11A0131BE00645A75 /* StockChartDataSource.m */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		68C0F2B41A3706CF00485974 /* Crosshair */ = {
+			isa = PBXGroup;
+			children = (
+				68C0F2B81A37076B00485974 /* StockChartCrosshair.h */,
+				68C0F2B91A37076B00485974 /* StockChartCrosshair.m */,
+				68C0F2B51A37075B00485974 /* StockChartCrosshairTooltip.h */,
+				68C0F2B61A37075B00485974 /* StockChartCrosshairTooltip.m */,
+			);
+			name = Crosshair;
 			sourceTree = "<group>";
 		};
 		68ECA6EB1A07903200645A75 /* RangeChartAnnotations */ = {
@@ -346,7 +364,9 @@
 				68ECA7011A07B62200645A75 /* StockChartValueAnnotationManager.m in Sources */,
 				68ECA7021A07B62200645A75 /* StockChartAnchoredTextAnnotation.m in Sources */,
 				68171BED19ADDBC5000AFEEB /* main.m in Sources */,
+				68C0F2BA1A37076B00485974 /* StockChartCrosshair.m in Sources */,
 				68ECA6DE1A01363B00645A75 /* StockChartDashedLineAnnotation.m in Sources */,
+				68C0F2B71A37075B00485974 /* StockChartCrosshairTooltip.m in Sources */,
 				68E248AE1A35A37B002F698E /* StockChartConfigUtilities.m in Sources */,
 				68ECA6CD1A01342E00645A75 /* StockChartRangeChartDataSource.m in Sources */,
 				68ECA7061A07BB7600645A75 /* NSArray+StockChartUtils.m in Sources */,

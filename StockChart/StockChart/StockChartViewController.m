@@ -26,6 +26,8 @@
 #import <ShinobiCharts/SChartCanvas.h>
 #import "StockChartValueAnnotationManager.h"
 #import "NSArray+StockChartUtils.h"
+#import "StockChartCrosshair.h"
+#import "StockChartCrosshairTooltip.h"
 
 // Limit the x axis so it has a minimum range of 2 weeks
 const float minXAxisRange = 60 * 60 * 24 * 14;
@@ -78,6 +80,9 @@ const float minYAxisRange = 10.f;
                                     dataSource:self.mainDatasource];
   self.mainChart.clipsToBounds = NO;
   self.mainChart.title = @"Stock values and trading volume over time";
+  self.mainChart.crosshair = [[StockChartCrosshair alloc] initWithChart:self.mainChart];
+  self.mainChart.crosshair.tooltip = [[StockChartCrosshairTooltip alloc] init];
+  self.mainChart.crosshair.enableCrosshairLines = YES;
   
   // Set double tap in main chart to reset the zoom
   self.mainChart.gestureDoubleTapResetsZoom = YES;

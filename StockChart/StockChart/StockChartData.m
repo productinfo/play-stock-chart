@@ -9,7 +9,6 @@
 #import "StockChartData.h"
 #import "NSArray+StockChartUtils.h"
 
-//static const NSInteger NUM_DATA_FIELDS = 7;
 static const NSInteger StockChartKTimesStandardDeviation = 3;
 static const NSInteger StockChartNoOfSamplesForMaxMin = 20;
 
