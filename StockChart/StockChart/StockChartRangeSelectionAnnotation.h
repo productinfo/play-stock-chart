@@ -1,6 +1,6 @@
 //
-//  ShinobiRangeSelectionAnnotation.h
-//  RangeSelector
+//  StockChartRangeSelectionAnnotation.h
+//  StockChart
 //
 //  Created by Sam Davies on 30/12/2012.
 //  
