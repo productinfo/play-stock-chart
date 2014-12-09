@@ -18,7 +18,7 @@
 }
 
 + (void)hideAxisLine: (SChartAxis*)axis {
-  axis.style.lineWidth = [NSNumber numberWithInt:0];
+  axis.style.lineWidth = @0;
 }
 
 @end

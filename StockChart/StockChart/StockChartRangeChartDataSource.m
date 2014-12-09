@@ -29,8 +29,8 @@
 }
 
 - (SChartSeries *)sChart:(ShinobiChart *)chart seriesAtIndex:(NSInteger)index {
-  SChartLineSeries *lineSeries = [[SChartLineSeries alloc] init];
-  lineSeries.baseline = [NSNumber numberWithInt:0];
+  SChartLineSeries *lineSeries = [SChartLineSeries new];
+  lineSeries.baseline = @0;
   lineSeries.crosshairEnabled = YES;
   return lineSeries;
 }
@@ -40,7 +40,7 @@
 }
 
 - (id<SChartData>)sChart:(ShinobiChart *)chart dataPointAtIndex:(NSInteger)dataIndex forSeriesAtIndex:(NSInteger)seriesIndex {
-  SChartDataPoint *datapoint = [[SChartDataPoint alloc] init];
+  SChartDataPoint *datapoint = [SChartDataPoint new];
   datapoint.xValue = self.chartData.dates[dataIndex];
   datapoint.yValue = self.chartData.seriesClose[dataIndex];
   return datapoint;
@@ -49,7 +49,7 @@
 - (NSArray *)sChart:(ShinobiChart *)chart dataPointsForSeriesAtIndex:(NSInteger)seriesIndex {
   NSMutableArray *dataPoints = [NSMutableArray array];
   for (int i=0; i<[self.chartData numberOfDataPoints]; i++) {
-    SChartDataPoint *datapoint = [[SChartDataPoint alloc] init];
+    SChartDataPoint *datapoint = [SChartDataPoint new];
     datapoint.xValue = self.chartData.dates[i];
     datapoint.yValue = self.chartData.seriesClose[i];
     [dataPoints addObject:datapoint];

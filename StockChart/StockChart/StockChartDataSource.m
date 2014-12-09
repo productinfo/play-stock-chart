@@ -62,15 +62,15 @@
   NSArray *allYAxes = [chart allYAxes];
   // The first series in the chart is our volume chart, which uses a different y axis.  The other series use the default y axis
   if (index == 0) {
-    return [allYAxes objectAtIndex:1];
+    return allYAxes[1];
   } else {
-    return [allYAxes objectAtIndex:0];
+    return allYAxes[0];
   }
 }
 
 + (SChartBandSeries*)createBollingerBandSeries {
   // Create a Band series
-  SChartBandSeries *bandSeries = [[SChartBandSeries alloc] init];
+  SChartBandSeries *bandSeries = [SChartBandSeries new];
   
   bandSeries.crosshairEnabled = YES;
   bandSeries.title = @"Bollinger Band";
@@ -80,14 +80,14 @@
 }
 
 + (SChartColumnSeries*)createColumnSeries {
-  SChartColumnSeries *columnSeries = [[SChartColumnSeries alloc] init];
+  SChartColumnSeries *columnSeries = [SChartColumnSeries new];
   columnSeries.crosshairEnabled = YES;
   return columnSeries;
 }
 
 + (SChartOHLCSeries*)createOhlcSeries {
   // Create a candlestick series
-  SChartCandlestickSeries *ohlcSeries = [[SChartCandlestickSeries alloc] init];
+  SChartCandlestickSeries *ohlcSeries = [SChartCandlestickSeries new];
   
   // Define the data field names
   NSArray *keys = @[@"Open",@"High", @"Low", @"Close"];
@@ -142,7 +142,7 @@
       break;
   }
   
-  if(datapoints.count == 0) {
+  if (datapoints.count == 0) {
     datapoints = nil;
   }
   
@@ -151,7 +151,7 @@
 
 - (id<SChartData>)bollingerDataPointAtIndex:(NSUInteger)dataIndex {
   // Construct a data point to return
-  SChartMultiYDataPoint *datapoint = [[SChartMultiYDataPoint alloc] init];
+  SChartMultiYDataPoint *datapoint = [SChartMultiYDataPoint new];
   
   // We don't have bollinger data for the first StockChartMovingAverageNPeriod points of
   // the chartData, so we start at the StockChartMovingAverageNPeriod'th date
@@ -166,7 +166,7 @@
 
 - (id<SChartData>)ohlcDataPointAtIndex:(NSUInteger)dataIndex {
   // Use a multi y datapoint
-  SChartMultiYDataPoint *dp = [[SChartMultiYDataPoint alloc] init];
+  SChartMultiYDataPoint *dp = [SChartMultiYDataPoint new];
   
   // Set the xValue (date)
   dp.xValue = chartData.dates[dataIndex];
@@ -194,7 +194,7 @@
 }
 
 - (id<SChartData>)volumeDataPointAtIndex: (NSUInteger)dataIndex {
-  SChartDataPoint *dp = [[SChartDataPoint alloc] init];
+  SChartDataPoint *dp = [SChartDataPoint new];
   dp.xValue = chartData.dates[dataIndex];
   dp.yValue = chartData.volume[dataIndex];
   return dp;
@@ -202,7 +202,7 @@
 
 #pragma mark - StockChartDatasourceLookup methods
 - (id)estimateYValueForXValue:(id)xValue forSeriesAtIndex:(NSUInteger)idx {
-  if([xValue isKindOfClass:[NSNumber class]]) {
+  if ([xValue isKindOfClass:[NSNumber class]]) {
     // Need it to be a date since we are comparing timestamp
     xValue = [NSDate dateWithTimeIntervalSince1970:[xValue doubleValue]];
   }

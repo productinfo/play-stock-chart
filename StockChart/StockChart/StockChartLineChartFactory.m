@@ -13,7 +13,7 @@
 
 + (id<SChartDatasource>)createChartDatasource {
   // Initialise the data source we will use for the chart
-  return [[StockChartDataSource alloc] init];
+  return [StockChartDataSource new];
 }
 
 + (ShinobiChart*)createChartWithBounds:(CGRect)bounds dataSource:(id<SChartDatasource>)datasource {
@@ -28,7 +28,7 @@
   
   // Set the initial range of the x axis to cover the entirety of the data
   StockChartData *data = [StockChartData getInstance];
-  NSDate *startX = [data.dates objectAtIndex:0];
+  NSDate *startX = data.dates[0];
   NSDate *endX = [data.dates lastObject];
   
   SChartDateRange *dateRange = [[SChartDateRange alloc] initWithDateMinimum:startX

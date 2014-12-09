@@ -28,20 +28,18 @@ static StockChartData *instance = nil;
 
 #pragma mark - Object management
 
-/**
- We will eagerly initialize the data.
- */
+// We will eagerly initialize the data.
 + (void)initialize {
   [super initialize];
   if (!instance) {
-    instance = [[StockChartData alloc] init];
+    instance = [StockChartData new];
   }
 }
 
 + (StockChartData*)getInstance {
   @synchronized(self) {
     if (instance == nil)    {
-      instance = [[StockChartData alloc] init];
+      instance = [StockChartData new];
     }
     return instance;
   }
@@ -58,44 +56,38 @@ static StockChartData *instance = nil;
       rawData = [[NSMutableArray alloc] initWithContentsOfFile:path];
       
       // setup OHLC data
-      self.seriesOpen = [[NSMutableArray alloc] init];
-      self.seriesHigh = [[NSMutableArray alloc] init];
-      self.seriesLow = [[NSMutableArray alloc] init];
-      self.seriesClose = [[NSMutableArray alloc] init];
-      self.volume = [[NSMutableArray alloc] init];
-      self.movingAverage = [[NSMutableArray alloc] init];
-      self.movingStandardDeviation = [[NSMutableArray alloc] init];
-      self.dates = [[NSMutableArray alloc] init];
-      self.sampledMin = [[NSMutableArray alloc] init];
-      self.sampledMax = [[NSMutableArray alloc] init];
+      self.seriesOpen = [NSMutableArray new];
+      self.seriesHigh = [NSMutableArray new];
+      self.seriesLow = [NSMutableArray new];
+      self.seriesClose = [NSMutableArray new];
+      self.volume = [NSMutableArray new];
+      self.movingAverage = [NSMutableArray new];
+      self.movingStandardDeviation = [NSMutableArray new];
+      self.dates = [NSMutableArray new];
+      self.sampledMin = [NSMutableArray new];
+      self.sampledMax = [NSMutableArray new];
       
       NSInteger currentDataPoint = 0;
       
-      /* DATA FILTERING
-       For the purposes of this we reduce the data import slightly because
-       there is some strange behaviour at the end. Stopping at the point
-       used below stops at the end of July 2010
-       */
-      
       // We want to edit the date such that today is the last day
       // This gives us todays date (at midnight)
-      NSDate *dateToday = [[NSDate alloc] init];
+      NSDate *dateToday = [NSDate new];
       NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
       NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
       dateToday = [calendar dateFromComponents:[calendar components:preservedComponents fromDate:dateToday]];
       // We now want to find the difference between the last date in the data and todays date
-      NSDate *finalDate = [[rawData lastObject] objectForKey:@"date"];
+      NSDate *finalDate = [rawData lastObject][@"date"];
       NSTimeInterval timeBetweenDates = [dateToday timeIntervalSinceDate:finalDate];
       
       for (NSDictionary *quote in rawData) {
         // Add the date, but increase it so the data finished on today
-        NSDate *date = [quote objectForKey:@"date"];
+        NSDate *date = quote[@"date"];
         [self.dates addObject:[date dateByAddingTimeInterval:timeBetweenDates]];
         
-        NSNumber *open = [quote objectForKey:@"open"];
-        NSNumber *high = [quote objectForKey:@"high"];
-        NSNumber *low = [quote objectForKey:@"low"];
-        NSNumber *close = [quote objectForKey:@"close"];
+        NSNumber *open = quote[@"open"];
+        NSNumber *high = quote[@"high"];
+        NSNumber *low = quote[@"low"];
+        NSNumber *close = quote[@"close"];
         
         close = [self cleanUpCloseIfNeededWithHigh:high low:low close:close];
         
@@ -103,7 +95,7 @@ static StockChartData *instance = nil;
         [self.seriesHigh addObject:high];
         [self.seriesLow addObject:low];
         [self.seriesClose addObject:close];
-        [self.volume addObject:[quote objectForKey:@"volume"]];
+        [self.volume addObject:quote[@"volume"]];
         
         // Update the moving average and the standard deviation
         [self createMovingAverageAndSD:currentDataPoint];
@@ -119,7 +111,7 @@ static StockChartData *instance = nil;
   return self;
 }
 
-- (NSNumber*)cleanUpCloseIfNeededWithHigh:(NSNumber*)high low:(NSNumber*)low close:(NSNumber*)originalClose {
+- (NSNumber *)cleanUpCloseIfNeededWithHigh:(NSNumber*)high low:(NSNumber*)low close:(NSNumber*)originalClose {
   float highValue = [high floatValue];
   float lowValue = [low floatValue];
   float closeValue = [originalClose floatValue];
@@ -129,32 +121,32 @@ static StockChartData *instance = nil;
     float range = highValue - lowValue;
     closeValue = lowValue + (range / 2);
   }
-  return [NSNumber numberWithFloat:closeValue];
+  return @(closeValue);
 }
 
 - (void)createMovingAverageAndSD:(NSInteger)currentDataPoint {
   double runningTotal, runningSquaredTotal, standardDeviation, mean;
-  if(currentDataPoint >= StockChartMovingAverageNPeriod - 1) {
+  if (currentDataPoint >= StockChartMovingAverageNPeriod - 1) {
     runningTotal = 0;
     runningSquaredTotal = 0;
     for (NSInteger j=(currentDataPoint - StockChartMovingAverageNPeriod + 1); j <= currentDataPoint; j++) {
-      runningTotal += [[self.seriesClose objectAtIndex:j] doubleValue];
-      runningSquaredTotal += pow([[self.seriesClose objectAtIndex:j] doubleValue], 2);
+      runningTotal += [self.seriesClose[j] doubleValue];
+      runningSquaredTotal += pow([self.seriesClose[j] doubleValue], 2);
     }
     // Calculate the current mean and standard deviation
     mean = runningTotal / StockChartMovingAverageNPeriod;
     standardDeviation = sqrt((runningSquaredTotal / StockChartMovingAverageNPeriod) - pow(mean,2));
     
     // Save these to the arrays
-    [self.movingAverage addObject:[NSNumber numberWithDouble:mean]];
-    [self.movingStandardDeviation addObject:[NSNumber numberWithDouble:standardDeviation]];
+    [self.movingAverage addObject:@(mean)];
+    [self.movingStandardDeviation addObject:@(standardDeviation)];
   }
 }
 
 - (void)updateMinMaxSamples:(NSInteger)currentDataPoint {
   // Only add a new sample at regular intervals
-  if(currentDataPoint % StockChartNoOfSamplesForMaxMin == 0 && currentDataPoint > 0) {
-    if(currentDataPoint < StockChartNoOfSamplesForMaxMin + StockChartMovingAverageNPeriod) {
+  if (currentDataPoint % StockChartNoOfSamplesForMaxMin == 0 && currentDataPoint > 0) {
+    if (currentDataPoint < StockChartNoOfSamplesForMaxMin + StockChartMovingAverageNPeriod) {
       // We use high/low values until we have some moving average values
       [self.sampledMax addObject:[self.seriesHigh maxInRangeFromIndex:(currentDataPoint - StockChartNoOfSamplesForMaxMin)
                                                          toIndex:(currentDataPoint - 1)]];
@@ -169,26 +161,26 @@ static StockChartData *instance = nil;
                                                       toIndex:(currentDataPoint - StockChartMovingAverageNPeriod - 1)] doubleValue];
       double maxSD = [[self.movingStandardDeviation maxInRangeFromIndex:(currentDataPoint - StockChartNoOfSamplesForMaxMin - StockChartMovingAverageNPeriod)
                                                                 toIndex:(currentDataPoint - StockChartMovingAverageNPeriod - 1)] doubleValue];
-      [self.sampledMax addObject:[NSNumber numberWithDouble:(maxMA + StockChartKTimesStandardDeviation * maxSD)]];
-      [self.sampledMin addObject:[NSNumber numberWithDouble:(minMA - StockChartKTimesStandardDeviation * maxSD)]];
+      [self.sampledMax addObject:@(maxMA + StockChartKTimesStandardDeviation * maxSD)];
+      [self.sampledMin addObject:@(minMA - StockChartKTimesStandardDeviation * maxSD)];
     }
   }
 }
 
 - (NSNumber *)movingAverageValueForIndex:(NSUInteger)index {
-  return [self.movingAverage objectAtIndex:index];
+  return self.movingAverage[index];
 }
 
 - (NSNumber *)lowerBollingerValueForIndex:(NSUInteger)index {
-  double ma = [[self.movingAverage objectAtIndex:index] doubleValue];
-  double sd = [[self.movingStandardDeviation objectAtIndex:index] doubleValue];
-  return [NSNumber numberWithDouble:(ma - StockChartKTimesStandardDeviation * sd)];
+  double ma = [self.movingAverage[index] doubleValue];
+  double sd = [self.movingStandardDeviation[index] doubleValue];
+  return @(ma - StockChartKTimesStandardDeviation * sd);
 }
 
 - (NSNumber *)upperBollingerValueForIndex:(NSUInteger)index {
-  double ma = [[self.movingAverage objectAtIndex:index] doubleValue];
-  double sd = [[self.movingStandardDeviation objectAtIndex:index] doubleValue];
-  return [NSNumber numberWithDouble:(ma + StockChartKTimesStandardDeviation * sd)];
+  double ma = [self.movingAverage[index] doubleValue];
+  double sd = [self.movingStandardDeviation[index] doubleValue];
+  return @(ma + StockChartKTimesStandardDeviation * sd);
 }
 
 - (NSUInteger)numberOfDataPoints {

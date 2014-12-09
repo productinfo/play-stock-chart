@@ -53,7 +53,7 @@
 
 - (id)initWithChart:(ShinobiChart *)chart minimumSpan:(CGFloat)minSpan {
   self = [super init];
-  if(self) {
+  if (self) {
     self.chart = chart;
     self.minimumSpan = minSpan;
     [self createAnnotations];
@@ -218,10 +218,10 @@
   
   SChartRange *newRange;
   // Update the range with the new value according to which handle we dragged
-  if(recogniser.view == self.leftGripper) {
+  if (recogniser.view == self.leftGripper) {
     // Left handle => change the range minimum
     // Check bounds
-    if([self.rightGripper.xValue floatValue] - newValue < self.minimumSpan) {
+    if ([self.rightGripper.xValue floatValue] - newValue < self.minimumSpan) {
       newValue = [self.rightGripper.xValue floatValue] - self.minimumSpan;
     }
     newRange = [[SChartRange alloc] initWithMinimum:@(newValue)
@@ -229,7 +229,7 @@
   } else {
     // Right handle => change the range maximum
     // Check bounds
-    if(newValue - [self.leftGripper.xValue floatValue] < self.minimumSpan) {
+    if (newValue - [self.leftGripper.xValue floatValue] < self.minimumSpan) {
       newValue = [self.leftGripper.xValue floatValue] + self.minimumSpan;
     }
     newRange = [[SChartRange alloc] initWithMinimum:self.leftGripper.xValue
@@ -282,7 +282,7 @@
   
   //
   CGFloat pixelSpan;
-  if(axis.axisOrientation == SChartOrientationHorizontal) {
+  if (axis.axisOrientation == SChartOrientationHorizontal) {
     pixelSpan = glFrame.size.width;
   } else {
     pixelSpan = glFrame.size.height;
@@ -308,13 +308,13 @@
 
 - (SChartRange*)ensureWithinChartBounds:(SChartRange*)range maintainingSpan:(BOOL)maintainSpan {
   // If the requested range is bigger than the available, then reset to min/max
-  if([range.span compare:self.chart.xAxis.axisRange.span] == NSOrderedDescending) {
+  if ([range.span compare:self.chart.xAxis.axisRange.span] == NSOrderedDescending) {
     return [SChartRange rangeWithRange:self.chart.xAxis.axisRange];
   }
   
-  if([range.minimum compare:self.chart.xAxis.axisRange.minimum] == NSOrderedAscending) {
+  if ([range.minimum compare:self.chart.xAxis.axisRange.minimum] == NSOrderedAscending) {
     // Min is below axis range
-    if(maintainSpan) {
+    if (maintainSpan) {
       CGFloat difference = [self.chart.xAxis.axisRange.minimum doubleValue] - [range.minimum doubleValue];
       return [[SChartRange alloc] initWithMinimum:self.chart.xAxis.axisRange.minimum
                                        andMaximum:@([range.maximum doubleValue] + difference)];
@@ -324,9 +324,9 @@
     }
   }
   
-  if([range.maximum compare:self.chart.xAxis.axisRange.maximum] == NSOrderedDescending) {
+  if ([range.maximum compare:self.chart.xAxis.axisRange.maximum] == NSOrderedDescending) {
     // Max is above axis range
-    if(maintainSpan) {
+    if (maintainSpan) {
       CGFloat difference = [range.maximum doubleValue] - [self.chart.xAxis.axisRange.maximum doubleValue];
       return [[SChartRange alloc] initWithMinimum:@([range.minimum doubleValue] - difference)
                                        andMaximum:self.chart.xAxis.axisRange.maximum];
@@ -348,7 +348,7 @@
   
   //
   CGFloat pixelSpan;
-  if(axis.axisOrientation == SChartOrientationHorizontal) {
+  if (axis.axisOrientation == SChartOrientationHorizontal) {
     pixelSpan = glFrame.size.width;
   } else {
     pixelSpan = glFrame.size.height;

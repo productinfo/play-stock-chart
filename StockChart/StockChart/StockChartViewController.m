@@ -73,7 +73,7 @@ const float minYAxisRange = 10.f;
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
   [ShinobiCharts setTheme:theme];
   
-  self.mainDatasource = [[StockChartDataSource alloc] init];
+  self.mainDatasource = [StockChartDataSource new];
   
   self.mainChart = [StockChartLineChartFactory createChartWithBounds:self.mainView.bounds
                                                 dataSource:self.mainDatasource];
@@ -87,8 +87,8 @@ const float minYAxisRange = 10.f;
   // Create a y axis to use with volume data.  We have specified a large enough range so
   // that the volume data is plotted in the lower section of the chart, so as not to get
   // in the way of the OHLC data
-  SChartNumberRange *volumeRange = [[SChartNumberRange alloc] initWithMinimum:[NSNumber numberWithInt:0]
-                                                                   andMaximum:[NSNumber numberWithDouble:2500000000.f]];
+  SChartNumberRange *volumeRange = [[SChartNumberRange alloc] initWithMinimum:@0
+                                                                   andMaximum:@2500000000.f];
   SChartNumberAxis *volumeYAxis = [[SChartNumberAxis alloc] initWithRange:volumeRange];
   [StockChartConfigUtilities hideAxisMarkings:volumeYAxis];
   [StockChartConfigUtilities hideAxisLine:volumeYAxis];
@@ -98,7 +98,7 @@ const float minYAxisRange = 10.f;
   
   // Set the initial start and end values for the x axis on the main chart
   NSCalendar *calendar = [NSCalendar currentCalendar];
-  NSDateComponents *components = [[NSDateComponents alloc] init];
+  NSDateComponents *components = [NSDateComponents new];
   components.day = 1;
   components.month = 1;
   components.year = 2004;
@@ -116,7 +116,7 @@ const float minYAxisRange = 10.f;
   self.mainChart.canvas.glView.clipsToBounds = FALSE;
   
   // Create the range chart and annotation
-  self.rangeDatasource = [[StockChartRangeChartDataSource alloc] init];
+  self.rangeDatasource = [StockChartRangeChartDataSource new];
   self.rangeChart = [StockChartLineChartFactory createChartWithBounds:self.rangeView.bounds
                                                  dataSource:self.rangeDatasource];
   self.rangeChart.title = @"";
@@ -147,12 +147,9 @@ const float minYAxisRange = 10.f;
                                                                seriesIndex:2];
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:self.mainChart.xAxis.defaultRange];
   
-  /* HARD-CODED RANGE
-   We hard-code the range of the y-Axis in for now. This will need to change
-   with different data (duh!). This works well for the year 2004.
-   */
-  SChartNumberRange *numberRange = [[SChartNumberRange alloc] initWithMinimum:[NSNumber numberWithInt:100]
-                                                                   andMaximum:[NSNumber numberWithInt:200]];
+  // We hard-code the range of the y-Axis in to start with
+  SChartNumberRange *numberRange = [[SChartNumberRange alloc] initWithMinimum:@100
+                                                                   andMaximum:@200];
   self.mainChart.yAxis.defaultRange = numberRange;
 }
 
@@ -207,7 +204,7 @@ const float minYAxisRange = 10.f;
   if (chart == self.mainChart) {
     
     // Update the yAxis width on the range chart to match that in the mainChart
-    self.rangeChart.yAxis.width = [NSNumber numberWithDouble:[self.mainChart.yAxis spaceRequiredToDrawWithTitle:YES]];
+    self.rangeChart.yAxis.width = @([self.mainChart.yAxis spaceRequiredToDrawWithTitle:YES]);
     [self.rangeChart redrawChart];
     
     // Add a background view for the x-axis
@@ -216,7 +213,7 @@ const float minYAxisRange = 10.f;
     CGRect xAxisBackgroundFrame = CGRectMake(self.mainChart.canvas.glView.frame.origin.x,
                                              self.mainChart.canvas.glView.frame.size.height,
                                              boxWidth, 32);
-    if(!self.xAxisBackground) {
+    if (!self.xAxisBackground) {
       self.xAxisBackground = [[UIView alloc] initWithFrame:xAxisBackgroundFrame];
       self.xAxisBackground.backgroundColor = [UIColor darkGrayColor];
       [self.mainChart.canvas addSubview:self.xAxisBackground];
@@ -238,8 +235,8 @@ const float minYAxisRange = 10.f;
     NSNumber *min = chart.xAxis.axisRange.minimum;
     int center = [min intValue] + ([xAxisSpan intValue] / 2);
     
-    NSNumber *newMin = [NSNumber numberWithInt:center - (minXAxisRange / 2)];
-    NSNumber *newMax = [NSNumber numberWithInt:center + (minXAxisRange / 2)];
+    NSNumber *newMin = @(center - (minXAxisRange / 2));
+    NSNumber *newMax = @(center + (minXAxisRange / 2));
     
     [chart.xAxis setRangeWithMinimum:newMin andMaximum:newMax];
     [chart redrawChart];
@@ -250,8 +247,8 @@ const float minYAxisRange = 10.f;
     NSNumber *min = chart.yAxis.axisRange.minimum;
     float center = [min floatValue] + ([yAxisSpan floatValue] / 2);
     
-    NSNumber *newMin = [NSNumber numberWithFloat:center - (minYAxisRange / 2)];
-    NSNumber *newMax = [NSNumber numberWithFloat:center + (minYAxisRange / 2)];
+    NSNumber *newMin = @(center - (minYAxisRange / 2));
+    NSNumber *newMax = @(center + (minYAxisRange / 2));
     
     [chart.yAxis setRangeWithMinimum:newMin andMaximum:newMax];
     [chart redrawChart];

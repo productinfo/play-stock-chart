@@ -15,7 +15,7 @@
           andYAxis:(SChartAxis *)yAxis atXPosition:(id)xPosition andYPosition:(id)yPosition
      withTextColor:(UIColor *)textColor withBackgroundColor:(UIColor *)bgColor {
   self = [super init];
-  if(self) {
+  if (self) {
     // Set all the required properties
     self.xAxis = xAxis;
     self.yAxis = yAxis;
