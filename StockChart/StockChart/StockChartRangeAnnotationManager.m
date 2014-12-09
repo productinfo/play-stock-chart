@@ -66,17 +66,19 @@
 
 #pragma mark - Manager setup
 - (void)createAnnotations {
+  UIColor *color = [ShinobiCharts theme].xAxisStyle.lineColor;
+  
   // Lines are pretty simple
   self.leftLine = [SChartAnnotation verticalLineAtPosition:nil
                                                  withXAxis:self.chart.xAxis
                                                   andYAxis:self.chart.yAxis
                                                  withWidth:3.f
-                                                 withColor:[UIColor darkGrayColor]];
+                                                 withColor:color];
   self.rightLine = [SChartAnnotation verticalLineAtPosition:nil
                                                   withXAxis:self.chart.xAxis
                                                    andYAxis:self.chart.yAxis
                                                   withWidth:3.f
-                                                  withColor:[UIColor darkGrayColor]];
+                                                  withColor:color];
   // Shading is either side of the line
   self.leftShading = [SChartAnnotation verticalBandAtPosition:self.chart.xAxis.axisRange.minimum
                                                       andMaxX:nil
@@ -96,12 +98,12 @@
                                                                          yAxis:self.chart.yAxis];
   // Create the handles
   self.leftGripper = [[StockChartRangeHandleAnnotation alloc] initWithFrame:CGRectMake(0, 0, 24, 45)
-                                                                  colour:[UIColor darkGrayColor]
+                                                                  colour:color
                                                                   xValue:self.chart.xAxis.axisRange.minimum
                                                                    xAxis:self.chart.xAxis
                                                                    yAxis:self.chart.yAxis];
   self.rightGripper = [[StockChartRangeHandleAnnotation alloc] initWithFrame:CGRectMake(0, 0, 24, 45)
-                                                                   colour:[UIColor darkGrayColor]
+                                                                   colour:color
                                                                    xValue:self.chart.xAxis.axisRange.maximum
                                                                     xAxis:self.chart.xAxis
                                                                     yAxis:self.chart.yAxis];

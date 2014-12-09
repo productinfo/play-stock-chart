@@ -58,15 +58,17 @@ const float minYAxisRange = 10.f;
   
   SChartTheme *theme = [SChartiOS7Theme new];
   theme.chartStyle.backgroundColor = [UIColor whiteColor];
-  theme.xAxisStyle.majorTickStyle.labelColor = [UIColor whiteColor];
+  
   theme.xAxisStyle.lineColor = [UIColor darkGrayColor];
+  theme.xAxisStyle.majorTickStyle.lineColor = theme.xAxisStyle.lineColor;
+  theme.xAxisStyle.majorTickStyle.labelColor = [UIColor whiteColor];
   theme.xAxisStyle.majorTickStyle.lineLength = @-8;
-  theme.xAxisStyle.majorTickStyle.lineColor = [UIColor darkGrayColor];
   theme.xAxisStyle.majorTickStyle.tickGap = @0;
-  theme.yAxisStyle.majorTickStyle.labelColor = [UIColor darkGrayColor];
-  theme.yAxisStyle.lineColor = [UIColor darkGrayColor];
+  
+  theme.yAxisStyle.lineColor = theme.xAxisStyle.lineColor;
+  theme.yAxisStyle.majorTickStyle.lineColor = theme.yAxisStyle.lineColor;
+  theme.yAxisStyle.majorTickStyle.labelColor = theme.yAxisStyle.lineColor;
   theme.yAxisStyle.majorTickStyle.lineLength = @8;
-  theme.yAxisStyle.majorTickStyle.lineColor = [UIColor darkGrayColor];
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
   [ShinobiCharts setTheme:theme];
   
@@ -257,7 +259,7 @@ const float minYAxisRange = 10.f;
                                              boxWidth, 32);
     if (!self.xAxisBackground) {
       self.xAxisBackground = [[UIView alloc] initWithFrame:xAxisBackgroundFrame];
-      self.xAxisBackground.backgroundColor = [UIColor darkGrayColor];
+      self.xAxisBackground.backgroundColor = [ShinobiCharts theme].xAxisStyle.lineColor;
       [self.mainChart.canvas addSubview:self.xAxisBackground];
       [self.mainChart.canvas sendSubviewToBack:self.xAxisBackground];
     } else {

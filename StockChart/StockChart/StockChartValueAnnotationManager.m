@@ -65,7 +65,7 @@
                                                            atXPosition:nil
                                                           andYPosition:nil
                                                          withTextColor:[UIColor whiteColor]
-                                                   withBackgroundColor:[UIColor darkGrayColor]];
+                                                   withBackgroundColor:[ShinobiCharts theme].xAxisStyle.lineColor];
   [self.chart addAnnotation:self.textAnnotation];
 }
 

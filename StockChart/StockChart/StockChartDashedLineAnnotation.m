@@ -41,7 +41,7 @@
 
 - (void)drawRect:(CGRect)rect {
   [self createDashedLine];
-  [[UIColor darkGrayColor] setStroke];
+  [[ShinobiCharts theme].xAxisStyle.lineColor setStroke];
   [self.dashedLine stroke];
 }
 

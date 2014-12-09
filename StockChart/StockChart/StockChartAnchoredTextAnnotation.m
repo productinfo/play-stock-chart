@@ -30,8 +30,11 @@
     self.label.textAlignment = NSTextAlignmentCenter;
     [self.label sizeToFit];
     
-    StockChartArrowHead *arrowHead = [[StockChartArrowHead alloc] initWithFrame:CGRectMake(0, 0, self.label.bounds.size.height/2, self.label.bounds.size.height)
-                                                             color:[UIColor darkGrayColor]];
+    StockChartArrowHead *arrowHead = [[StockChartArrowHead alloc] initWithFrame:CGRectMake(0,
+                                                                                           0,
+                                                                                           self.label.bounds.size.height/2,
+                                                                                           self.label.bounds.size.height)
+                                                                          color:bgColor];
     
     self.label.center = CGPointMake(arrowHead.bounds.size.width + self.label.center.x, self.label.center.y);
     [self addSubview:self.label];
