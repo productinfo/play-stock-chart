@@ -361,14 +361,12 @@
 
 
 #pragma mark - API Methods
-- (void)moveRangeSelectorToRange:(SChartRange *)range
-{
+- (void)moveRangeSelectorToRange:(SChartRange *)range {
   // By default we'll cancel animations
   [self moveRangeSelectorToRange:range cancelAnimation:YES];
 }
 
-- (void)setInitialMin:(id)min andMax:(id)max
-{
+- (void)setInitialMin:(id)min andMax:(id)max {
   self.leftShading.xValue = min;
   self.rightShading.xValueMax = max;
 }

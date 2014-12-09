@@ -21,13 +21,10 @@
 
 #import "StockChartViewController.h"
 #import "StockChartDataSource.h"
-#import "StockChartLineChartFactory.h"
 #import "StockChartRangeChartDataSource.h"
-//#import "CustomCrosshairTooltip.h"
 #import "StockChartConfigUtilities.h"
 #import <ShinobiCharts/SChartCanvas.h>
 #import "StockChartValueAnnotationManager.h"
-#import "StockChartCommon.h"
 #import "NSArray+StockChartUtils.h"
 
 // Limit the x axis so it has a minimum range of 2 weeks
@@ -65,7 +62,7 @@ const float minYAxisRange = 10.f;
   theme.xAxisStyle.lineColor = [UIColor darkGrayColor];
   theme.xAxisStyle.majorTickStyle.lineLength = @-8;
   theme.xAxisStyle.majorTickStyle.lineColor = [UIColor darkGrayColor];
-  theme.xAxisStyle.majorTickStyle.tickGap = @0;  
+  theme.xAxisStyle.majorTickStyle.tickGap = @0;
   theme.yAxisStyle.majorTickStyle.labelColor = [UIColor darkGrayColor];
   theme.yAxisStyle.lineColor = [UIColor darkGrayColor];
   theme.yAxisStyle.majorTickStyle.lineLength = @8;
@@ -75,8 +72,8 @@ const float minYAxisRange = 10.f;
   
   self.mainDatasource = [StockChartDataSource new];
   
-  self.mainChart = [StockChartLineChartFactory createChartWithBounds:self.mainView.bounds
-                                                dataSource:self.mainDatasource];
+  self.mainChart = [self createChartWithBounds:self.mainView.bounds
+                                    dataSource:self.mainDatasource];
   self.mainChart.clipsToBounds = NO;
   self.mainChart.title = @"Stock values and trading volume over time";
   
@@ -117,8 +114,8 @@ const float minYAxisRange = 10.f;
   
   // Create the range chart and annotation
   self.rangeDatasource = [StockChartRangeChartDataSource new];
-  self.rangeChart = [StockChartLineChartFactory createChartWithBounds:self.rangeView.bounds
-                                                 dataSource:self.rangeDatasource];
+  self.rangeChart = [self createChartWithBounds:self.rangeView.bounds
+                                     dataSource:self.rangeDatasource];
   self.rangeChart.title = @"";
   [StockChartConfigUtilities hideAxisMarkings:self.rangeChart.xAxis];
   [StockChartConfigUtilities hideAxisMarkings:self.rangeChart.yAxis];
@@ -143,14 +140,59 @@ const float minYAxisRange = 10.f;
   
   // Create the series marker (it's added to the view in viewDidAppear)
   self.valueAnnotationManager = [[StockChartValueAnnotationManager alloc] initWithChart:self.mainChart
-                                                                datasource:self.mainDatasource
-                                                               seriesIndex:2];
+                                                                             datasource:self.mainDatasource
+                                                                            seriesIndex:2];
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:self.mainChart.xAxis.defaultRange];
   
   // We hard-code the range of the y-Axis in to start with
   SChartNumberRange *numberRange = [[SChartNumberRange alloc] initWithMinimum:@100
                                                                    andMaximum:@200];
   self.mainChart.yAxis.defaultRange = numberRange;
+}
+
+- (ShinobiChart*)createChartWithBounds:(CGRect)bounds dataSource:(id<SChartDatasource>)datasource {
+  ShinobiChart *chart = [[ShinobiChart alloc] initWithFrame:bounds];
+  
+  // As the chart is a UIView, set its resizing mask to allow it to automatically resize when screen orientation changes.
+  chart.autoresizingMask = ~UIViewAutoresizingNone;
+  chart.rotatesOnDeviceRotation = NO;
+  
+  // Give the chart the data source
+  chart.datasource = datasource;
+  
+  // Set the initial range of the x axis to cover the entirety of the data
+  StockChartData *data = [StockChartData getInstance];
+  NSDate *startX = data.dates[0];
+  NSDate *endX = [data.dates lastObject];
+  
+  SChartDateRange *dateRange = [[SChartDateRange alloc] initWithDateMinimum:startX
+                                                             andDateMaximum:endX];
+  // Create a date time axis to use as the x axis.
+  SChartDateTimeAxis *xAxis = [[SChartDateTimeAxis alloc] initWithRange:dateRange];
+  
+  // Disable panning and zooming on the x-axis.
+  xAxis.enableGesturePanning = YES;
+  xAxis.enableGestureZooming = YES;
+  xAxis.enableMomentumPanning =YES;
+  xAxis.enableMomentumZooming = YES;
+  
+  chart.xAxis = xAxis;
+  
+  // Create a number axis to use as the y axis.
+  SChartNumberAxis *yAxis = [SChartNumberAxis new];
+  
+  // Enable panning and zooming on Y
+  yAxis.enableGesturePanning = YES;
+  yAxis.enableGestureZooming = YES;
+  yAxis.enableMomentumPanning = YES;
+  yAxis.enableMomentumZooming = YES;
+  
+  // Put the yAxis on the RHS
+  yAxis.axisPosition = SChartAxisPositionReverse;
+  yAxis.width = @50;
+  chart.yAxis = yAxis;
+  
+  return chart;
 }
 
 #pragma mark - ShinobiRangeSelectorDelegate protocol
@@ -226,7 +268,7 @@ const float minYAxisRange = 10.f;
 }
 
 /**
- Listen for zooming notifications.  If the user has zoomed below the specified limits for 
+ Listen for zooming notifications.  If the user has zoomed below the specified limits for
  either axis, reset the range of the axis to the minimum limit.
  */
 - (void)sChartIsZooming:(ShinobiChart *)chart {

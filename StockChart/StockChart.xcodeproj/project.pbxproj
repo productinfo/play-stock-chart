@@ -23,7 +23,6 @@
 		68E248AE1A35A37B002F698E /* StockChartConfigUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E248AD1A35A37B002F698E /* StockChartConfigUtilities.m */; };
 		68ECA6AB1A01311900645A75 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ECA6AA1A01311900645A75 /* ShinobiCharts.framework */; };
 		68ECA6B21A0131BE00645A75 /* StockChartDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6B11A0131BE00645A75 /* StockChartDataSource.m */; };
-		68ECA6B51A01327000645A75 /* StockChartLineChartFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6B41A01327000645A75 /* StockChartLineChartFactory.m */; };
 		68ECA6CD1A01342E00645A75 /* StockChartRangeChartDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6CC1A01342E00645A75 /* StockChartRangeChartDataSource.m */; };
 		68ECA6DB1A01362400645A75 /* StockChartArrowHead.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6DA1A01362400645A75 /* StockChartArrowHead.m */; };
 		68ECA6DE1A01363B00645A75 /* StockChartDashedLineAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6DD1A01363B00645A75 /* StockChartDashedLineAnnotation.m */; };
@@ -71,7 +70,7 @@
 		68171BEC19ADDBC5000AFEEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		68171BEE19ADDBC5000AFEEB /* StockChart-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StockChart-Prefix.pch"; sourceTree = "<group>"; };
 		68171BEF19ADDBC5000AFEEB /* StockChartAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StockChartAppDelegate.h; sourceTree = "<group>"; };
-		68171BF019ADDBC5000AFEEB /* StockChartAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StockChartAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		68171BF019ADDBC5000AFEEB /* StockChartAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StockChartAppDelegate.m; sourceTree = "<group>"; };
 		68171BF319ADDBC5000AFEEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/StockChart.storyboard; sourceTree = "<group>"; };
 		68171BF519ADDBC5000AFEEB /* StockChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = StockChartViewController.h; sourceTree = "<group>"; };
 		68171BF619ADDBC5000AFEEB /* StockChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StockChartViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -87,8 +86,6 @@
 		68ECA6AA1A01311900645A75 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = Library/Frameworks/ShinobiCharts.framework; sourceTree = DEVELOPER_DIR; };
 		68ECA6B01A0131BE00645A75 /* StockChartDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartDataSource.h; sourceTree = "<group>"; };
 		68ECA6B11A0131BE00645A75 /* StockChartDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartDataSource.m; sourceTree = "<group>"; };
-		68ECA6B31A01327000645A75 /* StockChartLineChartFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartLineChartFactory.h; sourceTree = "<group>"; };
-		68ECA6B41A01327000645A75 /* StockChartLineChartFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartLineChartFactory.m; sourceTree = "<group>"; };
 		68ECA6CB1A01342E00645A75 /* StockChartRangeChartDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartRangeChartDataSource.h; sourceTree = "<group>"; };
 		68ECA6CC1A01342E00645A75 /* StockChartRangeChartDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartRangeChartDataSource.m; sourceTree = "<group>"; };
 		68ECA6D91A01362400645A75 /* StockChartArrowHead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartArrowHead.h; sourceTree = "<group>"; };
@@ -96,7 +93,6 @@
 		68ECA6DC1A01363B00645A75 /* StockChartDashedLineAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartDashedLineAnnotation.h; sourceTree = "<group>"; };
 		68ECA6DD1A01363B00645A75 /* StockChartDashedLineAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartDashedLineAnnotation.m; sourceTree = "<group>"; };
 		68ECA6E21A0137A200645A75 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
-		68ECA6EC1A0791C100645A75 /* StockChartCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StockChartCommon.h; sourceTree = "<group>"; };
 		68ECA6ED1A07926A00645A75 /* StockChartRangeAnnotationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartRangeAnnotationManager.h; sourceTree = "<group>"; };
 		68ECA6EE1A07926A00645A75 /* StockChartRangeAnnotationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartRangeAnnotationManager.m; sourceTree = "<group>"; };
 		68ECA6EF1A07926A00645A75 /* StockChartRangeAnnotationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartRangeAnnotationDelegate.h; sourceTree = "<group>"; };
@@ -175,8 +171,6 @@
 				68E248AD1A35A37B002F698E /* StockChartConfigUtilities.m */,
 				68ECA7041A07BB7600645A75 /* NSArray+StockChartUtils.h */,
 				68ECA7051A07BB7600645A75 /* NSArray+StockChartUtils.m */,
-				68ECA6B31A01327000645A75 /* StockChartLineChartFactory.h */,
-				68ECA6B41A01327000645A75 /* StockChartLineChartFactory.m */,
 				68171BEF19ADDBC5000AFEEB /* StockChartAppDelegate.h */,
 				68171BF019ADDBC5000AFEEB /* StockChartAppDelegate.m */,
 				68171BF219ADDBC5000AFEEB /* StockChart.storyboard */,
@@ -184,7 +178,6 @@
 				68171BF619ADDBC5000AFEEB /* StockChartViewController.m */,
 				68171BF819ADDBC5000AFEEB /* Images.xcassets */,
 				68171BE719ADDBC5000AFEEB /* Supporting Files */,
-				68ECA6EC1A0791C100645A75 /* StockChartCommon.h */,
 			);
 			path = StockChart;
 			sourceTree = "<group>";
@@ -350,7 +343,6 @@
 				68ECA6DB1A01362400645A75 /* StockChartArrowHead.m in Sources */,
 				68ECA6B21A0131BE00645A75 /* StockChartDataSource.m in Sources */,
 				68171BF119ADDBC5000AFEEB /* StockChartAppDelegate.m in Sources */,
-				68ECA6B51A01327000645A75 /* StockChartLineChartFactory.m in Sources */,
 				68ECA7011A07B62200645A75 /* StockChartValueAnnotationManager.m in Sources */,
 				68ECA7021A07B62200645A75 /* StockChartAnchoredTextAnnotation.m in Sources */,
 				68171BED19ADDBC5000AFEEB /* main.m in Sources */,

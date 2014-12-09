@@ -30,8 +30,7 @@
 }
 
 - (id)initWithChart:(ShinobiChart *)chart datasource:(id<StockChartDatasourceLookup>)datasource
-        seriesIndex:(NSInteger)seriesIndex
-{
+        seriesIndex:(NSInteger)seriesIndex {
   self = [super init];
   if (self) {
     self.chart = chart;
