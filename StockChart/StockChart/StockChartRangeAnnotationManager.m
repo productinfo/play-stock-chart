@@ -163,7 +163,6 @@
   if (recogniser.state == UIGestureRecognizerStateEnded) {
     // Work out some values required for the animation
     // startPosition is normalised so in range [0,1]
-    //CGFloat startPosition = currentTouchPoint.x / chart.canvas.glView.bounds.size.width;
     // use as offset, so start at 0
     CGFloat startPosition = 0;
     // startVelocity should be normalised as well

@@ -26,7 +26,7 @@
 
 @property (assign, nonatomic) CGFloat animationStartTime;
 @property (assign, nonatomic) CGFloat animationDuration;
-@property (assign, nonatomic) void (^positionUpdateBlock)(CGFloat);
+@property (copy, nonatomic) void (^positionUpdateBlock)(CGFloat);
 @property (assign, nonatomic) CGFloat startPos;
 @property (assign, nonatomic) CGFloat endPos;
 @property (assign, nonatomic) BOOL animating;
