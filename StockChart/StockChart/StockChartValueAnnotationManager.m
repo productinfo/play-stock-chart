@@ -36,14 +36,14 @@
 
 @implementation StockChartValueAnnotationManager
 
-- (id)init {
+- (instancetype)init {
   NSException *exception = [NSException exceptionWithName:NSInvalidArgumentException
                                                    reason:@"Please use initWithChart:seriesIndex:" userInfo:nil];
   @throw exception;
 }
 
-- (id)initWithChart:(ShinobiChart *)chart datasource:(id<StockChartDatasourceLookup>)datasource
-        seriesIndex:(NSInteger)seriesIndex {
+- (instancetype)initWithChart:(ShinobiChart *)chart datasource:(id<StockChartDatasourceLookup>)datasource
+                  seriesIndex:(NSInteger)seriesIndex {
   self = [super init];
   if (self) {
     self.chart = chart;
@@ -83,17 +83,26 @@
 }
 
 #pragma mark - API Methods
-- (void)updateValueAnnotationForXAxisRange:(SChartRange *)range {
+- (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange {
   
   // Need to find the y-value at the maximum of the given x-value range
-  id lastVisibleDPValue = [self.datasource estimateYValueForXValue:range.maximum
+  id lastVisibleDPValue = [self.datasource estimateYValueForXValue:xRange.maximum
                                                   forSeriesAtIndex:self.seriesIndex];
+  CGFloat lastVisibleDPValueDouble = [lastVisibleDPValue doubleValue];
   
-  // Update the values on both annotations and redraw the chart
-  self.lineAnnotation.yValue = lastVisibleDPValue;
-  self.textAnnotation.yValue = lastVisibleDPValue;
-  self.textAnnotation.xValue = range.maximum;
-  self.textAnnotation.label.text = [NSString stringWithFormat:@"%0.2f", [lastVisibleDPValue doubleValue]];
+  if ([lastVisibleDPValue compare:yRange.minimum] == NSOrderedAscending ||
+      [lastVisibleDPValue compare:yRange.maximum] == NSOrderedDescending) {
+    self.lineAnnotation.alpha = 0;
+    self.textAnnotation.alpha = 0;
+  } else {
+    // Update the values on both annotations and redraw the chart
+    self.lineAnnotation.yValue = lastVisibleDPValue;
+    self.textAnnotation.yValue = lastVisibleDPValue;
+    self.textAnnotation.xValue = xRange.maximum;
+    self.textAnnotation.label.text = [NSString stringWithFormat:@"%0.2f", lastVisibleDPValueDouble];
+    self.lineAnnotation.alpha = 1;
+    self.textAnnotation.alpha = 1;
+  }
   
   [self.chart redrawChart];
 }

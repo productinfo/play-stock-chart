@@ -24,8 +24,8 @@
 
 @implementation StockChartRangeHandleAnnotation
 
-- (id)initWithFrame:(CGRect)frame colour:(UIColor *)colour xValue:(id)xValue
-              xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis *)yAxis {
+- (instancetype)initWithFrame:(CGRect)frame color:(UIColor *)color xValue:(id)xValue
+                        xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis *)yAxis {
   self = [super initWithFrame:frame];
   if (self) {
     // Initialization code
@@ -35,30 +35,17 @@
     // Setting this to nil will ensure that the handle appears in the centre
     self.yValue = nil;
     
-    [self drawHandleWithColour:colour];
+    [self drawHandleWithColor:color];
   }
   return self;
 }
 
-- (void)drawHandleWithColour:(UIColor *)colour {
-  self.layer.cornerRadius = 5;
-  self.backgroundColor = colour;
-  
-  // Add 3 lines
-  int numberLines = 3;
-  CGFloat lineWidth = self.frame.size.width / 12.f;
-  CGFloat lineSpacing = self.frame.size.width / 4;
-  CGFloat currentOffset = lineSpacing - (lineWidth / 2);
-  
-  for (int i=0; i<numberLines; i++) {
-    UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectMake(currentOffset,
-                                                                    self.frame.size.height / 4,
-                                                                    lineWidth,
-                                                                    self.frame.size.height / 2)];
-    verticalLine.backgroundColor = [UIColor whiteColor];
-    [self addSubview:verticalLine];
-    currentOffset += lineSpacing;
-  }  
+- (void)drawHandleWithColor:(UIColor *)color {
+  CAShapeLayer *circle = [CAShapeLayer layer];
+  UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:self.frame];
+  circle.path = path.CGPath;
+  circle.fillColor = color.CGColor;
+  [self.layer addSublayer:circle];
 }
 
 @end

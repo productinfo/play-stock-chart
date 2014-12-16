@@ -24,8 +24,6 @@
 
 @interface StockChartDashedLineAnnotation : SChartAnnotation
 
-@property (nonatomic, strong) UIBezierPath *dashedLine;
-
-- (id)initWithYValue:(id)yValue xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis;
+- (instancetype)initWithYValue:(id)yValue xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis;
 
 @end

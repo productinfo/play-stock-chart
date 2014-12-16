@@ -1,9 +1,22 @@
 //
-//  FinancialChartDataSource.m
-//  ShinobiControls
+//  StockChartDataSource.m
+//  StockChart
 //
-//  Created by Sam Davies on 16/05/2012.
-//  Copyright (c) 2012 Scott Logic. All rights reserved.
+//  Created by Alison Clarke on 27/08/2014.
+//
+//  Copyright 2014 Scott Logic
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 #import "StockChartDataSource.h"
@@ -11,9 +24,7 @@
 
 @implementation StockChartDataSource
 
-@synthesize chartData;
-
-- (id)init {
+- (instancetype)init {
   self = [super init];
   
   if (self) {
@@ -35,11 +46,11 @@
 - (SChartSeries *)sChart:(ShinobiChart *)chart seriesAtIndex:(NSInteger)index {
   switch (index) {
     case 0:
-      // Volume
-      return [StockChartDataSource createColumnSeries];
-    case 1:
       // Bollinger Band
       return [StockChartDataSource createBollingerBandSeries];
+    case 1:
+      // Volume
+      return [StockChartDataSource createColumnSeries];
     case 2:
       // OHLC
       return [StockChartDataSource createOhlcSeries];
@@ -51,17 +62,17 @@
 // Returns the number of points for a specific series in the specified chart
 - (NSInteger)sChart:(ShinobiChart *)chart numberOfDataPointsForSeriesAtIndex:(NSInteger)seriesIndex {
   // We have fewer data points for Bollinger bands
-  if (seriesIndex == 1) {
-    return [chartData numberOfDataPoints] - StockChartMovingAverageNPeriod;
+  if (seriesIndex == 0) {
+    return [self.chartData numberOfDataPoints] - StockChartMovingAverageNPeriod;
   } else {
-    return [chartData numberOfDataPoints];
+    return [self.chartData numberOfDataPoints];
   }
 }
 
 - (SChartAxis*)sChart:(ShinobiChart *)chart yAxisForSeriesAtIndex:(NSInteger)index {
   NSArray *allYAxes = [chart allYAxes];
-  // The first series in the chart is our volume chart, which uses a different y axis.  The other series use the default y axis
-  if (index == 0) {
+  // The second series in the chart is our volume chart, which uses a different y axis. The other series use the default y axis
+  if (index == 1) {
     return allYAxes[1];
   } else {
     return allYAxes[0];
@@ -75,13 +86,17 @@
   bandSeries.crosshairEnabled = YES;
   bandSeries.title = @"Bollinger Band";
   bandSeries.crosshairEnabled = NO;
-  
+  bandSeries.style.lineColorHigh = [[ShinobiCharts theme] orangeColorLight];
+  bandSeries.style.lineColorLow = [[ShinobiCharts theme] orangeColorLight];
+  bandSeries.style.areaColorNormal = [[[ShinobiCharts theme] orangeColorDark] colorWithAlphaComponent:0.5];
   return bandSeries;
 }
 
 + (SChartColumnSeries*)createColumnSeries {
   SChartColumnSeries *columnSeries = [SChartColumnSeries new];
   columnSeries.crosshairEnabled = YES;
+  columnSeries.style.areaColor = [UIColor colorWithRed:0 green:0.4 blue:0.8 alpha:1];
+  columnSeries.style.showAreaWithGradient = NO;
   return columnSeries;
 }
 
@@ -102,11 +117,11 @@
         forSeriesAtIndex:(NSInteger)seriesIndex {
   switch (seriesIndex) {
     case 0:
-      // Volume
-      return [self volumeDataPointAtIndex:dataIndex];
-    case 1:
       // Bollinger
       return [self bollingerDataPointAtIndex:dataIndex];
+    case 1:
+      // Volume
+      return [self volumeDataPointAtIndex:dataIndex];
     case 2:
       // OHLC
       return [self ohlcDataPointAtIndex:dataIndex];
@@ -121,15 +136,15 @@
   
   switch (seriesIndex) {
     case 0:
-      // Volume
-      for (int i=0; i<noPoints; i++) {
-        [datapoints addObject:[self volumeDataPointAtIndex:i]];
-      }
-      break;
-    case 1:
       // Bollinger
       for (int i=0; i<noPoints; i++) {
         [datapoints addObject:[self bollingerDataPointAtIndex:i]];
+      }
+      break;
+    case 1:
+      // Volume
+      for (int i=0; i<noPoints; i++) {
+        [datapoints addObject:[self volumeDataPointAtIndex:i]];
       }
       break;
     case 2:
@@ -155,11 +170,11 @@
   
   // We don't have bollinger data for the first StockChartMovingAverageNPeriod points of
   // the chartData, so we start at the StockChartMovingAverageNPeriod'th date
-  datapoint.xValue = chartData.dates[dataIndex + StockChartMovingAverageNPeriod];
+  datapoint.xValue = self.chartData.dates[dataIndex + StockChartMovingAverageNPeriod];
   
   // Make a dictionary of the different data points
-  NSDictionary *bollingerData = @{ @"High": [chartData upperBollingerValueForIndex:dataIndex],
-                                   @"Low": [chartData lowerBollingerValueForIndex:dataIndex] };
+  NSDictionary *bollingerData = @{ @"High": [self.chartData upperBollingerValueForIndex:dataIndex],
+                                   @"Low": [self.chartData lowerBollingerValueForIndex:dataIndex] };
   datapoint.yValues = [bollingerData mutableCopy];
   return datapoint;
 }
@@ -169,13 +184,13 @@
   SChartMultiYDataPoint *dp = [SChartMultiYDataPoint new];
   
   // Set the xValue (date)
-  dp.xValue = chartData.dates[dataIndex];
+  dp.xValue = self.chartData.dates[dataIndex];
   
   // Get the open, high, low, close values
-  float openVal  = [chartData.seriesOpen[dataIndex] floatValue];
-  float highVal  = [chartData.seriesHigh[dataIndex] floatValue];
-  float lowVal   = [chartData.seriesLow[dataIndex] floatValue];
-  float closeVal = [chartData.seriesClose[dataIndex] floatValue];
+  float openVal  = [self.chartData.seriesOpen[dataIndex] floatValue];
+  float highVal  = [self.chartData.seriesHigh[dataIndex] floatValue];
+  float lowVal   = [self.chartData.seriesLow[dataIndex] floatValue];
+  float closeVal = [self.chartData.seriesClose[dataIndex] floatValue];
   
   // Make sure all values are > 0
   openVal  = MAX(openVal, 0);
@@ -195,8 +210,8 @@
 
 - (id<SChartData>)volumeDataPointAtIndex: (NSUInteger)dataIndex {
   SChartDataPoint *dp = [SChartDataPoint new];
-  dp.xValue = chartData.dates[dataIndex];
-  dp.yValue = chartData.volume[dataIndex];
+  dp.xValue = self.chartData.dates[dataIndex];
+  dp.yValue = self.chartData.volume[dataIndex];
   return dp;
 }
 

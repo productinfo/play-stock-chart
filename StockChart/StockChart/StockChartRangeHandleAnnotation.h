@@ -23,7 +23,7 @@
 
 @interface StockChartRangeHandleAnnotation : SChartAnnotation
 
-- (id)initWithFrame:(CGRect)frame colour:(UIColor*)colour xValue:(id)xValue
-              xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis;
+- (instancetype)initWithFrame:(CGRect)frame color:(UIColor*)color xValue:(id)xValue
+                        xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis;
 
 @end

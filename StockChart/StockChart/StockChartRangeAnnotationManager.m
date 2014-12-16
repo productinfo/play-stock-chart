@@ -40,18 +40,18 @@
 @implementation StockChartRangeAnnotationManager
 
 #pragma mark - Constructors
-- (id)init {
+- (instancetype)init {
   NSException *exception = [NSException exceptionWithName:NSInvalidArgumentException
                                                    reason:@"Please use initWithChart:"
                                                  userInfo:nil];
   @throw exception;
 }
 
-- (id)initWithChart:(ShinobiChart *)chart {
+- (instancetype)initWithChart:(ShinobiChart *)chart {
   return [self initWithChart:chart minimumSpan:3600*24];
 }
 
-- (id)initWithChart:(ShinobiChart *)chart minimumSpan:(CGFloat)minSpan {
+- (instancetype)initWithChart:(ShinobiChart *)chart minimumSpan:(CGFloat)minSpan {
   self = [super init];
   if (self) {
     self.chart = chart;
@@ -92,23 +92,22 @@
                                                      withColor:[UIColor colorWithWhite:0.1f alpha:0.3f]];
   // The invisible range selection
   self.rangeSelection = [[StockChartRangeSelectionAnnotation alloc] initWithFrame:CGRectMake(0, 0, 1, 1)
-                                                                        xValue:self.chart.xAxis.axisRange.minimum
-                                                                     xValueMax:self.chart.xAxis.axisRange.maximum
-                                                                         xAxis:self.chart.xAxis
-                                                                         yAxis:self.chart.yAxis];
+                                                                           xValue:self.chart.xAxis.axisRange.minimum
+                                                                        xValueMax:self.chart.xAxis.axisRange.maximum
+                                                                            xAxis:self.chart.xAxis
+                                                                            yAxis:self.chart.yAxis];
   // Create the handles
-  self.leftGripper = [[StockChartRangeHandleAnnotation alloc] initWithFrame:CGRectMake(0, 0, 24, 45)
-                                                                  colour:color
-                                                                  xValue:self.chart.xAxis.axisRange.minimum
-                                                                   xAxis:self.chart.xAxis
-                                                                   yAxis:self.chart.yAxis];
-  self.rightGripper = [[StockChartRangeHandleAnnotation alloc] initWithFrame:CGRectMake(0, 0, 24, 45)
-                                                                   colour:color
-                                                                   xValue:self.chart.xAxis.axisRange.maximum
-                                                                    xAxis:self.chart.xAxis
-                                                                    yAxis:self.chart.yAxis];
-  
-  
+  self.leftGripper = [[StockChartRangeHandleAnnotation alloc] initWithFrame:CGRectMake(0, 0, 24, 24)
+                                                                      color:color
+                                                                     xValue:self.chart.xAxis.axisRange.minimum
+                                                                      xAxis:self.chart.xAxis
+                                                                      yAxis:self.chart.yAxis];
+  self.rightGripper = [[StockChartRangeHandleAnnotation alloc] initWithFrame:CGRectMake(0, 0, 24, 24)
+                                                                       color:color
+                                                                      xValue:self.chart.xAxis.axisRange.maximum
+                                                                       xAxis:self.chart.xAxis
+                                                                       yAxis:self.chart.yAxis];
+    
   // Add the annotations to the chart
   [self.chart addAnnotation:self.leftLine];
   [self.chart addAnnotation:self.rightLine];

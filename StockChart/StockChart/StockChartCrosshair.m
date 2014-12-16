@@ -26,36 +26,42 @@
 
 @property (assign, nonatomic) BOOL clippingMaskSet;
 @property (assign, nonatomic) CGPoint crosshairCenter;
+@property (strong, nonatomic) CAShapeLayer *line;
+
 @end
 
 @implementation StockChartCrosshair
 
--(id)initWithChart:(ShinobiChart *)parentChart {
+- (instancetype)initWithChart:(ShinobiChart *)parentChart {
   self = [super initWithChart:parentChart];
-  if (self)   {
+  if (self) {
     self.clippingMaskSet = NO;
+    
+    SChartCanvas *canvas = self.chart.canvas;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0, canvas.glView.frame.origin.y)];
+    [path addLineToPoint:CGPointMake(0, canvas.glView.frame.origin.y + canvas.glView.bounds.size.height)];
+    self.line = [CAShapeLayer layer];
+    self.line.path = path.CGPath;
+    self.line.strokeColor = [ShinobiCharts theme].xAxisStyle.lineColor.CGColor;
+    if(self.style.lineWidth) {
+      self.line.lineWidth = self.style.lineWidth.floatValue;
+    }
+    [self.layer addSublayer:self.line];
   }
   
   return self;
 }
 
--(void) drawCrosshairLines {
-  SChartCanvas *canvas = self.chart.canvas;
-  CGContextRef c = UIGraphicsGetCurrentContext();
-  
-  CGContextSetStrokeColorWithColor(c, [ShinobiCharts theme].xAxisStyle.lineColor.CGColor);
-  
+- (void)drawCrosshairLines {
+  [CATransaction begin];
+  [CATransaction setDisableActions:YES];
+  self.line.strokeColor = [ShinobiCharts theme].xAxisStyle.lineColor.CGColor;
   if(self.style.lineWidth) {
-    CGContextSetLineWidth(c, self.style.lineWidth.floatValue);
+    self.line.lineWidth = self.style.lineWidth.floatValue;
   }
-  
-  // draw the lines
-  if(self.enableCrosshairLines){
-    CGContextBeginPath(c);
-    CGContextMoveToPoint(c, self.crosshairCenter.x, canvas.glView.frame.origin.y);
-    CGContextAddLineToPoint(c, self.crosshairCenter.x, canvas.glView.frame.origin.y + canvas.glView.bounds.size.height);
-    CGContextStrokePath(c);
-  }
+  self.line.position = CGPointMake(self.crosshairCenter.x, self.line.position.y);
+  [CATransaction commit];
 }
 
 - (void)moveToPosition:(SChartPoint)coords andDisplayDataPoint:(SChartPoint)dataPoint

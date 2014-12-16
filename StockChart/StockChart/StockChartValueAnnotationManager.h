@@ -23,11 +23,19 @@
 #import <ShinobiCharts/ShinobiChart.h>
 #import "StockChartDatasourceLookup.h"
 
+/**
+ Class to add an annotation to the chart with a dashed line and label showing the value at
+ the last point displayed.
+ To use this class, you should call updateValueAnnotationForXAxisRangeLyAxisRange: whenever
+ the chart's range changes.
+ There's a detailed tutorial on how to create a similar value annotation at:
+ http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv
+ */
 @interface StockChartValueAnnotationManager : NSObject
 
-- (id)initWithChart:(ShinobiChart *)chart datasource:(id<StockChartDatasourceLookup>)datasource
-        seriesIndex:(NSInteger)seriesIndex;
+- (instancetype)initWithChart:(ShinobiChart *)chart datasource:(id<StockChartDatasourceLookup>)datasource
+                  seriesIndex:(NSInteger)seriesIndex;
 
-- (void)updateValueAnnotationForXAxisRange:(SChartRange *)range;
+- (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange;
 
 @end

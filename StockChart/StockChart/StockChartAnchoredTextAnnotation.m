@@ -24,9 +24,9 @@
 
 @implementation StockChartAnchoredTextAnnotation
 
-- (id)initWithText:(NSString *)text andFont:(UIFont *)font withXAxis:(SChartAxis *)xAxis
-          andYAxis:(SChartAxis *)yAxis atXPosition:(id)xPosition andYPosition:(id)yPosition
-     withTextColor:(UIColor *)textColor withBackgroundColor:(UIColor *)bgColor {
+- (instancetype)initWithText:(NSString *)text andFont:(UIFont *)font withXAxis:(SChartAxis *)xAxis
+                    andYAxis:(SChartAxis *)yAxis atXPosition:(id)xPosition andYPosition:(id)yPosition
+               withTextColor:(UIColor *)textColor withBackgroundColor:(UIColor *)bgColor {
   self = [super init];
   if (self) {
     // Set all the required properties

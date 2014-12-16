@@ -23,8 +23,8 @@
 
 @implementation StockChartRangeSelectionAnnotation
 
-- (id)initWithFrame:(CGRect)frame xValue:(id)xValue xValueMax:(id)xValueMax
-              xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis *)yAxis {
+- (instancetype)initWithFrame:(CGRect)frame xValue:(id)xValue xValueMax:(id)xValueMax
+                        xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis *)yAxis {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code

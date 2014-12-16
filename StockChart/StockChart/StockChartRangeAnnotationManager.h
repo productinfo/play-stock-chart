@@ -23,12 +23,19 @@
 #import <ShinobiCharts/ShinobiCharts.h>
 #import "StockChartRangeAnnotationDelegate.h"
 
+/**
+ Class to add range selector annotations to the chart.
+ To use this class, you should call moveRangeSelectorToRange: whenever
+ the chart's range changes.
+ There's a detailed tutorial on how to create a similar range selector at:
+ http://www.shinobicontrols.com/blog/posts/2013/05/building-a-range-selector-with-shinobicharts-part-iv
+ */
 @interface StockChartRangeAnnotationManager : NSObject
 
 @property (nonatomic, strong) id<StockChartRangeAnnotationDelegate> delegate;
 
-- (id)initWithChart:(ShinobiChart *)chart;
-- (id)initWithChart:(ShinobiChart *)chart minimumSpan:(CGFloat)minSpan;
+- (instancetype)initWithChart:(ShinobiChart *)chart;
+- (instancetype)initWithChart:(ShinobiChart *)chart minimumSpan:(CGFloat)minSpan;
 - (void)moveRangeSelectorToRange:(SChartRange *)range;
 - (void)setInitialMin:(id)min andMax:(id)max;
 

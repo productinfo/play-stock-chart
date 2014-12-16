@@ -22,8 +22,8 @@
 #import "StockChartCrosshairTooltip.h"
 #import <ShinobiCharts/SChartCanvas.h>
 
-static const NSInteger StockChartTooltipLabelPadding = 7.f;
-static const NSInteger StockChartTooltipTopPadding = 50.f;
+static const CGFloat StockChartTooltipLabelPadding = 7.f;
+static const CGFloat StockChartTooltipTopPadding = 50.f;
 
 @interface StockChartCrosshairTooltip ()
 
@@ -42,7 +42,7 @@ static const NSInteger StockChartTooltipTopPadding = 50.f;
 
 @implementation StockChartCrosshairTooltip
 
-- (id)init {
+- (instancetype)init {
   self = [super init];
   if (self) {
     // Set the style of our tooltip
@@ -92,7 +92,7 @@ static const NSInteger StockChartTooltipTopPadding = 50.f;
   NSString *formattedDateString = [self.dateFormatter stringFromDate:((SChartDataPoint*)dataPoint).xValue];
   
   // Find the index of the data point within our series
-  int dataPointIndex = ((SChartDataPoint*)dataPoint).index;
+  NSInteger dataPointIndex = ((SChartDataPoint*)dataPoint).index;
   
   // Go through each series and contribute the relevant data
   for (SChartSeries *seriesInChart in chart.series)  {

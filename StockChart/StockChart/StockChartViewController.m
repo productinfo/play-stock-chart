@@ -95,8 +95,13 @@ const float minYAxisRange = 10.f;
                                                                    andMaximum:@2500000000.f];
   SChartNumberAxis *volumeYAxis = [[SChartNumberAxis alloc] initWithRange:volumeRange];
   [StockChartConfigUtilities hideAxisMarkings:volumeYAxis];
-  [StockChartConfigUtilities hideAxisLine:volumeYAxis];
   [self.mainChart addYAxis:volumeYAxis];
+  
+  // Add a dummy x axis to frame the chart
+  SChartNumberAxis *dummyXAxis = [SChartNumberAxis new];
+  [StockChartConfigUtilities hideAxisMarkings:dummyXAxis];
+  dummyXAxis.axisPosition = SChartAxisPositionReverse;
+  [self.mainChart addXAxis:dummyXAxis];
   
   [self.mainView addSubview:self.mainChart];
   
@@ -128,6 +133,11 @@ const float minYAxisRange = 10.f;
   [StockChartConfigUtilities hideAxisMarkings:self.rangeChart.yAxis];
   self.rangeChart.delegate = self;
   
+  // Add a dummy y-axis to match that of the main chart
+  SChartNumberAxis *dummyYAxis = [SChartNumberAxis new];
+  [StockChartConfigUtilities hideAxisMarkings:dummyYAxis];
+  [self.rangeChart addYAxis:dummyYAxis];
+  
   // Add the chart to the correct subview
   [self.rangeView addSubview:self.rangeChart];
   
@@ -145,16 +155,17 @@ const float minYAxisRange = 10.f;
   // Add a chart delegate
   self.mainChart.delegate = self;
   
-  // Create the series marker (it's added to the view in viewDidAppear)
-  self.valueAnnotationManager = [[StockChartValueAnnotationManager alloc] initWithChart:self.mainChart
-                                                                             datasource:self.mainDatasource
-                                                                            seriesIndex:2];
-  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:self.mainChart.xAxis.defaultRange];
-  
   // We hard-code the range of the y-Axis in to start with
   SChartNumberRange *numberRange = [[SChartNumberRange alloc] initWithMinimum:@100
                                                                    andMaximum:@200];
   self.mainChart.yAxis.defaultRange = numberRange;
+  
+  // Create the series marker (it's added to the view in viewDidAppear)
+  self.valueAnnotationManager = [[StockChartValueAnnotationManager alloc] initWithChart:self.mainChart
+                                                                             datasource:self.mainDatasource
+                                                                            seriesIndex:2];
+  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:self.mainChart.xAxis.defaultRange
+                                                       yAxisRange:self.mainChart.yAxis.defaultRange];
 }
 
 - (ShinobiChart*)createChartWithBounds:(CGRect)bounds dataSource:(id<SChartDatasource>)datasource {
@@ -232,7 +243,8 @@ const float minYAxisRange = 10.f;
   }
   
   // Update the location of the annotation line
-  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:range];
+  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:range
+                                                       yAxisRange:self.mainChart.yAxis.axisRange];
   
   [self.mainChart redrawChart];
 }
@@ -240,12 +252,14 @@ const float minYAxisRange = 10.f;
 #pragma mark - SChartDelegate
 -(void)sChartIsPanning:(ShinobiChart *)chart withChartMovementInformation:(const SChartMovementInformation *)information {
   [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
-  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange];
+  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
+                                                       yAxisRange:self.mainChart.yAxis.axisRange];
 }
 
 -(void)sChartIsZooming:(ShinobiChart *)chart withChartMovementInformation:(const SChartMovementInformation *)information {
   [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
-  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange];
+  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
+                                                       yAxisRange:self.mainChart.yAxis.axisRange];
 }
 
 - (void)sChartRenderFinished:(ShinobiChart *)chart {
@@ -258,10 +272,20 @@ const float minYAxisRange = 10.f;
     
     // Add a background view for the x-axis
     // Need to draw a nice grey box
-    double boxWidth = self.mainChart.canvas.glView.frame.size.width + [self.mainChart.yAxis.style.lineWidth doubleValue];
-    CGRect xAxisBackgroundFrame = CGRectMake(self.mainChart.canvas.glView.frame.origin.x,
+    double boxWidth = self.mainChart.canvas.glView.frame.size.width;
+    double xPos = self.mainChart.canvas.glView.frame.origin.x;
+    
+    for (SChartAxis *axis in self.mainChart.allYAxes) {
+      if (axis.axisPosition == SChartAxisPositionNormal) {
+        xPos -= [axis.style.lineWidth doubleValue];
+      }
+      boxWidth += [axis.style.lineWidth doubleValue];
+    }
+    
+    CGRect xAxisBackgroundFrame = CGRectMake(xPos,
                                              self.mainChart.canvas.glView.frame.size.height,
-                                             boxWidth, 32);
+                                             boxWidth,
+                                             33);
     if (!self.xAxisBackground) {
       self.xAxisBackground = [[UIView alloc] initWithFrame:xAxisBackgroundFrame];
       self.xAxisBackground.backgroundColor = [ShinobiCharts theme].xAxisStyle.lineColor;

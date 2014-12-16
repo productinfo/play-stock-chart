@@ -24,8 +24,7 @@
 @interface StockChartArrowHead : UIView
 
 @property (nonatomic, strong) UIColor *color;
-@property (nonatomic, assign) float arrowHeadPointYValue;
 
-- (id)initWithFrame:(CGRect)frame color:(UIColor*)color;
+- (instancetype)initWithFrame:(CGRect)frame color:(UIColor*)color;
 
 @end

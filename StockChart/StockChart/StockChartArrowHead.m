@@ -21,38 +21,39 @@
 
 #import "StockChartArrowHead.h"
 
+@interface StockChartArrowHead ()
+
+@property (strong, nonatomic) CAShapeLayer *arrowHead;
+
+@end
+
 @implementation StockChartArrowHead
 
-- (void)setArrowHeadPointYValue:(float)arrowHeadPointYValue {
-  if (arrowHeadPointYValue != _arrowHeadPointYValue)  {
-    _arrowHeadPointYValue = arrowHeadPointYValue;
-    [self setNeedsDisplay];
-  }
-}
-
-- (id)initWithFrame:(CGRect)frame color:(UIColor*)color {
+- (instancetype)initWithFrame:(CGRect)frame color:(UIColor*)color {
   self = [super initWithFrame:frame];
   if (self) {
     self.color = color;
     self.backgroundColor = [UIColor clearColor];
-    self.arrowHeadPointYValue = frame.size.height / 2;
+    
+    self.arrowHead = [CAShapeLayer layer];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(frame.size.width, 0)];
+    [path addLineToPoint:CGPointMake(0, frame.size.height / 2)];
+    [path addLineToPoint:CGPointMake(frame.size.width, frame.size.height)];
+    [path addLineToPoint:CGPointMake(frame.size.width, 0)];
+    self.arrowHead.path = path.CGPath;
+    self.arrowHead.lineWidth = 0;
+    self.arrowHead.anchorPoint = CGPointMake(0, 0.5);
+    self.arrowHead.fillColor = self.color.CGColor;
+    
+    [self.layer addSublayer:self.arrowHead];
   }
   return self;
 }
 
-- (void)drawRect:(CGRect)rect {
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  CGContextSetFillColorWithColor(context, self.color.CGColor);
-  
-  float frameWidth = self.frame.size.width;
-  CGContextBeginPath(context);
-  CGContextMoveToPoint(context, frameWidth, 0);
-  CGContextAddLineToPoint(context, 0, self.arrowHeadPointYValue);
-  CGContextAddLineToPoint(context, frameWidth, self.frame.size.height);
-  CGContextAddLineToPoint(context, frameWidth, 0);
-  
-  CGContextClosePath(context);
-  CGContextFillPath(context);
+- (void)setColor:(UIColor *)color {
+  _color = color;
+  self.arrowHead.fillColor = color.CGColor;
 }
 
 @end

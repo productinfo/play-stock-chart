@@ -23,7 +23,7 @@
 
 @interface StockChartRangeSelectionAnnotation : SChartAnnotationZooming
 
-- (id)initWithFrame:(CGRect)frame xValue:(id)xValue xValueMax:(id)xValueMax
-              xAxis:(SChartAxis*)xAxis yAxis:(SChartAxis*)yAxis;
+- (instancetype)initWithFrame:(CGRect)frame xValue:(id)xValue xValueMax:(id)xValueMax
+                        xAxis:(SChartAxis*)xAxis yAxis:(SChartAxis*)yAxis;
 
 @end
