@@ -170,11 +170,8 @@
     __block CGFloat prevPosition = 0;
     
     // Use the momentum animator instance we have to start animating the annotation
-    [self.momentumAnimation animateWithStartPosition:startPosition
-                                       startVelocity:startVelocity
-                                            duration:1.f
-                                         updateBlock:^(CGFloat position)
-     {
+    [self.momentumAnimation animateWithStartPosition:startPosition startVelocity:startVelocity
+                                            duration:1.f updateBlock:^(CGFloat position) {
        // This is the code which will get called to update the position
        CGFloat offset = (position - prevPosition) * self.chart.canvas.bounds.size.width;
        
@@ -274,13 +271,13 @@
   
   SChartAxis *axis = self.chart.xAxis;
   
-  // What is the axis range?
+  // Find the axis range
   SChartRange *rangeObj = axis.axisRange;
   
-  // What's the frame of the plot area
+  // Find the frame of the plot area
   CGRect glFrame = self.chart.canvas.glView.bounds;
   
-  //
+  // Find the pixel width of the axis
   CGFloat pixelSpan;
   if (axis.axisOrientation == SChartOrientationHorizontal) {
     pixelSpan = glFrame.size.width;
@@ -293,7 +290,7 @@
   // NOTE :: This won't work for discontinuous or logarithmic axes
   double oldCentreValue = range / 2 + [self.leftLine.xValue doubleValue];
   
-  //
+  // Calculate the offset in value
   double offset = [rangeObj.span doubleValue] / pixelSpan * pixelValue;
   
   // Find the new centre location

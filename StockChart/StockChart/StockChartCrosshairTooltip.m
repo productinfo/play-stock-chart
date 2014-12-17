@@ -46,15 +46,15 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
   self = [super init];
   if (self) {
     // Set the style of our tooltip
-    SChartCrosshairStyle *newStyle = [[SChartCrosshairStyle alloc] init];
+    SChartCrosshairStyle *newStyle = [SChartCrosshairStyle new];
     newStyle.defaultTextColor = [ShinobiCharts theme].xAxisStyle.lineColor;
     [self setTooltipStyle:newStyle];
     
-    self.dateFormatter = [[NSDateFormatter alloc] init];
+    self.dateFormatter = [NSDateFormatter new];
     [self.dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
-    self.volumeFormatter = [[NSNumberFormatter alloc] init];
+    self.volumeFormatter = [NSNumberFormatter new];
     [self.volumeFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
     self.openLabel = [self createTooltipLabel];
@@ -103,30 +103,21 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
       continue;
     }
     
-    id<SChartData> dataPointInSeries = [seriesInChart.dataSeries.dataPoints objectAtIndex:dataPointIndex];
+    id<SChartData> dataPointInSeries = seriesInChart.dataSeries.dataPoints[dataPointIndex];
     
-    // OHLC data
-    if ([seriesInChart isKindOfClass:[SChartOHLCSeries class]])    {
+    if ([seriesInChart isKindOfClass:[SChartOHLCSeries class]]) {
+      // OHLC data
       SChartMultiYDataPoint *dp = dataPointInSeries;
       
       self.label.text = [NSString stringWithFormat:@"%@", formattedDateString];
       self.label.textAlignment = NSTextAlignmentLeft;
       
-      NSNumber *open = [dp.yValues objectForKey:@"Open"];
-      self.openLabel.text = [NSString stringWithFormat:@"Open: %.2f", [open floatValue]];
-      
-      NSNumber *high = [dp.yValues objectForKey:@"High"];
-      self.highLabel.text = [NSString stringWithFormat:@"High: %.2f", [high floatValue]];
-      
-      NSNumber *low = [dp.yValues objectForKey:@"Low"];
-      self.lowLabel.text = [NSString stringWithFormat:@"Low: %.2f", [low floatValue]];
-      
-      NSNumber *close = [dp.yValues objectForKey:@"Close"];
-      self.closeLabel.text = [NSString stringWithFormat:@"Close: %.2f", [close floatValue]];
-    }
-    // Volume data
-    else if ([seriesInChart isKindOfClass:[SChartColumnSeries class]]) {
-      // Otherwise we are dealing with a line chart series.  This will contain standard data points.
+      self.openLabel.text = [NSString stringWithFormat:@"Open: %.2f", [dp.yValues[@"Open"] floatValue]];
+      self.highLabel.text = [NSString stringWithFormat:@"High: %.2f", [dp.yValues[@"High"] floatValue]];
+      self.lowLabel.text = [NSString stringWithFormat:@"Low: %.2f", [dp.yValues[@"Low"] floatValue]];
+      self.closeLabel.text = [NSString stringWithFormat:@"Close: %.2f", [dp.yValues[@"Close"] floatValue]];
+    } else if ([seriesInChart isKindOfClass:[SChartColumnSeries class]]) {
+      // Volume data (line series with standard data points)
       SChartDataPoint *dp = dataPointInSeries;
       self.volumeLabel.text = [NSString stringWithFormat:@"Volume: %@",
                                [self.volumeFormatter stringFromNumber:dp.yValue]];

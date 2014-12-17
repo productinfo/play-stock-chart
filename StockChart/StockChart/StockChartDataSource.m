@@ -52,8 +52,8 @@
       // Volume
       return [StockChartDataSource createColumnSeries];
     case 2:
-      // OHLC
-      return [StockChartDataSource createOhlcSeries];
+      // Candlestick
+      return [StockChartDataSource createCandlestickSeries];
     default:
       return nil;
   }
@@ -100,16 +100,16 @@
   return columnSeries;
 }
 
-+ (SChartOHLCSeries*)createOhlcSeries {
++ (SChartCandlestickSeries*)createCandlestickSeries {
   // Create a candlestick series
-  SChartCandlestickSeries *ohlcSeries = [SChartCandlestickSeries new];
+  SChartCandlestickSeries *candlestickSeries = [SChartCandlestickSeries new];
   
   // Define the data field names
   NSArray *keys = @[@"Open",@"High", @"Low", @"Close"];
-  ohlcSeries.dataSeries.yValueKeys = keys;
-  ohlcSeries.crosshairEnabled = YES;
+  candlestickSeries.dataSeries.yValueKeys = keys;
+  candlestickSeries.crosshairEnabled = YES;
   
-  return ohlcSeries;
+  return candlestickSeries;
 }
 
 // Returns the data point at the specified index for the given series/chart.
@@ -117,14 +117,14 @@
         forSeriesAtIndex:(NSInteger)seriesIndex {
   switch (seriesIndex) {
     case 0:
-      // Bollinger
+      // Bollinger Band
       return [self bollingerDataPointAtIndex:dataIndex];
     case 1:
       // Volume
       return [self volumeDataPointAtIndex:dataIndex];
     case 2:
-      // OHLC
-      return [self ohlcDataPointAtIndex:dataIndex];
+      // Candlestick
+      return [self candlestickDataPointAtIndex:dataIndex];
     default:
       return nil;
   }
@@ -136,7 +136,7 @@
   
   switch (seriesIndex) {
     case 0:
-      // Bollinger
+      // Bollinger Band
       for (int i=0; i<noPoints; i++) {
         [datapoints addObject:[self bollingerDataPointAtIndex:i]];
       }
@@ -148,9 +148,9 @@
       }
       break;
     case 2:
-      // OHLC
+      // Candlestick
       for (int i=0; i<noPoints; i++) {
-        [datapoints addObject:[self ohlcDataPointAtIndex:i]];
+        [datapoints addObject:[self candlestickDataPointAtIndex:i]];
       }
       break;
     default:
@@ -179,7 +179,7 @@
   return datapoint;
 }
 
-- (id<SChartData>)ohlcDataPointAtIndex:(NSUInteger)dataIndex {
+- (id<SChartData>)candlestickDataPointAtIndex:(NSUInteger)dataIndex {
   // Use a multi y datapoint
   SChartMultiYDataPoint *dp = [SChartMultiYDataPoint new];
   

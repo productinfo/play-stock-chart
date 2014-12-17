@@ -57,7 +57,7 @@
   [CATransaction begin];
   [CATransaction setDisableActions:YES];
   self.line.strokeColor = [ShinobiCharts theme].xAxisStyle.lineColor.CGColor;
-  if(self.style.lineWidth) {
+  if (self.style.lineWidth) {
     self.line.lineWidth = self.style.lineWidth.floatValue;
   }
   self.line.position = CGPointMake(self.crosshairCenter.x, self.line.position.y);

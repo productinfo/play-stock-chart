@@ -81,7 +81,7 @@ const float minYAxisRange = 10.f;
   self.mainChart.clipsToBounds = NO;
   self.mainChart.title = @"Stock values and trading volume over time";
   self.mainChart.crosshair = [[StockChartCrosshair alloc] initWithChart:self.mainChart];
-  self.mainChart.crosshair.tooltip = [[StockChartCrosshairTooltip alloc] init];
+  self.mainChart.crosshair.tooltip = [StockChartCrosshairTooltip new];
   self.mainChart.crosshair.enableCrosshairLines = YES;
   
   // Set double tap in main chart to reset the zoom
