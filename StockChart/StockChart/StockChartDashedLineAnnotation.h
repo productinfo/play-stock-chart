@@ -1,5 +1,5 @@
 //
-//  StockChartViewController.h
+//  StockChartDashedLineAnnotation.m
 //  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
@@ -19,11 +19,11 @@
 //  limitations under the License.
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 #import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+@interface StockChartDashedLineAnnotation : SChartAnnotation
+
+- (instancetype)initWithYValue:(id)yValue xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis;
 
 @end

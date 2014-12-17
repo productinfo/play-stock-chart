@@ -1,10 +1,10 @@
 //
-//  StockChartViewController.h
+//  StockChartRangeHandleAnnotation.h
 //  StockChart
 //
-//  Created by Alison Clarke on 27/08/2014.
-//
-//  Copyright 2014 Scott Logic
+//  Created by Sam Davies on 29/12/2012.
+//  
+//  Copyright 2013 Scott Logic
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@
 //  limitations under the License.
 //
 
-@import UIKit;
-#import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
+#import <ShinobiCharts/ShinobiChart.h>
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+@interface StockChartRangeHandleAnnotation : SChartAnnotation
+
+- (instancetype)initWithFrame:(CGRect)frame color:(UIColor*)color xValue:(id)xValue
+                        xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis;
 
 @end

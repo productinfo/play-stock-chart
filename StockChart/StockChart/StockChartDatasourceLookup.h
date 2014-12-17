@@ -1,8 +1,8 @@
 //
-//  StockChartViewController.h
+//  StockChartDatasourceLookup.h
 //  StockChart
 //
-//  Created by Alison Clarke on 27/08/2014.
+//  Created by Sam Davies on 27/08/2014.
 //
 //  Copyright 2014 Scott Logic
 //
@@ -19,11 +19,12 @@
 //  limitations under the License.
 //
 
-@import UIKit;
-#import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
+#import <Foundation/Foundation.h>
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+// Protocol to allow lookups of a y value for a given x value and series
+@protocol StockChartDatasourceLookup <NSObject>
+
+@required
+- (id)estimateYValueForXValue:(id)xValue forSeriesAtIndex:(NSUInteger)idx;
 
 @end

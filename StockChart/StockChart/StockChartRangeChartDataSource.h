@@ -1,5 +1,5 @@
 //
-//  StockChartViewController.h
+//  StockChartRangeChartDataSource.h
 //  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
@@ -19,11 +19,12 @@
 //  limitations under the License.
 //
 
-@import UIKit;
+#import <Foundation/Foundation.h>
 #import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
+#import "StockChartData.h"
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+@interface StockChartRangeChartDataSource : NSObject<SChartDatasource>
+
+@property (nonatomic, strong) StockChartData *chartData;
 
 @end

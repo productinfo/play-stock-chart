@@ -1,5 +1,5 @@
 //
-//  StockChartViewController.h
+//  StockChartAnchoredTextAnnotation.m
 //  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
@@ -19,11 +19,12 @@
 //  limitations under the License.
 //
 
-@import UIKit;
 #import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+@interface StockChartAnchoredTextAnnotation : SChartAnnotation
+
+- (instancetype)initWithText:(NSString*)text andFont:(UIFont*)font withXAxis:(SChartAxis*)xAxis
+                    andYAxis:(SChartAxis*)yAxis atXPosition:(id)xPosition andYPosition:(id)yPosition
+               withTextColor:(UIColor*)textColor withBackgroundColor:(UIColor*)bgColor;
 
 @end

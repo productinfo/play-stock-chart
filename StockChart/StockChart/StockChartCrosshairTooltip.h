@@ -1,5 +1,5 @@
 //
-//  StockChartViewController.h
+//  StockChartCrosshairTooltip.h
 //  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
@@ -19,11 +19,10 @@
 //  limitations under the License.
 //
 
-@import UIKit;
-#import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+#import <ShinobiCharts/ShinobiChart.h>
+#import "StockChartCrosshair.h"
+
+@interface StockChartCrosshairTooltip : SChartCrosshairTooltip
 
 @end

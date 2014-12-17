@@ -1,5 +1,5 @@
 //
-//  StockChartViewController.h
+//  NSArray+StockChartUtils.h
 //  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
@@ -19,11 +19,15 @@
 //  limitations under the License.
 //
 
-@import UIKit;
-#import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
+#import <Foundation/Foundation.h>
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+@interface NSArray (StockChartUtils)
+
+- (NSUInteger)indexOfSmallestObjectBiggerThan:(id)searchKey inSortedRange:(NSRange)range;
+- (NSUInteger)indexOfBiggestObjectSmallerThan:(id)searchKey inSortedRange:(NSRange)range;
+
+- (id)minInRangeFromIndex:(NSUInteger)startIdx toIndex:(NSUInteger)endIdx;
+- (id)maxInRangeFromIndex:(NSUInteger)startIdx toIndex:(NSUInteger)endIdx;
+
 
 @end

@@ -1,5 +1,5 @@
 //
-//  StockChartViewController.h
+//  StockChartArrowHead.m
 //  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
@@ -19,11 +19,12 @@
 //  limitations under the License.
 //
 
-@import UIKit;
-#import <ShinobiCharts/ShinobiCharts.h>
-#import "ShinobiPlayUtils/SPUGalleryManagedViewController.h"
-#import "StockChartRangeAnnotationManager.h"
+#import <UIKit/UIKit.h>
 
-@interface StockChartViewController : SPUGalleryManagedViewController<SChartDelegate, StockChartRangeAnnotationDelegate>
+@interface StockChartArrowHead : UIView
+
+@property (nonatomic, strong) UIColor *color;
+
+- (instancetype)initWithFrame:(CGRect)frame color:(UIColor*)color;
 
 @end
