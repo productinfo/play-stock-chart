@@ -343,7 +343,7 @@
   // What's the frame of the plot area
   CGRect glFrame = self.chart.canvas.glView.bounds;
   
-  //
+  // Find the pixel width of the axis
   CGFloat pixelSpan;
   if (axis.axisOrientation == SChartOrientationHorizontal) {
     pixelSpan = glFrame.size.width;
