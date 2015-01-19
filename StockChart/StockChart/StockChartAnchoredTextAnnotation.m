@@ -49,7 +49,7 @@
                                                                                            self.label.bounds.size.height)
                                                                           color:bgColor];
     
-    self.label.center = CGPointMake(arrowHead.bounds.size.width + self.label.center.x, self.label.center.y);
+    self.label.center = CGPointMake(arrowHead.bounds.size.width + self.label.center.x - 0.5, self.label.center.y);
     [self addSubview:self.label];
     [self addSubview:arrowHead];
     [self sizeToFit];

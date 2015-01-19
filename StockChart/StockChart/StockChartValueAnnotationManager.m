@@ -23,6 +23,8 @@
 #import "StockChartAnchoredTextAnnotation.h"
 #import "StockChartDashedLineAnnotation.h"
 #import <ShinobiCharts/SChartCanvas.h>
+#import "ShinobiPlayUtils/UIFont+SPUFont.h"
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
 
 @interface StockChartValueAnnotationManager ()
 
@@ -67,7 +69,7 @@
 
 - (void)createText {
   // Create the font
-  UIFont *labelFont = [UIFont systemFontOfSize:13.f];
+  UIFont *labelFont = [UIFont boldShinobiFontOfSize:13.f];
   
   // Create our text annotation subclass. We set the text to be the widest of our possible values
   // since we only size the annotation at construction time.
@@ -78,12 +80,13 @@
                                                            atXPosition:nil
                                                           andYPosition:nil
                                                          withTextColor:[UIColor whiteColor]
-                                                   withBackgroundColor:[ShinobiCharts theme].xAxisStyle.lineColor];
+                                                   withBackgroundColor:[UIColor shinobiDarkGrayColor]];
   [self.chart addAnnotation:self.textAnnotation];
 }
 
 #pragma mark - API Methods
-- (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange {
+- (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange
+                                    redraw:(BOOL)redraw {
   
   // Need to find the y-value at the maximum of the given x-value range
   id lastVisibleDPValue = [self.datasource estimateYValueForXValue:xRange.maximum
@@ -104,7 +107,13 @@
     self.textAnnotation.alpha = 1;
   }
   
-  [self.chart redrawChart];
+  if (redraw) {
+    [self.chart redrawChart];
+  }
+}
+
+- (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange {
+  [self updateValueAnnotationForXAxisRange:xRange yAxisRange:yRange redraw:YES];
 }
 
 @end

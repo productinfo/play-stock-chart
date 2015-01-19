@@ -20,6 +20,7 @@
 //
 
 #import "StockChartDashedLineAnnotation.h"
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
 
 @implementation StockChartDashedLineAnnotation
 
@@ -42,7 +43,7 @@
     
     CAShapeLayer *dashedLineLayer = [CAShapeLayer layer];
     dashedLineLayer.path = dashedLinePath.CGPath;
-    dashedLineLayer.strokeColor = [ShinobiCharts theme].xAxisStyle.lineColor.CGColor;
+    dashedLineLayer.strokeColor = [UIColor shinobiDarkGrayColor].CGColor;
     dashedLineLayer.lineDashPattern = @[@8.0, @6.0];
     dashedLineLayer.lineWidth = 2;
     [self.layer addSublayer:dashedLineLayer];

@@ -81,20 +81,9 @@ static StockChartData *instance = nil;
       
       NSInteger currentDataPoint = 0;
       
-      // We want to edit the date such that today is the last day
-      // This gives us todays date (at midnight)
-      NSDate *dateToday = [NSDate new];
-      NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
-      NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
-      dateToday = [calendar dateFromComponents:[calendar components:preservedComponents fromDate:dateToday]];
-      // We now want to find the difference between the last date in the data and todays date
-      NSDate *finalDate = [rawData lastObject][@"date"];
-      NSTimeInterval timeBetweenDates = [dateToday timeIntervalSinceDate:finalDate];
-      
       for (NSDictionary *quote in rawData) {
-        // Add the date, but increase it so the data finished on today
-        NSDate *date = quote[@"date"];
-        [self.dates addObject:[date dateByAddingTimeInterval:timeBetweenDates]];
+        // Add the date
+        [self.dates addObject:quote[@"date"]];
         
         NSNumber *open = quote[@"open"];
         NSNumber *high = quote[@"high"];

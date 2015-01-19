@@ -21,6 +21,7 @@
 
 #import "StockChartCrosshairTooltip.h"
 #import <ShinobiCharts/SChartCanvas.h>
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
 
 static const CGFloat StockChartTooltipLabelPadding = 7.f;
 static const CGFloat StockChartTooltipTopPadding = 50.f;
@@ -47,7 +48,7 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
   if (self) {
     // Set the style of our tooltip
     SChartCrosshairStyle *newStyle = [SChartCrosshairStyle new];
-    newStyle.defaultTextColor = [ShinobiCharts theme].xAxisStyle.lineColor;
+    newStyle.defaultTextColor = [UIColor shinobiDarkGrayColor];
     [self setTooltipStyle:newStyle];
     
     self.dateFormatter = [NSDateFormatter new];

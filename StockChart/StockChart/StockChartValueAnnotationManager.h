@@ -37,5 +37,6 @@
                   seriesIndex:(NSInteger)seriesIndex;
 
 - (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange;
-
+- (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange
+                                    redraw:(BOOL)redraw;
 @end

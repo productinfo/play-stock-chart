@@ -492,6 +492,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StockChart/StockChart-Prefix.pch";
 				INFOPLIST_FILE = "StockChart/StockChart-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = StockChart;
 				WRAPPER_EXTENSION = app;
 			};
@@ -509,6 +510,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StockChart/StockChart-Prefix.pch";
 				INFOPLIST_FILE = "StockChart/StockChart-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = StockChart;
 				WRAPPER_EXTENSION = app;
 			};

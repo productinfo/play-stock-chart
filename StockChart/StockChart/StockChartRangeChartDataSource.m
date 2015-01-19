@@ -20,6 +20,7 @@
 //
 
 #import "StockChartRangeChartDataSource.h"
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
 
 /*
  Data source for the range chart, which displays a single line series mapping dates to close
@@ -45,7 +46,7 @@
   SChartLineSeries *lineSeries = [SChartLineSeries new];
   lineSeries.baseline = @0;
   lineSeries.crosshairEnabled = YES;
-  lineSeries.style.lineColor = [ShinobiCharts theme].xAxisStyle.lineColor;
+  lineSeries.style.lineColor = [UIColor shinobiDarkGrayColor];
   return lineSeries;
 }
 
