@@ -22,6 +22,7 @@
 #import "StockChartDataSource.h"
 #import "NSArray+StockChartUtils.h"
 #import "ShinobiPlayUtils/UIColor+SPUColor.h"
+#import "StockChartCandlestickSeries.h"
 
 @implementation StockChartDataSource
 
@@ -103,7 +104,7 @@
 
 + (SChartCandlestickSeries*)createCandlestickSeries {
   // Create a candlestick series
-  SChartCandlestickSeries *candlestickSeries = [SChartCandlestickSeries new];
+  StockChartCandlestickSeries *candlestickSeries = [StockChartCandlestickSeries new];
   
   // Define the data field names
   NSArray *keys = @[@"Open",@"High", @"Low", @"Close"];

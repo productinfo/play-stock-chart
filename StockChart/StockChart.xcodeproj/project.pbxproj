@@ -48,6 +48,7 @@
 		68ECA7011A07B62200645A75 /* StockChartValueAnnotationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6FE1A07B62200645A75 /* StockChartValueAnnotationManager.m */; };
 		68ECA7021A07B62200645A75 /* StockChartAnchoredTextAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA7001A07B62200645A75 /* StockChartAnchoredTextAnnotation.m */; };
 		68ECA7061A07BB7600645A75 /* NSArray+StockChartUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA7051A07BB7600645A75 /* NSArray+StockChartUtils.m */; };
+		68FCB4D31A6E5E5700A48C86 /* StockChartCandlestickSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = 68FCB4D21A6E5E5700A48C86 /* StockChartCandlestickSeries.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +140,8 @@
 		68ECA7031A07B80100645A75 /* StockChartDatasourceLookup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StockChartDatasourceLookup.h; sourceTree = "<group>"; };
 		68ECA7041A07BB7600645A75 /* NSArray+StockChartUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+StockChartUtils.h"; sourceTree = "<group>"; };
 		68ECA7051A07BB7600645A75 /* NSArray+StockChartUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+StockChartUtils.m"; sourceTree = "<group>"; };
+		68FCB4D11A6E5E5700A48C86 /* StockChartCandlestickSeries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartCandlestickSeries.h; sourceTree = "<group>"; };
+		68FCB4D21A6E5E5700A48C86 /* StockChartCandlestickSeries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartCandlestickSeries.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +240,8 @@
 		682B66211A012BB700B04BDA /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				68FCB4D11A6E5E5700A48C86 /* StockChartCandlestickSeries.h */,
+				68FCB4D21A6E5E5700A48C86 /* StockChartCandlestickSeries.m */,
 				682B66231A012BC400B04BDA /* StockChartData.plist */,
 				682B66241A012BC400B04BDA /* StockChartData.h */,
 				682B66251A012BC400B04BDA /* StockChartData.m */,
@@ -431,6 +436,7 @@
 				68ECA6F61A07926A00645A75 /* StockChartRangeSelectionAnnotation.m in Sources */,
 				68171BF719ADDBC5000AFEEB /* StockChartViewController.m in Sources */,
 				68ECA6F41A07926A00645A75 /* StockChartRangeAnnotationManager.m in Sources */,
+				68FCB4D31A6E5E5700A48C86 /* StockChartCandlestickSeries.m in Sources */,
 				68ECA6F51A07926A00645A75 /* StockChartRangeHandleAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
