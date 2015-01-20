@@ -21,6 +21,8 @@
 
 #import "StockChartCrosshairTooltip.h"
 #import <ShinobiCharts/SChartCanvas.h>
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
+#import "ShinobiPlayUtils/UIFont+SPUFont.h"
 
 static const CGFloat StockChartTooltipLabelPadding = 7.f;
 static const CGFloat StockChartTooltipTopPadding = 50.f;
@@ -45,11 +47,6 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
 - (instancetype)init {
   self = [super init];
   if (self) {
-    // Set the style of our tooltip
-    SChartCrosshairStyle *newStyle = [SChartCrosshairStyle new];
-    newStyle.defaultTextColor = [ShinobiCharts theme].xAxisStyle.lineColor;
-    [self setTooltipStyle:newStyle];
-    
     self.dateFormatter = [NSDateFormatter new];
     [self.dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
@@ -83,7 +80,8 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
 - (UILabel*)createTooltipLabel {
   UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectZero];
   newLabel.backgroundColor = [UIColor clearColor];
-  newLabel.textColor = style.defaultTextColor;
+  newLabel.font = [UIFont shinobiFontOfSize:13];
+  newLabel.textColor = [UIColor shinobiDarkGrayColor];
   return newLabel;
 }
 
@@ -95,7 +93,7 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
   NSInteger dataPointIndex = ((SChartDataPoint*)dataPoint).index;
   
   // Go through each series and contribute the relevant data
-  for (SChartSeries *seriesInChart in chart.series)  {
+  for (SChartSeries *seriesInChart in chart.series) {
     
     // If we are looking at the Bollinger band series, move onto the next series.  We don't
     // use this series for our tooltip, and it has fewer data points in it than the other series
@@ -134,7 +132,6 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
   
   for (UILabel *label in self.allLabels) {
     // Position the label
-    label.font = style.defaultFont;
     [label sizeToFit];
     CGRect frame = label.frame;
     frame.origin.x = StockChartTooltipLabelPadding;

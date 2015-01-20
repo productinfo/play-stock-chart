@@ -21,6 +21,7 @@
 
 #import "StockChartCrosshair.h"
 #import <ShinobiCharts/SChartCanvas.h>
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
 
 @interface StockChartCrosshair ()
 
@@ -43,7 +44,7 @@
     [path addLineToPoint:CGPointMake(0, canvas.glView.frame.origin.y + canvas.glView.bounds.size.height)];
     self.line = [CAShapeLayer layer];
     self.line.path = path.CGPath;
-    self.line.strokeColor = [ShinobiCharts theme].xAxisStyle.lineColor.CGColor;
+    self.line.strokeColor = [UIColor shinobiDarkGrayColor].CGColor;
     if(self.style.lineWidth) {
       self.line.lineWidth = self.style.lineWidth.floatValue;
     }
@@ -56,7 +57,7 @@
 - (void)drawCrosshairLines {
   [CATransaction begin];
   [CATransaction setDisableActions:YES];
-  self.line.strokeColor = [ShinobiCharts theme].xAxisStyle.lineColor.CGColor;
+  self.line.strokeColor = [UIColor shinobiDarkGrayColor].CGColor;
   if (self.style.lineWidth) {
     self.line.lineWidth = self.style.lineWidth.floatValue;
   }

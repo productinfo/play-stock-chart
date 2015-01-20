@@ -21,6 +21,8 @@
 
 #import "StockChartDataSource.h"
 #import "NSArray+StockChartUtils.h"
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
+#import "StockChartCandlestickSeries.h"
 
 @implementation StockChartDataSource
 
@@ -86,23 +88,23 @@
   bandSeries.crosshairEnabled = YES;
   bandSeries.title = @"Bollinger Band";
   bandSeries.crosshairEnabled = NO;
-  bandSeries.style.lineColorHigh = [[ShinobiCharts theme] orangeColorLight];
-  bandSeries.style.lineColorLow = [[ShinobiCharts theme] orangeColorLight];
-  bandSeries.style.areaColorNormal = [[[ShinobiCharts theme] orangeColorDark] colorWithAlphaComponent:0.5];
+  bandSeries.style.lineColorHigh = [UIColor shinobiPlayOrangeColor];
+  bandSeries.style.lineColorLow = [UIColor shinobiPlayOrangeColor];
+  bandSeries.style.areaColorNormal = [[UIColor shinobiPlayOrangeColor] colorWithAlphaComponent:0.5];
   return bandSeries;
 }
 
 + (SChartColumnSeries*)createColumnSeries {
   SChartColumnSeries *columnSeries = [SChartColumnSeries new];
   columnSeries.crosshairEnabled = YES;
-  columnSeries.style.areaColor = [UIColor colorWithRed:0 green:0.4 blue:0.8 alpha:1];
+  columnSeries.style.areaColor = [UIColor shinobiPlayBlueColor];
   columnSeries.style.showAreaWithGradient = NO;
   return columnSeries;
 }
 
 + (SChartCandlestickSeries*)createCandlestickSeries {
   // Create a candlestick series
-  SChartCandlestickSeries *candlestickSeries = [SChartCandlestickSeries new];
+  StockChartCandlestickSeries *candlestickSeries = [StockChartCandlestickSeries new];
   
   // Define the data field names
   NSArray *keys = @[@"Open",@"High", @"Low", @"Close"];

@@ -28,6 +28,8 @@
 #import "NSArray+StockChartUtils.h"
 #import "StockChartCrosshair.h"
 #import "StockChartCrosshairTooltip.h"
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
+#import "ShinobiPlayUtils/UIFont+SPUFont.h"
 
 // Limit the x axis so it has a minimum range of 2 weeks
 const float minXAxisRange = 60 * 60 * 24 * 14;
@@ -61,23 +63,33 @@ const float minYAxisRange = 10.f;
   SChartTheme *theme = [SChartiOS7Theme new];
   theme.chartStyle.backgroundColor = [UIColor whiteColor];
   
-  theme.xAxisStyle.lineColor = [UIColor darkGrayColor];
+  theme.chartTitleStyle.font = [UIFont shinobiFontOfSize:30];
+  theme.chartTitleStyle.textColor = [UIColor shinobiDarkGrayColor];
+  theme.chartTitleStyle.titleCentresOn = SChartTitleCentresOnChart;
+  
+  theme.xAxisStyle.lineColor = theme.chartTitleStyle.textColor;
+  theme.xAxisStyle.titleStyle.font = [UIFont shinobiFontOfSize:16];
   theme.xAxisStyle.majorTickStyle.lineColor = theme.xAxisStyle.lineColor;
   theme.xAxisStyle.majorTickStyle.labelColor = [UIColor whiteColor];
+  theme.xAxisStyle.majorTickStyle.labelFont = [UIFont lightShinobiFontOfSize:14];
   theme.xAxisStyle.majorTickStyle.lineLength = @-8;
   theme.xAxisStyle.majorTickStyle.tickGap = @0;
   
   theme.yAxisStyle.lineColor = theme.xAxisStyle.lineColor;
   theme.yAxisStyle.majorTickStyle.lineColor = theme.yAxisStyle.lineColor;
   theme.yAxisStyle.majorTickStyle.labelColor = theme.yAxisStyle.lineColor;
+  theme.yAxisStyle.majorTickStyle.labelFont = [UIFont shinobiFontOfSize:14];
   theme.yAxisStyle.majorTickStyle.lineLength = @8;
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
-  [ShinobiCharts setTheme:theme];
+  
+  theme.crosshairStyle.defaultFont = [UIFont boldShinobiFontOfSize:13];
+  theme.crosshairStyle.defaultTextColor = [UIColor shinobiDarkGrayColor];
   
   self.mainDatasource = [StockChartDataSource new];
   
   self.mainChart = [self createChartWithBounds:self.mainView.bounds
                                     dataSource:self.mainDatasource];
+  [self.mainChart applyTheme:theme];
   self.mainChart.clipsToBounds = NO;
   self.mainChart.title = @"Stock values and trading volume over time";
   self.mainChart.crosshair = [[StockChartCrosshair alloc] initWithChart:self.mainChart];
@@ -128,6 +140,7 @@ const float minYAxisRange = 10.f;
   self.rangeDatasource = [StockChartRangeChartDataSource new];
   self.rangeChart = [self createChartWithBounds:self.rangeView.bounds
                                      dataSource:self.rangeDatasource];
+  [self.rangeChart applyTheme:theme];
   self.rangeChart.title = @"";
   [StockChartConfigUtilities hideAxisMarkings:self.rangeChart.xAxis];
   [StockChartConfigUtilities hideAxisMarkings:self.rangeChart.yAxis];
@@ -157,7 +170,7 @@ const float minYAxisRange = 10.f;
   
   // We hard-code the range of the y-Axis in to start with
   SChartNumberRange *numberRange = [[SChartNumberRange alloc] initWithMinimum:@100
-                                                                   andMaximum:@200];
+                                                                   andMaximum:@170];
   self.mainChart.yAxis.defaultRange = numberRange;
   
   // Create the series marker (it's added to the view in viewDidAppear)
@@ -178,15 +191,24 @@ const float minYAxisRange = 10.f;
   // Give the chart the data source
   chart.datasource = datasource;
   
-  // Set the initial range of the x axis to cover the entirety of the data
-  StockChartData *data = [StockChartData getInstance];
-  NSDate *startX = data.dates[0];
-  NSDate *endX = [data.dates lastObject];
+  // Create a discontinuous date time axis to use as the x axis.
+  SChartDiscontinuousDateTimeAxis *xAxis = [SChartDiscontinuousDateTimeAxis new];
   
-  SChartDateRange *dateRange = [[SChartDateRange alloc] initWithDateMinimum:startX
-                                                             andDateMaximum:endX];
-  // Create a date time axis to use as the x axis.
-  SChartDateTimeAxis *xAxis = [[SChartDateTimeAxis alloc] initWithRange:dateRange];
+  // Get the data so we can calculate excluded periods (weekends)
+  StockChartData *data = [StockChartData getInstance];
+  
+  // Find the first Saturday in the date range and create a repeated time period to exclude weekends
+  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  NSDateComponents *weekdayComponents = [calendar components:NSWeekdayCalendarUnit
+                                                     fromDate:data.dates[0]];
+  NSDateComponents *componentsToAdd = [NSDateComponents new];
+  [componentsToAdd setDay:(7 - [weekdayComponents weekday])];
+  NSDate *firstSaturday = [calendar dateByAddingComponents:componentsToAdd
+                                                    toDate:data.dates[0]
+                                                   options:0];
+  [xAxis addExcludedRepeatedTimePeriod:[[SChartRepeatedTimePeriod alloc] initWithStart:firstSaturday
+                                                                             andLength:[SChartDateFrequency dateFrequencyWithDay:2]
+                                                                          andFrequency:[SChartDateFrequency dateFrequencyWithWeek:1]]];
   
   // Disable panning and zooming on the x-axis.
   xAxis.enableGesturePanning = YES;
@@ -244,9 +266,8 @@ const float minYAxisRange = 10.f;
   
   // Update the location of the annotation line
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:range
-                                                       yAxisRange:self.mainChart.yAxis.axisRange];
-  
-  [self.mainChart redrawChart];
+                                                       yAxisRange:self.mainChart.yAxis.axisRange
+                                                           redraw:YES];
 }
 
 #pragma mark - SChartDelegate
@@ -285,16 +306,21 @@ const float minYAxisRange = 10.f;
     CGRect xAxisBackgroundFrame = CGRectMake(xPos,
                                              self.mainChart.canvas.glView.frame.size.height,
                                              boxWidth,
-                                             33);
+                                             34);
     if (!self.xAxisBackground) {
       self.xAxisBackground = [[UIView alloc] initWithFrame:xAxisBackgroundFrame];
-      self.xAxisBackground.backgroundColor = [ShinobiCharts theme].xAxisStyle.lineColor;
+      self.xAxisBackground.backgroundColor = [UIColor shinobiDarkGrayColor];
       [self.mainChart.canvas addSubview:self.xAxisBackground];
       [self.mainChart.canvas sendSubviewToBack:self.xAxisBackground];
     } else {
       // Just need to update the size
       self.xAxisBackground.frame = xAxisBackgroundFrame;
     }
+    
+    // Update the value annotation without triggering another redraw
+    [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
+                                                         yAxisRange:self.mainChart.yAxis.axisRange
+                                                             redraw:NO];
   }
 }
 

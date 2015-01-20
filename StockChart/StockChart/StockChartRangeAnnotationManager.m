@@ -24,6 +24,7 @@
 #import "StockChartRangeHandleAnnotation.h"
 #import "StockChartRangeSelectionAnnotation.h"
 #import "StockChartMomentumAnimation.h"
+#import "ShinobiPlayUtils/UIColor+SPUColor.h"
 
 @interface StockChartRangeAnnotationManager ()<UIGestureRecognizerDelegate>
 
@@ -66,7 +67,7 @@
 
 #pragma mark - Manager setup
 - (void)createAnnotations {
-  UIColor *color = [ShinobiCharts theme].xAxisStyle.lineColor;
+  UIColor *color = [UIColor shinobiDarkGrayColor];
   
   // Lines are pretty simple
   self.leftLine = [SChartAnnotation verticalLineAtPosition:nil

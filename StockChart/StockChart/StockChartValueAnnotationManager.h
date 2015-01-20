@@ -36,6 +36,11 @@
 - (instancetype)initWithChart:(ShinobiChart *)chart datasource:(id<StockChartDatasourceLookup>)datasource
                   seriesIndex:(NSInteger)seriesIndex;
 
+// Updates the value annotation based on the given ranges, and redraws the chart
 - (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange;
+
+// Updates the value annotation based on the given ranges, with optional redraw
+- (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange
+                                    redraw:(BOOL)redraw;
 
 @end
