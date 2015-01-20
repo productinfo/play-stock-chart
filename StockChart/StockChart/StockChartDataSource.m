@@ -87,9 +87,9 @@
   bandSeries.crosshairEnabled = YES;
   bandSeries.title = @"Bollinger Band";
   bandSeries.crosshairEnabled = NO;
-  bandSeries.style.lineColorHigh = [UIColor shinobiPlayOrangeColor];//[[ShinobiCharts theme] orangeColorLight];
-  bandSeries.style.lineColorLow = [UIColor shinobiPlayOrangeColor];//[[ShinobiCharts theme] orangeColorLight];
-  bandSeries.style.areaColorNormal = [[UIColor shinobiPlayOrangeColor] colorWithAlphaComponent:0.5];//[[[ShinobiCharts theme] orangeColorDark] colorWithAlphaComponent:0.5];
+  bandSeries.style.lineColorHigh = [UIColor shinobiPlayOrangeColor];
+  bandSeries.style.lineColorLow = [UIColor shinobiPlayOrangeColor];
+  bandSeries.style.areaColorNormal = [[UIColor shinobiPlayOrangeColor] colorWithAlphaComponent:0.5];
   return bandSeries;
 }
 
