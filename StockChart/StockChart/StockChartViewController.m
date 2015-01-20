@@ -82,10 +82,8 @@ const float minYAxisRange = 10.f;
   theme.yAxisStyle.majorTickStyle.lineLength = @8;
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
   
-  theme.legendStyle.borderWidth = 0;
-  theme.legendStyle.font = [UIFont shinobiFontOfSize:16];
-  theme.legendStyle.titleFontColor = theme.chartTitleStyle.textColor;
-  theme.legendStyle.fontColor = theme.chartTitleStyle.textColor;
+  theme.crosshairStyle.defaultFont = [UIFont boldShinobiFontOfSize:13];
+  theme.crosshairStyle.defaultTextColor = [UIColor shinobiDarkGrayColor];
   
   self.mainDatasource = [StockChartDataSource new];
   
