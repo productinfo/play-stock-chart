@@ -51,11 +51,11 @@
       // Bollinger Band
       return [StockChartDataSource createBollingerBandSeries];
     case 1:
-      // Volume
-      return [StockChartDataSource createColumnSeries];
-    case 2:
       // Candlestick
       return [StockChartDataSource createCandlestickSeries];
+    case 2:
+      // Volume
+      return [StockChartDataSource createColumnSeries];
     default:
       return nil;
   }
@@ -73,8 +73,8 @@
 
 - (SChartAxis*)sChart:(ShinobiChart *)chart yAxisForSeriesAtIndex:(NSInteger)index {
   NSArray *allYAxes = [chart allYAxes];
-  // The second series in the chart is our volume chart, which uses a different y axis. The other series use the default y axis
-  if (index == 1) {
+  // The 3rd series in the chart is our volume chart, which uses a different y axis. The other series use the default y axis
+  if (index == 2) {
     return allYAxes[1];
   } else {
     return allYAxes[0];
@@ -85,9 +85,7 @@
   // Create a Band series
   SChartBandSeries *bandSeries = [SChartBandSeries new];
   
-  bandSeries.crosshairEnabled = YES;
   bandSeries.title = @"Bollinger Band";
-  bandSeries.crosshairEnabled = NO;
   bandSeries.style.lineColorHigh = [UIColor shinobiPlayOrangeColor];
   bandSeries.style.lineColorLow = [UIColor shinobiPlayOrangeColor];
   bandSeries.style.areaColorNormal = [[UIColor shinobiPlayOrangeColor] colorWithAlphaComponent:0.5];
@@ -96,7 +94,6 @@
 
 + (SChartColumnSeries*)createColumnSeries {
   SChartColumnSeries *columnSeries = [SChartColumnSeries new];
-  columnSeries.crosshairEnabled = YES;
   columnSeries.style.areaColor = [UIColor shinobiPlayBlueColor];
   columnSeries.style.showAreaWithGradient = NO;
   return columnSeries;
@@ -122,11 +119,11 @@
       // Bollinger Band
       return [self bollingerDataPointAtIndex:dataIndex];
     case 1:
-      // Volume
-      return [self volumeDataPointAtIndex:dataIndex];
-    case 2:
       // Candlestick
       return [self candlestickDataPointAtIndex:dataIndex];
+    case 2:
+      // Volume
+      return [self volumeDataPointAtIndex:dataIndex];
     default:
       return nil;
   }
@@ -144,15 +141,15 @@
       }
       break;
     case 1:
-      // Volume
-      for (int i=0; i<noPoints; i++) {
-        [datapoints addObject:[self volumeDataPointAtIndex:i]];
-      }
-      break;
-    case 2:
       // Candlestick
       for (int i=0; i<noPoints; i++) {
         [datapoints addObject:[self candlestickDataPointAtIndex:i]];
+      }
+      break;
+    case 2:
+      // Volume
+      for (int i=0; i<noPoints; i++) {
+        [datapoints addObject:[self volumeDataPointAtIndex:i]];
       }
       break;
     default:

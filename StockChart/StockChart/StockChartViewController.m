@@ -72,7 +72,7 @@ const float minYAxisRange = 10.f;
   theme.xAxisStyle.majorTickStyle.lineColor = theme.xAxisStyle.lineColor;
   theme.xAxisStyle.majorTickStyle.labelColor = [UIColor whiteColor];
   theme.xAxisStyle.majorTickStyle.labelFont = [UIFont lightShinobiFontOfSize:14];
-  theme.xAxisStyle.majorTickStyle.lineLength = @-8;
+  theme.xAxisStyle.majorTickStyle.showTicks = NO;
   theme.xAxisStyle.majorTickStyle.tickGap = @0;
   
   theme.yAxisStyle.lineColor = theme.xAxisStyle.lineColor;
