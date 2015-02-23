@@ -23,6 +23,7 @@
 #import "StockChartAnchoredTextAnnotation.h"
 #import "StockChartDashedLineAnnotation.h"
 #import <ShinobiCharts/SChartCanvas.h>
+#import <ShinobiCharts/SChartGLView.h>
 #import "ShinobiPlayUtils/UIFont+SPUFont.h"
 #import "ShinobiPlayUtils/UIColor+SPUColor.h"
 
@@ -53,9 +54,6 @@
     self.datasource = datasource;
     [self createLine];
     [self createText];
-    
-    // Make sure the glView which contains the annotations sits on top of the tick marks
-    [chart.canvas bringSubviewToFront:chart.canvas.glView];
   }
   return self;
 }

@@ -23,6 +23,7 @@
 #import <ShinobiCharts/SChartCanvas.h>
 #import "ShinobiPlayUtils/UIColor+SPUColor.h"
 #import "ShinobiPlayUtils/UIFont+SPUFont.h"
+#import "StockChartDataSource.h"
 
 static const CGFloat StockChartTooltipLabelPadding = 7.f;
 static const CGFloat StockChartTooltipTopPadding = 50.f;
@@ -32,6 +33,7 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) NSNumberFormatter *volumeFormatter;
 
+@property (strong, nonatomic) UILabel *topLabel;
 @property (strong, nonatomic) UILabel *openLabel;
 @property (strong, nonatomic) UILabel *highLabel;
 @property (strong, nonatomic) UILabel *lowLabel;
@@ -53,6 +55,11 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
     
     self.volumeFormatter = [NSNumberFormatter new];
     [self.volumeFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    self.volumeFormatter.maximumFractionDigits = 0;
+    
+    self.topLabel = [self createTooltipLabel];
+    self.topLabel.font = [UIFont boldShinobiFontOfSize:14];
+    [self addSubview:self.topLabel];
     
     self.openLabel = [self createTooltipLabel];
     [self addSubview:self.openLabel];
@@ -69,12 +76,16 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
     self.volumeLabel = [self createTooltipLabel];
     [self addSubview:self.volumeLabel];
     
-    self.allLabels = @[self.label, self.openLabel, self.highLabel, self.lowLabel,
+    self.allLabels = @[self.topLabel, self.openLabel, self.highLabel, self.lowLabel,
                        self.closeLabel, self.volumeLabel];
+    
+    self.layer.borderColor = [UIColor shinobiDarkGrayColor].CGColor;
+    self.layer.borderWidth = 1;
+    self.layer.cornerRadius = 3;
+    self.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
   }
   return self;
 }
-
 
 // Method to create a label to add to the tooltip
 - (UILabel*)createTooltipLabel {
@@ -85,46 +96,21 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
   return newLabel;
 }
 
-- (void)setDataPoint:(id<SChartData>)dataPoint fromSeries:(SChartSeries *)series fromChart:(ShinobiChart *)chart {
-  // Get a date string from the data point
-  NSString *formattedDateString = [self.dateFormatter stringFromDate:((SChartDataPoint*)dataPoint).xValue];
+- (void)setXPosition:(CGFloat)xPosition andData:(NSDictionary *)dataValues inChart:(ShinobiChart *)chart {
+  // Date
+  NSString *formattedDateString = [self.dateFormatter stringFromDate:dataValues[@"Date"]];
+  self.topLabel.text = [NSString stringWithFormat:@"%@", formattedDateString];
+  self.topLabel.textAlignment = NSTextAlignmentLeft;
   
-  // Find the index of the data point within our series
-  NSInteger dataPointIndex = ((SChartDataPoint*)dataPoint).index;
-  
-  // Go through each series and contribute the relevant data
-  for (SChartSeries *seriesInChart in chart.series) {
-    
-    // If we are looking at the Bollinger band series, move onto the next series.  We don't
-    // use this series for our tooltip, and it has fewer data points in it than the other series
-    if ([seriesInChart isKindOfClass:[SChartBandSeries class]]) {
-      continue;
-    }
-    
-    id<SChartData> dataPointInSeries = seriesInChart.dataSeries.dataPoints[dataPointIndex];
-    
-    if ([seriesInChart isKindOfClass:[SChartOHLCSeries class]]) {
-      // OHLC data
-      SChartMultiYDataPoint *dp = dataPointInSeries;
-      
-      self.label.text = [NSString stringWithFormat:@"%@", formattedDateString];
-      self.label.textAlignment = NSTextAlignmentLeft;
-      
-      self.openLabel.text = [NSString stringWithFormat:@"Open: %.2f", [dp.yValues[@"Open"] floatValue]];
-      self.highLabel.text = [NSString stringWithFormat:@"High: %.2f", [dp.yValues[@"High"] floatValue]];
-      self.lowLabel.text = [NSString stringWithFormat:@"Low: %.2f", [dp.yValues[@"Low"] floatValue]];
-      self.closeLabel.text = [NSString stringWithFormat:@"Close: %.2f", [dp.yValues[@"Close"] floatValue]];
-    } else if ([seriesInChart isKindOfClass:[SChartColumnSeries class]]) {
-      // Volume data (line series with standard data points)
-      SChartDataPoint *dp = dataPointInSeries;
-      self.volumeLabel.text = [NSString stringWithFormat:@"Volume: %@",
-                               [self.volumeFormatter stringFromNumber:dp.yValue]];
-    }
-  }
-}
+  // OHLC data
+  self.openLabel.text = [NSString stringWithFormat:@"Open: %.2f", [dataValues[@"Open"] floatValue]];
+  self.highLabel.text = [NSString stringWithFormat:@"High: %.2f", [dataValues[@"High"] floatValue]];
+  self.lowLabel.text = [NSString stringWithFormat:@"Low: %.2f", [dataValues[@"Low"] floatValue]];
+  self.closeLabel.text = [NSString stringWithFormat:@"Close: %.2f", [dataValues[@"Close"] floatValue]];
 
-- (void)setPosition:(struct SChartPoint)pos onCanvas:(SChartCanvas*)canvas {
-  [super setPosition:pos onCanvas:canvas];
+  // Volume data (line series with standard data points)
+  self.volumeLabel.text = [NSString stringWithFormat:@"Volume: %@",
+                           [self.volumeFormatter stringFromNumber:dataValues[@"Volume"]]];
   
   // Lay out the labels, keeping track of the maximum width
   CGFloat maxLabelWidth = 0;
@@ -142,13 +128,19 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
     labelYPosition += label.frame.size.height;
   }
   
-  CGRect frame = self.frame;
-  frame.size.width = maxLabelWidth + (2 * StockChartTooltipLabelPadding);
-  frame.size.height = labelYPosition + StockChartTooltipLabelPadding;
-  frame.origin.y = canvas.glView.frame.origin.y + StockChartTooltipTopPadding;
-  frame.origin.x = pos.x;
+  CGRect newFrame = self.frame;
+  CGRect plotArea = [chart getPlotAreaFrame];
+  newFrame.size.width = maxLabelWidth + (2 * StockChartTooltipLabelPadding);
+  newFrame.size.height = labelYPosition + StockChartTooltipLabelPadding;
+  newFrame.origin.y = plotArea.origin.y + StockChartTooltipTopPadding;
+  if (xPosition + newFrame.size.width > plotArea.size.width) {
+    newFrame.origin.x = plotArea.size.width - newFrame.size.width;
+  } else if(xPosition < 0) {
+    newFrame.origin.x = 0;
+  } else {
+    newFrame.origin.x = xPosition;
+  }
   
-  self.frame = frame;
+  self.frame = newFrame;
 }
-
 @end

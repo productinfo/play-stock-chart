@@ -24,10 +24,10 @@
 #import "StockChartRangeChartDataSource.h"
 #import "StockChartConfigUtilities.h"
 #import <ShinobiCharts/SChartCanvas.h>
+#import <ShinobiCharts/SChartGLView.h>
 #import "StockChartValueAnnotationManager.h"
 #import "NSArray+StockChartUtils.h"
 #import "StockChartCrosshair.h"
-#import "StockChartCrosshairTooltip.h"
 #import "ShinobiPlayUtils/UIColor+SPUColor.h"
 #import "ShinobiPlayUtils/UIFont+SPUFont.h"
 
@@ -82,9 +82,6 @@ const float minYAxisRange = 10.f;
   theme.yAxisStyle.majorTickStyle.lineLength = @8;
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
   
-  theme.crosshairStyle.defaultFont = [UIFont boldShinobiFontOfSize:13];
-  theme.crosshairStyle.defaultTextColor = [UIColor shinobiDarkGrayColor];
-  
   self.mainDatasource = [StockChartDataSource new];
   
   self.mainChart = [self createChartWithBounds:self.mainView.bounds
@@ -92,9 +89,6 @@ const float minYAxisRange = 10.f;
   [self.mainChart applyTheme:theme];
   self.mainChart.clipsToBounds = NO;
   self.mainChart.title = @"Stock values and trading volume over time";
-  self.mainChart.crosshair = [[StockChartCrosshair alloc] initWithChart:self.mainChart];
-  self.mainChart.crosshair.tooltip = [StockChartCrosshairTooltip new];
-  self.mainChart.crosshair.enableCrosshairLines = YES;
   
   // Set double tap in main chart to reset the zoom
   self.mainChart.gestureDoubleTapResetsZoom = YES;
@@ -116,6 +110,9 @@ const float minYAxisRange = 10.f;
   [self.mainChart addXAxis:dummyXAxis];
   
   [self.mainView addSubview:self.mainChart];
+  
+  // Set the crosshair to our custom one (we can create it now the chart knows how big it is)
+  self.mainChart.crosshair = [[StockChartCrosshair alloc] initWithFrame:[self.mainChart getPlotAreaFrame]];
   
   // Set the initial start and end values for the x axis on the main chart
   NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -176,7 +173,7 @@ const float minYAxisRange = 10.f;
   // Create the series marker (it's added to the view in viewDidAppear)
   self.valueAnnotationManager = [[StockChartValueAnnotationManager alloc] initWithChart:self.mainChart
                                                                              datasource:self.mainDatasource
-                                                                            seriesIndex:2];
+                                                                            seriesIndex:1];
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:self.mainChart.xAxis.defaultRange
                                                        yAxisRange:self.mainChart.yAxis.defaultRange];
 }
@@ -293,8 +290,8 @@ const float minYAxisRange = 10.f;
     
     // Add a background view for the x-axis
     // Need to draw a nice grey box
-    double boxWidth = self.mainChart.canvas.glView.frame.size.width;
-    double xPos = self.mainChart.canvas.glView.frame.origin.x;
+    double boxWidth = [self.mainChart getPlotAreaFrame].size.width;
+    double xPos = [self.mainChart getPlotAreaFrame].origin.x;
     
     for (SChartAxis *axis in self.mainChart.allYAxes) {
       if (axis.axisPosition == SChartAxisPositionNormal) {
@@ -304,7 +301,7 @@ const float minYAxisRange = 10.f;
     }
     
     CGRect xAxisBackgroundFrame = CGRectMake(xPos,
-                                             self.mainChart.canvas.glView.frame.size.height,
+                                             [self.mainChart getPlotAreaFrame].size.height,
                                              boxWidth,
                                              34);
     if (!self.xAxisBackground) {

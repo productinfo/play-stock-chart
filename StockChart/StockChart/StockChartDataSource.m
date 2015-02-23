@@ -242,4 +242,17 @@
   }
 }
 
+- (NSDictionary *)getValuesForIndex:(NSInteger)dataPointIndex {
+  // Create dictionary based on OHLC data
+  SChartMultiYDataPoint *ohlcDp = [self sChart:nil dataPointAtIndex:dataPointIndex forSeriesAtIndex:1];
+  NSMutableDictionary *values = [ohlcDp.yValues mutableCopy];
+  values[@"Date"] = ohlcDp.xValue;
+  
+  // Get volume data and add it in
+  SChartDataPoint *volumeDp = [self sChart:nil dataPointAtIndex:dataPointIndex forSeriesAtIndex:2];
+  values[@"Volume"] = volumeDp.yValue;
+  
+  return values;
+}
+
 @end
