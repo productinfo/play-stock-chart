@@ -30,8 +30,6 @@
 
 @interface StockChartCrosshair ()
 
-@property (assign, nonatomic) BOOL clippingMaskSet;
-@property (assign, nonatomic) CGPoint crosshairCenter;
 @property (strong, nonatomic) CAShapeLayer *line;
 @property (strong, nonatomic) StockChartCrosshairTooltip *crosshairTooltip;
 
