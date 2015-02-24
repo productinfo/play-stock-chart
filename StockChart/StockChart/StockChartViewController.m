@@ -248,8 +248,21 @@ const float minYAxisRange = 10.f;
     NSDate *endValue = [NSDate dateWithTimeIntervalSince1970:[range.maximum doubleValue]];
     
     // Find the index of the dates nearest the start and end values
-    NSUInteger lowerIndex = [chartData.dates indexOfBiggestObjectSmallerThan:startValue inSortedRange:NSMakeRange(0, chartData.dates.count)];
-    NSUInteger upperIndex = [chartData.dates indexOfSmallestObjectBiggerThan:endValue inSortedRange:NSMakeRange(lowerIndex, chartData.dates.count - lowerIndex)];
+    NSUInteger lowerIndex;
+    @try {
+      lowerIndex = [chartData.dates indexOfBiggestObjectSmallerThan:startValue
+                                                      inSortedRange:NSMakeRange(0, chartData.dates.count)];
+    } @catch (NSException *e) {
+      lowerIndex = 0;
+    }
+    
+    NSUInteger upperIndex;
+    @try {
+      upperIndex = [chartData.dates indexOfSmallestObjectBiggerThan:endValue
+                                                      inSortedRange:NSMakeRange(lowerIndex, chartData.dates.count - lowerIndex)];
+    } @catch (NSException *e) {
+      upperIndex = [chartData.dates count] - 1;
+    }
     
     double min = [[chartData sampledMinInRangeFromIndex:lowerIndex toIndex:upperIndex] doubleValue];
     double max = [[chartData sampledMaxInRangeFromIndex:lowerIndex toIndex:upperIndex] doubleValue];
