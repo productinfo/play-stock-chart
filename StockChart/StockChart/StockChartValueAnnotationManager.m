@@ -20,7 +20,7 @@
 //
 
 #import "StockChartValueAnnotationManager.h"
-#import "StockChartAnchoredTextAnnotation.h"
+#import "StockChartValueView.h"
 #import "StockChartDashedLineAnnotation.h"
 #import <ShinobiCharts/SChartCanvas.h>
 #import <ShinobiCharts/SChartGLView.h>
@@ -33,7 +33,7 @@
 @property (nonatomic, strong) id<StockChartDatasourceLookup> datasource;
 @property (nonatomic, assign) NSInteger seriesIndex;
 @property (nonatomic, strong) SChartAnnotation *lineAnnotation;
-@property (nonatomic, strong) SChartAnnotation *textAnnotation;
+@property (nonatomic, strong) StockChartValueView *valueView;
 
 @end
 
@@ -71,21 +71,16 @@
   
   // Create our text annotation subclass. We set the text to be the widest of our possible values
   // since we only size the annotation at construction time.
-  self.textAnnotation = [[StockChartAnchoredTextAnnotation alloc] initWithText:@"MM.MM"
-                                                               andFont:labelFont
-                                                             withXAxis:self.chart.xAxis
-                                                              andYAxis:self.chart.yAxis
-                                                           atXPosition:nil
-                                                          andYPosition:nil
-                                                         withTextColor:[UIColor whiteColor]
-                                                   withBackgroundColor:[UIColor shinobiDarkGrayColor]];
-  [self.chart addAnnotation:self.textAnnotation];
+  self.valueView = [[StockChartValueView alloc] initWithText:@"MM.MM"
+                                                     andFont:labelFont
+                                               withTextColor:[UIColor whiteColor]
+                                         withBackgroundColor:[UIColor shinobiDarkGrayColor]];
+  [self.chart addSubview:self.valueView];
 }
 
 #pragma mark - API Methods
 - (void)updateValueAnnotationForXAxisRange:(SChartRange *)xRange yAxisRange:(SChartRange *)yRange
                                     redraw:(BOOL)redraw {
-  
   // Need to find the y-value at the maximum of the given x-value range
   id lastVisibleDPValue = [self.datasource estimateYValueForXValue:xRange.maximum
                                                   forSeriesAtIndex:self.seriesIndex];
@@ -94,15 +89,23 @@
   if ([lastVisibleDPValue compare:yRange.minimum] == NSOrderedAscending ||
       [lastVisibleDPValue compare:yRange.maximum] == NSOrderedDescending) {
     self.lineAnnotation.alpha = 0;
-    self.textAnnotation.alpha = 0;
+    self.valueView.alpha = 0;
   } else {
-    // Update the values on both annotations and redraw the chart
+    // Update the value on line annotation
     self.lineAnnotation.yValue = lastVisibleDPValue;
-    self.textAnnotation.yValue = lastVisibleDPValue;
-    self.textAnnotation.xValue = xRange.maximum;
-    self.textAnnotation.label.text = [NSString stringWithFormat:@"%0.2f", lastVisibleDPValueDouble];
+    [self.lineAnnotation updateViewWithCanvas:self.chart.canvas];
+    
+    // Update position and text of value view
+    CGPoint pointInPlotArea = CGPointMake(CGRectGetMaxX([self.chart getPlotAreaFrame]),
+                                          [self.chart.yAxis pixelValueForDataValue:lastVisibleDPValue]);
+    CGPoint pointInChart = [self.chart convertPoint:pointInPlotArea
+                                           fromView:self.chart.canvas.glView];
+    [self.valueView setPosition:pointInChart];
+    self.valueView.label.text = [NSString stringWithFormat:@"%0.2f", lastVisibleDPValueDouble];
+    
+    // Make sure they're both visible
     self.lineAnnotation.alpha = 1;
-    self.textAnnotation.alpha = 1;
+    self.valueView.alpha = 1;
   }
   
   if (redraw) {

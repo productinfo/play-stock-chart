@@ -19,22 +19,16 @@
 //  limitations under the License.
 //
 
-#import "StockChartAnchoredTextAnnotation.h"
+#import "StockChartValueView.h"
 #import "StockChartArrowHead.h"
 
-@implementation StockChartAnchoredTextAnnotation
+@implementation StockChartValueView
 
-- (instancetype)initWithText:(NSString *)text andFont:(UIFont *)font withXAxis:(SChartAxis *)xAxis
-                    andYAxis:(SChartAxis *)yAxis atXPosition:(id)xPosition andYPosition:(id)yPosition
+- (instancetype)initWithText:(NSString *)text andFont:(UIFont *)font
                withTextColor:(UIColor *)textColor withBackgroundColor:(UIColor *)bgColor {
   self = [super init];
   if (self) {
-    // Set all the required properties
-    self.xAxis = xAxis;
-    self.yAxis = yAxis;
-    self.xValue = xPosition;
-    self.yValue = yPosition;
-    
+    // Add the label
     self.label = [[UILabel alloc] initWithFrame:self.bounds];
     self.label.backgroundColor = bgColor;
     self.label.font = font;
@@ -43,6 +37,7 @@
     self.label.textAlignment = NSTextAlignmentCenter;
     [self.label sizeToFit];
     
+    // Add the arrow
     StockChartArrowHead *arrowHead = [[StockChartArrowHead alloc] initWithFrame:CGRectMake(0,
                                                                                            0,
                                                                                            self.label.bounds.size.height/2,
@@ -52,15 +47,19 @@
     self.label.center = CGPointMake(arrowHead.bounds.size.width + self.label.center.x - 0.5, self.label.center.y);
     [self addSubview:self.label];
     [self addSubview:arrowHead];
-    [self sizeToFit];
+    
+    // Fit the frame to the contents
+    self.frame = CGRectMake(0,
+                            0,
+                            arrowHead.bounds.size.width + self.label.bounds.size.width,
+                            self.label.bounds.size.height);
   }
   return self;
 }
 
-- (void)updateViewWithCanvas:(SChartCanvas *)canvas {
-  [super updateViewWithCanvas:canvas];
-  // Move us so we are anchored on the middle left
-  self.center = CGPointMake(self.center.x + self.bounds.size.width / 2, self.center.y);
+- (void)setPosition:(CGPoint)leftMiddlePosition {
+  self.center = CGPointMake(leftMiddlePosition.x + self.bounds.size.width / 2,
+                            leftMiddlePosition.y);
 }
 
 
