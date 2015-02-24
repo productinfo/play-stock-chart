@@ -252,7 +252,7 @@
   SChartDataPoint *volumeDp = [self sChart:nil dataPointAtIndex:dataPointIndex forSeriesAtIndex:2];
   values[@"Volume"] = volumeDp.yValue;
   
-  return values;
+  return [values copy];
 }
 
 @end
