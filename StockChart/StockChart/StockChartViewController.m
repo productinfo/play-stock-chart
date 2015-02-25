@@ -188,24 +188,8 @@ const float minYAxisRange = 10.f;
   // Give the chart the data source
   chart.datasource = datasource;
   
-  // Create a discontinuous date time axis to use as the x axis.
-  SChartDiscontinuousDateTimeAxis *xAxis = [SChartDiscontinuousDateTimeAxis new];
-  
-  // Get the data so we can calculate excluded periods (weekends)
-  StockChartData *data = [StockChartData getInstance];
-  
-  // Find the first Saturday in the date range and create a repeated time period to exclude weekends
-  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-  NSDateComponents *weekdayComponents = [calendar components:NSWeekdayCalendarUnit
-                                                     fromDate:data.dates[0]];
-  NSDateComponents *componentsToAdd = [NSDateComponents new];
-  [componentsToAdd setDay:(7 - [weekdayComponents weekday])];
-  NSDate *firstSaturday = [calendar dateByAddingComponents:componentsToAdd
-                                                    toDate:data.dates[0]
-                                                   options:0];
-  [xAxis addExcludedRepeatedTimePeriod:[[SChartRepeatedTimePeriod alloc] initWithStart:firstSaturday
-                                                                             andLength:[SChartDateFrequency dateFrequencyWithDay:2]
-                                                                          andFrequency:[SChartDateFrequency dateFrequencyWithWeek:1]]];
+  // Create a date time axis to use as the x axis.
+  SChartDateTimeAxis *xAxis = [SChartDateTimeAxis new];
   
   // Disable panning and zooming on the x-axis.
   xAxis.enableGesturePanning = YES;
