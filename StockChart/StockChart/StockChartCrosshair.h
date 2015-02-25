@@ -22,6 +22,6 @@
 
 #import <ShinobiCharts/ShinobiChart.h>
 
-@interface StockChartCrosshair : SChartCrosshair
+@interface StockChartCrosshair : UIView<SChartCrosshair>
 
 @end

@@ -21,6 +21,7 @@
 
 #import "StockChartRangeAnnotationManager.h"
 #import <ShinobiCharts/SChartCanvas.h>
+#import <ShinobiCharts/SChartGLView.h>
 #import "StockChartRangeHandleAnnotation.h"
 #import "StockChartRangeSelectionAnnotation.h"
 #import "StockChartMomentumAnimation.h"
@@ -276,7 +277,7 @@
   SChartRange *rangeObj = axis.axisRange;
   
   // Find the frame of the plot area
-  CGRect glFrame = self.chart.canvas.glView.bounds;
+  CGRect glFrame = [self.chart getPlotAreaFrame];
   
   // Find the pixel width of the axis
   CGFloat pixelSpan;
@@ -342,7 +343,7 @@
   SChartRange *range = axis.axisRange;
   
   // What's the frame of the plot area
-  CGRect glFrame = self.chart.canvas.glView.bounds;
+  CGRect glFrame = [self.chart getPlotAreaFrame];
   
   // Find the pixel width of the axis
   CGFloat pixelSpan;

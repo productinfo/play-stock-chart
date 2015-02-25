@@ -1,5 +1,5 @@
 //
-//  StockChartAnchoredTextAnnotation.m
+//  StockChartValueView.h
 //  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.
@@ -21,10 +21,13 @@
 
 #import <ShinobiCharts/ShinobiCharts.h>
 
-@interface StockChartAnchoredTextAnnotation : SChartAnnotation
+@interface StockChartValueView : UIView
 
-- (instancetype)initWithText:(NSString*)text andFont:(UIFont*)font withXAxis:(SChartAxis*)xAxis
-                    andYAxis:(SChartAxis*)yAxis atXPosition:(id)xPosition andYPosition:(id)yPosition
-               withTextColor:(UIColor*)textColor withBackgroundColor:(UIColor*)bgColor;
+@property (strong, nonatomic) UILabel *label;
+
+- (instancetype)initWithText:(NSString *)text andFont:(UIFont *)font
+               withTextColor:(UIColor *)textColor withBackgroundColor:(UIColor *)bgColor;
+
+- (void)setPosition:(CGPoint)leftMiddlePosition;
 
 @end

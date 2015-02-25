@@ -21,10 +21,12 @@
 
 #import <Foundation/Foundation.h>
 
-// Protocol to allow lookups of a y value for a given x value and series
+// Protocol to allow lookups of a y value for a given x value and series and of all values
+// from a data point index
 @protocol StockChartDatasourceLookup <NSObject>
 
 @required
 - (id)estimateYValueForXValue:(id)xValue forSeriesAtIndex:(NSUInteger)idx;
+- (NSDictionary *)getValuesForIndex:(NSInteger)dataPointIndex;
 
 @end

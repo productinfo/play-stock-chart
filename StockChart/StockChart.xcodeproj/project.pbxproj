@@ -46,7 +46,7 @@
 		68ECA6F61A07926A00645A75 /* StockChartRangeSelectionAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6F31A07926A00645A75 /* StockChartRangeSelectionAnnotation.m */; };
 		68ECA6F91A07949800645A75 /* StockChartMomentumAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6F81A07949800645A75 /* StockChartMomentumAnimation.m */; };
 		68ECA7011A07B62200645A75 /* StockChartValueAnnotationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6FE1A07B62200645A75 /* StockChartValueAnnotationManager.m */; };
-		68ECA7021A07B62200645A75 /* StockChartAnchoredTextAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA7001A07B62200645A75 /* StockChartAnchoredTextAnnotation.m */; };
+		68ECA7021A07B62200645A75 /* StockChartValueView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA7001A07B62200645A75 /* StockChartValueView.m */; };
 		68ECA7061A07BB7600645A75 /* NSArray+StockChartUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA7051A07BB7600645A75 /* NSArray+StockChartUtils.m */; };
 		68FCB4D31A6E5E5700A48C86 /* StockChartCandlestickSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = 68FCB4D21A6E5E5700A48C86 /* StockChartCandlestickSeries.m */; };
 /* End PBXBuildFile section */
@@ -135,8 +135,8 @@
 		68ECA6F81A07949800645A75 /* StockChartMomentumAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartMomentumAnimation.m; sourceTree = "<group>"; };
 		68ECA6FD1A07B62200645A75 /* StockChartValueAnnotationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartValueAnnotationManager.h; sourceTree = "<group>"; };
 		68ECA6FE1A07B62200645A75 /* StockChartValueAnnotationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartValueAnnotationManager.m; sourceTree = "<group>"; };
-		68ECA6FF1A07B62200645A75 /* StockChartAnchoredTextAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartAnchoredTextAnnotation.h; sourceTree = "<group>"; };
-		68ECA7001A07B62200645A75 /* StockChartAnchoredTextAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartAnchoredTextAnnotation.m; sourceTree = "<group>"; };
+		68ECA6FF1A07B62200645A75 /* StockChartValueView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartValueView.h; sourceTree = "<group>"; };
+		68ECA7001A07B62200645A75 /* StockChartValueView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartValueView.m; sourceTree = "<group>"; };
 		68ECA7031A07B80100645A75 /* StockChartDatasourceLookup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StockChartDatasourceLookup.h; sourceTree = "<group>"; };
 		68ECA7041A07BB7600645A75 /* NSArray+StockChartUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+StockChartUtils.h"; sourceTree = "<group>"; };
 		68ECA7051A07BB7600645A75 /* NSArray+StockChartUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+StockChartUtils.m"; sourceTree = "<group>"; };
@@ -310,8 +310,8 @@
 				68ECA6DD1A01363B00645A75 /* StockChartDashedLineAnnotation.m */,
 				68ECA6FD1A07B62200645A75 /* StockChartValueAnnotationManager.h */,
 				68ECA6FE1A07B62200645A75 /* StockChartValueAnnotationManager.m */,
-				68ECA6FF1A07B62200645A75 /* StockChartAnchoredTextAnnotation.h */,
-				68ECA7001A07B62200645A75 /* StockChartAnchoredTextAnnotation.m */,
+				68ECA6FF1A07B62200645A75 /* StockChartValueView.h */,
+				68ECA7001A07B62200645A75 /* StockChartValueView.m */,
 			);
 			name = ValueAnnotations;
 			sourceTree = "<group>";
@@ -424,7 +424,7 @@
 				68ECA6B21A0131BE00645A75 /* StockChartDataSource.m in Sources */,
 				68171BF119ADDBC5000AFEEB /* StockChartAppDelegate.m in Sources */,
 				68ECA7011A07B62200645A75 /* StockChartValueAnnotationManager.m in Sources */,
-				68ECA7021A07B62200645A75 /* StockChartAnchoredTextAnnotation.m in Sources */,
+				68ECA7021A07B62200645A75 /* StockChartValueView.m in Sources */,
 				68171BED19ADDBC5000AFEEB /* main.m in Sources */,
 				68C0F2BA1A37076B00485974 /* StockChartCrosshair.m in Sources */,
 				68ECA6DE1A01363B00645A75 /* StockChartDashedLineAnnotation.m in Sources */,

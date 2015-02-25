@@ -23,6 +23,8 @@
 #import <ShinobiCharts/ShinobiChart.h>
 #import "StockChartCrosshair.h"
 
-@interface StockChartCrosshairTooltip : SChartCrosshairTooltip
+@interface StockChartCrosshairTooltip : UIView
+
+- (void)setXPosition:(CGFloat)xPosition andData:(NSDictionary *)dataValues inChart:(ShinobiChart *)chart;
 
 @end

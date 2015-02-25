@@ -24,10 +24,10 @@
 #import "StockChartRangeChartDataSource.h"
 #import "StockChartConfigUtilities.h"
 #import <ShinobiCharts/SChartCanvas.h>
+#import <ShinobiCharts/SChartGLView.h>
 #import "StockChartValueAnnotationManager.h"
 #import "NSArray+StockChartUtils.h"
 #import "StockChartCrosshair.h"
-#import "StockChartCrosshairTooltip.h"
 #import "ShinobiPlayUtils/UIColor+SPUColor.h"
 #import "ShinobiPlayUtils/UIFont+SPUFont.h"
 
@@ -72,7 +72,7 @@ const float minYAxisRange = 10.f;
   theme.xAxisStyle.majorTickStyle.lineColor = theme.xAxisStyle.lineColor;
   theme.xAxisStyle.majorTickStyle.labelColor = [UIColor whiteColor];
   theme.xAxisStyle.majorTickStyle.labelFont = [UIFont lightShinobiFontOfSize:14];
-  theme.xAxisStyle.majorTickStyle.lineLength = @-8;
+  theme.xAxisStyle.majorTickStyle.showTicks = NO;
   theme.xAxisStyle.majorTickStyle.tickGap = @0;
   
   theme.yAxisStyle.lineColor = theme.xAxisStyle.lineColor;
@@ -82,9 +82,6 @@ const float minYAxisRange = 10.f;
   theme.yAxisStyle.majorTickStyle.lineLength = @8;
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
   
-  theme.crosshairStyle.defaultFont = [UIFont boldShinobiFontOfSize:13];
-  theme.crosshairStyle.defaultTextColor = [UIColor shinobiDarkGrayColor];
-  
   self.mainDatasource = [StockChartDataSource new];
   
   self.mainChart = [self createChartWithBounds:self.mainView.bounds
@@ -92,9 +89,6 @@ const float minYAxisRange = 10.f;
   [self.mainChart applyTheme:theme];
   self.mainChart.clipsToBounds = NO;
   self.mainChart.title = @"Stock values and trading volume over time";
-  self.mainChart.crosshair = [[StockChartCrosshair alloc] initWithChart:self.mainChart];
-  self.mainChart.crosshair.tooltip = [StockChartCrosshairTooltip new];
-  self.mainChart.crosshair.enableCrosshairLines = YES;
   
   // Set double tap in main chart to reset the zoom
   self.mainChart.gestureDoubleTapResetsZoom = YES;
@@ -116,6 +110,9 @@ const float minYAxisRange = 10.f;
   [self.mainChart addXAxis:dummyXAxis];
   
   [self.mainView addSubview:self.mainChart];
+  
+  // Set the crosshair to our custom one (we can create it now the chart knows how big it is)
+  self.mainChart.crosshair = [[StockChartCrosshair alloc] initWithFrame:[self.mainChart getPlotAreaFrame]];
   
   // Set the initial start and end values for the x axis on the main chart
   NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -176,7 +173,7 @@ const float minYAxisRange = 10.f;
   // Create the series marker (it's added to the view in viewDidAppear)
   self.valueAnnotationManager = [[StockChartValueAnnotationManager alloc] initWithChart:self.mainChart
                                                                              datasource:self.mainDatasource
-                                                                            seriesIndex:2];
+                                                                            seriesIndex:1];
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:self.mainChart.xAxis.defaultRange
                                                        yAxisRange:self.mainChart.yAxis.defaultRange];
 }
@@ -191,24 +188,8 @@ const float minYAxisRange = 10.f;
   // Give the chart the data source
   chart.datasource = datasource;
   
-  // Create a discontinuous date time axis to use as the x axis.
-  SChartDiscontinuousDateTimeAxis *xAxis = [SChartDiscontinuousDateTimeAxis new];
-  
-  // Get the data so we can calculate excluded periods (weekends)
-  StockChartData *data = [StockChartData getInstance];
-  
-  // Find the first Saturday in the date range and create a repeated time period to exclude weekends
-  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-  NSDateComponents *weekdayComponents = [calendar components:NSWeekdayCalendarUnit
-                                                     fromDate:data.dates[0]];
-  NSDateComponents *componentsToAdd = [NSDateComponents new];
-  [componentsToAdd setDay:(7 - [weekdayComponents weekday])];
-  NSDate *firstSaturday = [calendar dateByAddingComponents:componentsToAdd
-                                                    toDate:data.dates[0]
-                                                   options:0];
-  [xAxis addExcludedRepeatedTimePeriod:[[SChartRepeatedTimePeriod alloc] initWithStart:firstSaturday
-                                                                             andLength:[SChartDateFrequency dateFrequencyWithDay:2]
-                                                                          andFrequency:[SChartDateFrequency dateFrequencyWithWeek:1]]];
+  // Create a date time axis to use as the x axis.
+  SChartDateTimeAxis *xAxis = [SChartDateTimeAxis new];
   
   // Disable panning and zooming on the x-axis.
   xAxis.enableGesturePanning = YES;
@@ -251,8 +232,21 @@ const float minYAxisRange = 10.f;
     NSDate *endValue = [NSDate dateWithTimeIntervalSince1970:[range.maximum doubleValue]];
     
     // Find the index of the dates nearest the start and end values
-    NSUInteger lowerIndex = [chartData.dates indexOfBiggestObjectSmallerThan:startValue inSortedRange:NSMakeRange(0, chartData.dates.count)];
-    NSUInteger upperIndex = [chartData.dates indexOfSmallestObjectBiggerThan:endValue inSortedRange:NSMakeRange(lowerIndex, chartData.dates.count - lowerIndex)];
+    NSUInteger lowerIndex;
+    @try {
+      lowerIndex = [chartData.dates indexOfBiggestObjectSmallerThan:startValue
+                                                      inSortedRange:NSMakeRange(0, chartData.dates.count)];
+    } @catch (NSException *e) {
+      lowerIndex = 0;
+    }
+    
+    NSUInteger upperIndex;
+    @try {
+      upperIndex = [chartData.dates indexOfSmallestObjectBiggerThan:endValue
+                                                      inSortedRange:NSMakeRange(lowerIndex, chartData.dates.count - lowerIndex)];
+    } @catch (NSException *e) {
+      upperIndex = [chartData.dates count] - 1;
+    }
     
     double min = [[chartData sampledMinInRangeFromIndex:lowerIndex toIndex:upperIndex] doubleValue];
     double max = [[chartData sampledMaxInRangeFromIndex:lowerIndex toIndex:upperIndex] doubleValue];
@@ -293,8 +287,8 @@ const float minYAxisRange = 10.f;
     
     // Add a background view for the x-axis
     // Need to draw a nice grey box
-    double boxWidth = self.mainChart.canvas.glView.frame.size.width;
-    double xPos = self.mainChart.canvas.glView.frame.origin.x;
+    double boxWidth = [self.mainChart getPlotAreaFrame].size.width;
+    double xPos = [self.mainChart getPlotAreaFrame].origin.x;
     
     for (SChartAxis *axis in self.mainChart.allYAxes) {
       if (axis.axisPosition == SChartAxisPositionNormal) {
@@ -304,7 +298,7 @@ const float minYAxisRange = 10.f;
     }
     
     CGRect xAxisBackgroundFrame = CGRectMake(xPos,
-                                             self.mainChart.canvas.glView.frame.size.height,
+                                             [self.mainChart getPlotAreaFrame].size.height,
                                              boxWidth,
                                              34);
     if (!self.xAxisBackground) {

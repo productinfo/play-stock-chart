@@ -45,7 +45,6 @@
 - (SChartSeries *)sChart:(ShinobiChart *)chart seriesAtIndex:(NSInteger)index {
   SChartLineSeries *lineSeries = [SChartLineSeries new];
   lineSeries.baseline = @0;
-  lineSeries.crosshairEnabled = YES;
   lineSeries.style.lineColor = [UIColor shinobiDarkGrayColor];
   return lineSeries;
 }
