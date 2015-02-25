@@ -1,5 +1,5 @@
 //
-//  StockChartAnchoredTextAnnotation.m
+//  StockChartValueView.m
 //  StockChart
 //
 //  Created by Alison Clarke on 27/08/2014.

@@ -73,7 +73,7 @@
 
 - (SChartAxis*)sChart:(ShinobiChart *)chart yAxisForSeriesAtIndex:(NSInteger)index {
   NSArray *allYAxes = [chart allYAxes];
-  // The 3rd series in the chart is our volume chart, which uses a different y axis. The other series use the default y axis
+  // The series at index 2 is our volume chart, which uses a different y axis. The other series use the default y axis
   if (index == 2) {
     return allYAxes[1];
   } else {
