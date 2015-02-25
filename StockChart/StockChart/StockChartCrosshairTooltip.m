@@ -135,7 +135,7 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
   newFrame.origin.y = plotArea.origin.y + StockChartTooltipTopPadding;
   if (xPosition + newFrame.size.width > plotArea.size.width) {
     newFrame.origin.x = plotArea.size.width - newFrame.size.width;
-  } else if(xPosition < 0) {
+  } else if (xPosition < 0) {
     newFrame.origin.x = 0;
   } else {
     newFrame.origin.x = xPosition;
