@@ -49,7 +49,11 @@ const float minYAxisRange = 10.f;
 @property (strong, nonatomic) StockChartDataSource *mainDatasource;
 @property (strong, nonatomic) id<SChartDatasource> rangeDatasource;
 
+@property (strong, nonatomic) StockChartCrosshair *crosshair;
+
 @property (strong, nonatomic) UIView *xAxisBackground;
+
+@property (strong, nonatomic) NSMutableArray *mainChartRanges;
 
 @end
 
@@ -59,7 +63,45 @@ const float minYAxisRange = 10.f;
   [super viewDidLoad];
   
   self.title = @"Stock values and trading volume over time";
+  [self setupCharts];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
   
+  // Restore charts
+  if (!self.mainChart) {
+    [self setupCharts];
+  }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  [self.crosshair hide];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  
+  // Save the current state
+  self.mainChartRanges = [NSMutableArray new];
+  for (SChartAxis *axis in self.mainChart.allAxes) {
+    [self.mainChartRanges addObject:axis.axisRange];
+  }
+  
+  // Throw away the chart and datasource
+  self.valueAnnotationManager = nil;
+  self.rangeAnnotationManager = nil;
+  self.xAxisBackground = nil;
+  [self.mainChart removeFromSuperview];
+  self.mainChart = nil;
+  self.mainDatasource = nil;
+  [self.rangeChart removeFromSuperview];
+  self.rangeChart = nil;
+  self.rangeDatasource = nil;
+}
+
+- (void)setupCharts {
   SChartTheme *theme = [SChartiOS7Theme new];
   theme.chartStyle.backgroundColor = [UIColor whiteColor];
   
@@ -112,7 +154,8 @@ const float minYAxisRange = 10.f;
   [self.mainView addSubview:self.mainChart];
   
   // Set the crosshair to our custom one (we can create it now the chart knows how big it is)
-  self.mainChart.crosshair = [[StockChartCrosshair alloc] initWithFrame:[self.mainChart getPlotAreaFrame]];
+  self.crosshair = [[StockChartCrosshair alloc] initWithFrame:[self.mainChart getPlotAreaFrame]];
+  self.mainChart.crosshair = self.crosshair;
   
   // Set the initial start and end values for the x axis on the main chart
   NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -311,10 +354,23 @@ const float minYAxisRange = 10.f;
       self.xAxisBackground.frame = xAxisBackgroundFrame;
     }
     
-    // Update the value annotation without triggering another redraw
+    // Update the annotations (without triggering another redraw)
     [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
                                                          yAxisRange:self.mainChart.yAxis.axisRange
                                                              redraw:NO];
+    [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
+  }
+}
+
+- (void)sChartDidFinishLoadingData:(ShinobiChart *)chart {
+  // Restore the previous ranges
+  if (chart == self.mainChart && self.mainChartRanges) {
+    for (int i=0; i < MIN(chart.allAxes.count, self.mainChartRanges.count); i++) {
+      if (self.mainChartRanges[i]) {
+        SChartRange *range = (SChartRange *)self.mainChartRanges[i];
+        [chart.allAxes[i] setRangeWithMinimum:range.minimum andMaximum:range.maximum];
+      }
+    }
   }
 }
 
