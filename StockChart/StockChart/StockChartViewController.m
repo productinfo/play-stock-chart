@@ -364,13 +364,11 @@ const float minYAxisRange = 10.f;
 
 - (void)sChartDidFinishLoadingData:(ShinobiChart *)chart {
   // Restore the previous ranges
-  if (chart == self.mainChart) {
-    if (self.mainChartRanges) {
-      for (int i=0; (i < chart.allAxes.count && i < self.mainChartRanges.count); i++) {
-        if (self.mainChartRanges[i]) {
-          SChartRange *range = (SChartRange *)self.mainChartRanges[i];
-          [chart.allAxes[i] setRangeWithMinimum:range.minimum andMaximum:range.maximum];
-        }
+  if (chart == self.mainChart && self.mainChartRanges) {
+    for (int i=0; i < MIN(chart.allAxes.count, self.mainChartRanges.count); i++) {
+      if (self.mainChartRanges[i]) {
+        SChartRange *range = (SChartRange *)self.mainChartRanges[i];
+        [chart.allAxes[i] setRangeWithMinimum:range.minimum andMaximum:range.maximum];
       }
     }
   }
