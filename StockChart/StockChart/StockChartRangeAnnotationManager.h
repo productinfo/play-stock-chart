@@ -37,6 +37,7 @@
 - (instancetype)initWithChart:(ShinobiChart *)chart;
 - (instancetype)initWithChart:(ShinobiChart *)chart minimumSpan:(CGFloat)minSpan;
 - (void)moveRangeSelectorToRange:(SChartRange *)range;
+- (void)moveRangeSelectorToRange:(SChartRange *)range redraw:(BOOL)redraw;
 - (void)setInitialMin:(id)min andMax:(id)max;
 
 @end

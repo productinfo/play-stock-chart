@@ -59,6 +59,14 @@ const float minYAxisRange = 10.f;
 
 @implementation StockChartViewController
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+  self = [super initWithCoder:aDecoder];
+  if (self) {
+    self.needsOverlayOnLoad = YES;
+  }
+  return self;
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   
@@ -95,10 +103,20 @@ const float minYAxisRange = 10.f;
   self.xAxisBackground = nil;
   [self.mainChart removeFromSuperview];
   self.mainChart = nil;
-  self.mainDatasource = nil;
+  @synchronized(self) {
+    self.mainDatasource = nil;
+  }
   [self.rangeChart removeFromSuperview];
   self.rangeChart = nil;
   self.rangeDatasource = nil;
+}
+
+- (void)preLoadData {
+  @synchronized(self) {
+    if (!self.mainDatasource) {
+      self.mainDatasource = [StockChartDataSource new];
+    }
+  }
 }
 
 - (void)setupCharts {
@@ -108,23 +126,27 @@ const float minYAxisRange = 10.f;
   theme.chartTitleStyle.font = [UIFont shinobiFontOfSize:30];
   theme.chartTitleStyle.textColor = [UIColor shinobiDarkGrayColor];
   theme.chartTitleStyle.titleCentresOn = SChartTitleCentresOnChart;
+  theme.chartTitleStyle.overlapChartTitle = NO;
   
-  theme.xAxisStyle.lineColor = theme.chartTitleStyle.textColor;
+  theme.xAxisStyle.lineColor = [UIColor clearColor];
   theme.xAxisStyle.titleStyle.font = [UIFont shinobiFontOfSize:16];
-  theme.xAxisStyle.majorTickStyle.lineColor = theme.xAxisStyle.lineColor;
+  theme.xAxisStyle.majorTickStyle.lineColor = theme.chartTitleStyle.textColor;
   theme.xAxisStyle.majorTickStyle.labelColor = [UIColor whiteColor];
   theme.xAxisStyle.majorTickStyle.labelFont = [UIFont lightShinobiFontOfSize:14];
   theme.xAxisStyle.majorTickStyle.showTicks = NO;
+  theme.xAxisStyle.majorTickStyle.showLabels = NO;
   theme.xAxisStyle.majorTickStyle.tickGap = @0;
   
   theme.yAxisStyle.lineColor = theme.xAxisStyle.lineColor;
-  theme.yAxisStyle.majorTickStyle.lineColor = theme.yAxisStyle.lineColor;
-  theme.yAxisStyle.majorTickStyle.labelColor = theme.yAxisStyle.lineColor;
+  theme.yAxisStyle.majorTickStyle.lineColor = theme.chartTitleStyle.textColor;
+  theme.yAxisStyle.majorTickStyle.labelColor = theme.chartTitleStyle.textColor;
   theme.yAxisStyle.majorTickStyle.labelFont = [UIFont shinobiFontOfSize:14];
   theme.yAxisStyle.majorTickStyle.lineLength = @8;
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
+  theme.yAxisStyle.majorTickStyle.showTicks = NO;
+  theme.yAxisStyle.majorTickStyle.showLabels = NO;
   
-  self.mainDatasource = [StockChartDataSource new];
+  [self preLoadData];
   
   self.mainChart = [self createChartWithBounds:self.mainView.bounds
                                     dataSource:self.mainDatasource];
@@ -135,6 +157,10 @@ const float minYAxisRange = 10.f;
   // Set double tap in main chart to reset the zoom
   self.mainChart.gestureDoubleTapResetsZoom = YES;
   self.mainChart.gestureDoubleTapEnabled = YES;
+  
+  // Fix the xAxis width (which is the overall height of the x axis plus labels) to enable
+  // us to draw a background behind it later on
+  self.mainChart.xAxis.width = @24;
   
   // Create a y axis to use with volume data.  We have specified a large enough range so
   // that the volume data is plotted in the lower section of the chart, so as not to get
@@ -197,7 +223,7 @@ const float minYAxisRange = 10.f;
   self.rangeAnnotationManager = [[StockChartRangeAnnotationManager alloc] initWithChart:self.rangeChart
                                                                             minimumSpan:minXAxisRange];
   self.rangeAnnotationManager.delegate = self;
-  [self.rangeAnnotationManager moveRangeSelectorToRange:self.mainChart.xAxis.defaultRange];
+  [self.rangeAnnotationManager moveRangeSelectorToRange:self.mainChart.xAxis.defaultRange redraw:NO];
   
   // We also want to set the min/max since it's not available from the axis yet
   NSInteger numberPoints = [self.rangeDatasource sChart:self.rangeChart numberOfDataPointsForSeriesAtIndex:0];
@@ -218,7 +244,8 @@ const float minYAxisRange = 10.f;
                                                                              datasource:self.mainDatasource
                                                                             seriesIndex:1];
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:self.mainChart.xAxis.defaultRange
-                                                       yAxisRange:self.mainChart.yAxis.defaultRange];
+                                                       yAxisRange:self.mainChart.yAxis.defaultRange
+                                                           redraw:NO];
 }
 
 - (ShinobiChart*)createChartWithBounds:(CGRect)bounds dataSource:(id<SChartDatasource>)datasource {
@@ -255,6 +282,9 @@ const float minYAxisRange = 10.f;
   yAxis.axisPosition = SChartAxisPositionReverse;
   yAxis.width = @50;
   chart.yAxis = yAxis;
+  
+  // Load data in background
+  chart.loadDataInBackground = YES;
   
   return chart;
 }
@@ -309,13 +339,15 @@ const float minYAxisRange = 10.f;
 
 #pragma mark - SChartDelegate
 -(void)sChartIsPanning:(ShinobiChart *)chart withChartMovementInformation:(const SChartMovementInformation *)information {
-  [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
+  // Only redraw the chart after the second annotation has updated
+  [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange redraw:NO];
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
                                                        yAxisRange:self.mainChart.yAxis.axisRange];
 }
 
 -(void)sChartIsZooming:(ShinobiChart *)chart withChartMovementInformation:(const SChartMovementInformation *)information {
-  [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
+  // Only redraw the chart after the second annotation has updated
+  [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange redraw:NO];
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
                                                        yAxisRange:self.mainChart.yAxis.axisRange];
 }
@@ -323,15 +355,14 @@ const float minYAxisRange = 10.f;
 - (void)sChartRenderFinished:(ShinobiChart *)chart {
   // It is the main chart which has finished rendering
   if (chart == self.mainChart) {
-    
     // Update the yAxis width on the range chart to match that in the mainChart
     self.rangeChart.yAxis.width = @([self.mainChart.yAxis spaceRequiredToDrawWithTitle:YES]);
     [self.rangeChart redrawChart];
     
-    // Add a background view for the x-axis
-    // Need to draw a nice grey box
-    double boxWidth = [self.mainChart getPlotAreaFrame].size.width;
-    double xPos = [self.mainChart getPlotAreaFrame].origin.x;
+    // Add a background view (gray box) for the x-axis
+    // Box should be the width of the plot area without axes
+    CGFloat boxWidth = [self.mainChart getPlotAreaFrame].size.width;
+    CGFloat xPos = [self.mainChart getPlotAreaFrame].origin.x;
     
     for (SChartAxis *axis in self.mainChart.allYAxes) {
       if (axis.axisPosition == SChartAxisPositionNormal) {
@@ -340,13 +371,17 @@ const float minYAxisRange = 10.f;
       boxWidth += [axis.style.lineWidth doubleValue];
     }
     
-    CGRect xAxisBackgroundFrame = CGRectMake(xPos,
-                                             [self.mainChart getPlotAreaFrame].size.height,
-                                             boxWidth,
-                                             34);
+    // Box should be positioned to meet the bottom of the plot area and overlap the gap
+    // between the charts
+    CGFloat chartGap = self.rangeView.frame.origin.y -
+                          (self.mainView.frame.origin.y + self.mainView.frame.size.height);
+    CGFloat boxHeight = [self.mainChart.xAxis.width doubleValue] + chartGap;
+    CGFloat yPos = self.mainChart.canvas.frame.size.height - boxHeight + chartGap;
+    
+    CGRect xAxisBackgroundFrame = CGRectMake(xPos, yPos, boxWidth, boxHeight);
+    
     if (!self.xAxisBackground) {
       self.xAxisBackground = [[UIView alloc] initWithFrame:xAxisBackgroundFrame];
-      self.xAxisBackground.backgroundColor = [UIColor shinobiDarkGrayColor];
       [self.mainChart.canvas addSubview:self.xAxisBackground];
       [self.mainChart.canvas sendSubviewToBack:self.xAxisBackground];
     } else {
@@ -358,18 +393,44 @@ const float minYAxisRange = 10.f;
     [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
                                                          yAxisRange:self.mainChart.yAxis.axisRange
                                                              redraw:NO];
-    [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange];
+    [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange redraw:NO];
   }
 }
 
+- (void)sChartWillStartLoadingData:(ShinobiChart *)chart {
+  UIActivityIndicatorView *loadingIndicator = (UIActivityIndicatorView *)chart.loadingIndicator;
+  loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+  loadingIndicator.color = [UIColor blackColor];
+}
+
 - (void)sChartDidFinishLoadingData:(ShinobiChart *)chart {
-  // Restore the previous ranges
-  if (chart == self.mainChart && self.mainChartRanges) {
-    for (int i=0; i < MIN(chart.allAxes.count, self.mainChartRanges.count); i++) {
-      if (self.mainChartRanges[i]) {
-        SChartRange *range = (SChartRange *)self.mainChartRanges[i];
-        [chart.allAxes[i] setRangeWithMinimum:range.minimum andMaximum:range.maximum];
+  if (chart == self.mainChart) {
+    // Show tick labels and marks
+    chart.xAxis.style.majorTickStyle.showLabels = YES;
+    chart.yAxis.style.majorTickStyle.showLabels = YES;
+    chart.yAxis.style.majorTickStyle.showTicks = YES;
+    
+    // Show axes on both charts
+    for (SChartAxis *axis in [self.mainChart.allAxes arrayByAddingObjectsFromArray:self.rangeChart.allAxes]) {
+      axis.style.lineColor = [UIColor shinobiDarkGrayColor];
+    }
+    
+    if (self.xAxisBackground) {
+      self.xAxisBackground.backgroundColor = [UIColor shinobiDarkGrayColor];
+    }
+    
+    // Restore the previous ranges
+    if (self.mainChartRanges) {
+      for (int i=0; i < MIN(chart.allAxes.count, self.mainChartRanges.count); i++) {
+        if (self.mainChartRanges[i]) {
+          SChartRange *range = (SChartRange *)self.mainChartRanges[i];
+          [chart.allAxes[i] setRangeWithMinimum:range.minimum andMaximum:range.maximum];
+        }
       }
+    }
+    
+    if (self.onLoadComplete) {
+      self.onLoadComplete();
     }
   }
 }

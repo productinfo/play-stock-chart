@@ -187,7 +187,7 @@
        
        // Move the annotation to the correct location
        // We use the internal method so we don't kill the momentum animator
-       [self moveRangeSelectorToRange:updatedRange cancelAnimation:NO];
+       [self moveRangeSelectorToRange:updatedRange cancelAnimation:NO redraw:YES];
        
        // And fire the delegate method
        [self callRangeDidMoveDelegateWithRange:updatedRange];
@@ -361,8 +361,13 @@
 
 #pragma mark - API Methods
 - (void)moveRangeSelectorToRange:(SChartRange *)range {
+  // By default we'll cancel animations and redraw the chart
+  [self moveRangeSelectorToRange:range cancelAnimation:YES redraw:NO];
+}
+
+- (void)moveRangeSelectorToRange:(SChartRange *)range redraw:(BOOL)redraw {
   // By default we'll cancel animations
-  [self moveRangeSelectorToRange:range cancelAnimation:YES];
+  [self moveRangeSelectorToRange:range cancelAnimation:YES redraw:redraw];
 }
 
 - (void)setInitialMin:(id)min andMax:(id)max {
@@ -370,7 +375,8 @@
   self.rightShading.xValueMax = max;
 }
 
-- (void)moveRangeSelectorToRange:(SChartRange *)range cancelAnimation:(BOOL)cancelAnimation {
+- (void)moveRangeSelectorToRange:(SChartRange *)range cancelAnimation:(BOOL)cancelAnimation
+                          redraw:(BOOL)redraw {
   if (cancelAnimation) {
     // In many cases we want to prevent the animation fighting with the UI
     [self.momentumAnimation stopAnimation];
@@ -390,7 +396,9 @@
   self.rangeSelection.xValueMax = range.maximum;
   
   // And finally redraw the chart
-  [self.chart redrawChart];
+  if (redraw) {
+    [self.chart redrawChart];
+  }
 }
 
 @end
