@@ -3,7 +3,7 @@
 //  StockChart
 //
 //  Created by Sam Davies on 30/12/2012.
-//  
+//
 //  Copyright 2013 Scott Logic
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,35 +25,33 @@
 
 - (instancetype)initWithFrame:(CGRect)frame xValue:(id)xValue xValueMax:(id)xValueMax
                         xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis *)yAxis {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        self.xAxis = xAxis;
-        self.yAxis = yAxis;
-        self.yValue = nil;
-        self.yValueMax = nil;
-        self.xValue = xValue;
-        self.xValueMax = xValueMax;
-        self.backgroundColor = [UIColor clearColor];
-    }
-    return self;
-}
-
-- (void)layoutSubviews {
-    // We force the height to be that of the y-axis itself
-    CGRect bds = self.bounds;
-    bds.size.height = self.yAxis.axisFrame.size.height;
-    self.bounds = bds;
+  self = [super initWithFrame:frame];
+  if (self) {
+    // Initialization code
+    self.xAxis = xAxis;
+    self.yAxis = yAxis;
+    self.yValue = nil;
+    self.yValueMax = nil;
+    self.xValue = xValue;
+    self.xValueMax = xValueMax;
+    self.backgroundColor = [UIColor clearColor];
+    self.stretchToBoundsOnY = YES;
+  }
+  return self;
 }
 
 - (void)setTransform:(CGAffineTransform)transform {
-    // Zooming annotations usually use an affine transform to set their shape.
-    //  We're going to change the frame of the annotation so that we have a
-    //  suitable area to which to recognise dragging gestures.
-    CGRect bds = self.bounds;
+  // Zooming annotations usually use an affine transform to set their shape.
+  //  We're going to change the frame of the annotation so that we have a
+  //  suitable area in which to recognise dragging gestures.
+  CGRect bds = self.bounds;
+  if (transform.a > 0) {
     bds.size.width *= transform.a;
+  }
+  if (transform.d > 0) {
     bds.size.height *= transform.d;
-    self.bounds = bds;
+  }
+  self.bounds = bds;
 }
 
 @end
