@@ -120,17 +120,18 @@ const float minYAxisRange = 10.f;
 }
 
 - (void)setupCharts {
+  UIColor *shinobiGrayColor = [UIColor shinobiDarkGrayColor];
   SChartTheme *theme = [SChartiOS7Theme new];
   theme.chartStyle.backgroundColor = [UIColor whiteColor];
   
   theme.chartTitleStyle.font = [UIFont shinobiFontOfSize:30];
-  theme.chartTitleStyle.textColor = [UIColor shinobiDarkGrayColor];
+  theme.chartTitleStyle.textColor = shinobiGrayColor;
   theme.chartTitleStyle.titleCentresOn = SChartTitleCentresOnChart;
   theme.chartTitleStyle.overlapChartTitle = NO;
   
   theme.xAxisStyle.lineColor = [UIColor clearColor];
   theme.xAxisStyle.titleStyle.font = [UIFont shinobiFontOfSize:16];
-  theme.xAxisStyle.majorTickStyle.lineColor = theme.chartTitleStyle.textColor;
+  theme.xAxisStyle.majorTickStyle.lineColor = shinobiGrayColor;
   theme.xAxisStyle.majorTickStyle.labelColor = [UIColor whiteColor];
   theme.xAxisStyle.majorTickStyle.labelFont = [UIFont lightShinobiFontOfSize:14];
   theme.xAxisStyle.majorTickStyle.showTicks = NO;
@@ -138,8 +139,8 @@ const float minYAxisRange = 10.f;
   theme.xAxisStyle.majorTickStyle.tickGap = @0;
   
   theme.yAxisStyle.lineColor = theme.xAxisStyle.lineColor;
-  theme.yAxisStyle.majorTickStyle.lineColor = theme.chartTitleStyle.textColor;
-  theme.yAxisStyle.majorTickStyle.labelColor = theme.chartTitleStyle.textColor;
+  theme.yAxisStyle.majorTickStyle.lineColor = shinobiGrayColor;
+  theme.yAxisStyle.majorTickStyle.labelColor = shinobiGrayColor;
   theme.yAxisStyle.majorTickStyle.labelFont = [UIFont shinobiFontOfSize:14];
   theme.yAxisStyle.majorTickStyle.lineLength = @8;
   theme.yAxisStyle.majorTickStyle.lineWidth = @1;
@@ -415,9 +416,7 @@ const float minYAxisRange = 10.f;
       axis.style.lineColor = [UIColor shinobiDarkGrayColor];
     }
     
-    if (self.xAxisBackground) {
-      self.xAxisBackground.backgroundColor = [UIColor shinobiDarkGrayColor];
-    }
+    self.xAxisBackground.backgroundColor = [UIColor shinobiDarkGrayColor];
     
     // Restore the previous ranges
     if (self.mainChartRanges) {

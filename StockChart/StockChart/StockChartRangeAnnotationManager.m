@@ -362,7 +362,7 @@
 #pragma mark - API Methods
 - (void)moveRangeSelectorToRange:(SChartRange *)range {
   // By default we'll cancel animations and redraw the chart
-  [self moveRangeSelectorToRange:range cancelAnimation:YES redraw:NO];
+  [self moveRangeSelectorToRange:range cancelAnimation:YES redraw:YES];
 }
 
 - (void)moveRangeSelectorToRange:(SChartRange *)range redraw:(BOOL)redraw {
