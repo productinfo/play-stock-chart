@@ -91,24 +91,26 @@ const float minYAxisRange = 10.f;
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   
-  // Save the current state
-  self.mainChartRanges = [NSMutableArray new];
-  for (SChartAxis *axis in self.mainChart.allAxes) {
-    [self.mainChartRanges addObject:axis.axisRange];
+  if ([self isMovingFromParentViewController]) {
+    // Save the current state
+    self.mainChartRanges = [NSMutableArray new];
+    for (SChartAxis *axis in self.mainChart.allAxes) {
+      [self.mainChartRanges addObject:axis.axisRange];
+    }
+    
+    // Throw away the chart and datasource
+    self.valueAnnotationManager = nil;
+    self.rangeAnnotationManager = nil;
+    self.xAxisBackground = nil;
+    [self.mainChart removeFromSuperview];
+    self.mainChart = nil;
+    @synchronized(self) {
+      self.mainDatasource = nil;
+    }
+    [self.rangeChart removeFromSuperview];
+    self.rangeChart = nil;
+    self.rangeDatasource = nil;
   }
-  
-  // Throw away the chart and datasource
-  self.valueAnnotationManager = nil;
-  self.rangeAnnotationManager = nil;
-  self.xAxisBackground = nil;
-  [self.mainChart removeFromSuperview];
-  self.mainChart = nil;
-  @synchronized(self) {
-    self.mainDatasource = nil;
-  }
-  [self.rangeChart removeFromSuperview];
-  self.rangeChart = nil;
-  self.rangeDatasource = nil;
 }
 
 - (void)preLoadData {
