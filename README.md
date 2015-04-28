@@ -13,7 +13,7 @@ If you clone this project using GitHub Desktop, the submodules should be checked
 
     $ git submodule update --init --recursive
     
-If you [download the zip](archive/master.zip) rather than cloning the project, you'll also have to download the submodule zips:
+If you [download the zip](../../archive/master.zip) rather than cloning the project, you'll also have to download the submodule zips:
 
 * Download [play-utils](https://github.com/ShinobiControls/play-utils/archive/master.zip) and extract its contents into the **StockChart/ShinobiPlayUtils/** directory.
 
