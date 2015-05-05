@@ -1,7 +1,7 @@
 shinobiplay: Stock Chart (Objective-C)
 =====================
 
-The stock chart project from ShinobiPlay. Demonstrates financial series types, a range selector chart, annotations and custom crosshairs and tooltips.
+The stock chart project from **shinobiplay**. Demonstrates financial series types, a range selector chart, annotations and custom crosshairs and tooltips.
 
 ![Screenshot](screenshot.png?raw=true)
 
