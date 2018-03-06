@@ -63,7 +63,7 @@
 }
 
 - (void)showAtPoint:(CGPoint)pointInChart inChart:(ShinobiChart *)chart {
-  self.frame = [chart getPlotAreaFrame];
+  self.frame = chart.plotAreaFrame;
   [self moveToPoint:pointInChart inChart:chart];
   [self showInChart:chart];
 }
@@ -78,12 +78,12 @@
   
   // Get the nearest data point to pointInChart so we know where to move the crosshair to.
   // Find the SChartOHLCSeries to get the data values as it contains most data points
-  for (SChartSeries *seriesInChart in chart.series) {
+  for (SChartMappedSeries *seriesInChart in chart.series) {
     if ([seriesInChart isKindOfClass:[SChartOHLCSeries class]]) {
       
       SChartPixelToPointMapper *mapper = [SChartPixelToPointMapper new];
       SChartPixelToPointMapping *mapping = [mapper mappingForPoint:pointInChart
-                                                          onSeries:(SChartMappedSeries *)seriesInChart
+                                                          seriesToSearch:@[seriesInChart]
                                                            onChart:chart];
       NSInteger dataPointIndex = [mapping.dataPoint sChartDataPointIndex];
       dataValues = [((StockChartDataSource *)chart.datasource) getValuesForIndex:dataPointIndex];
@@ -111,6 +111,10 @@
 
 - (void)hide {
   [self removeFromSuperview];
+}
+
+- (BOOL)isHidden {
+  return self.superview == nil;
 }
 
 @end

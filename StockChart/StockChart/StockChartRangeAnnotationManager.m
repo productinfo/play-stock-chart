@@ -82,31 +82,31 @@
                                                   withWidth:3.f
                                                   withColor:color];
   // Shading is either side of the line
-  self.leftShading = [SChartAnnotation verticalBandAtPosition:self.chart.xAxis.axisRange.minimum
+  self.leftShading = [SChartAnnotation verticalBandAtPosition:self.chart.xAxis.range.minimum
                                                       andMaxX:nil
                                                     withXAxis:self.chart.xAxis
                                                      andYAxis:self.chart.yAxis
                                                     withColor:[UIColor colorWithWhite:0.1f alpha:0.3f]];
   self.rightShading = [SChartAnnotation verticalBandAtPosition:nil
-                                                       andMaxX:self.chart.xAxis.axisRange.maximum
+                                                       andMaxX:self.chart.xAxis.range.maximum
                                                      withXAxis:self.chart.xAxis
                                                       andYAxis:self.chart.yAxis
                                                      withColor:[UIColor colorWithWhite:0.1f alpha:0.3f]];
   // The invisible range selection
   self.rangeSelection = [[StockChartRangeSelectionAnnotation alloc] initWithFrame:CGRectMake(0, 0, 1, 1)
-                                                                           xValue:self.chart.xAxis.axisRange.minimum
-                                                                        xValueMax:self.chart.xAxis.axisRange.maximum
+                                                                           xValue:self.chart.xAxis.range.minimum
+                                                                        xValueMax:self.chart.xAxis.range.maximum
                                                                             xAxis:self.chart.xAxis
                                                                             yAxis:self.chart.yAxis];
   // Create the handles
   self.leftGripper = [[StockChartRangeHandleAnnotation alloc] initWithFrame:CGRectMake(0, 0, 24, 24)
                                                                       color:color
-                                                                     xValue:self.chart.xAxis.axisRange.minimum
+                                                                     xValue:self.chart.xAxis.range.minimum
                                                                       xAxis:self.chart.xAxis
                                                                       yAxis:self.chart.yAxis];
   self.rightGripper = [[StockChartRangeHandleAnnotation alloc] initWithFrame:CGRectMake(0, 0, 24, 24)
                                                                        color:color
-                                                                      xValue:self.chart.xAxis.axisRange.maximum
+                                                                      xValue:self.chart.xAxis.range.maximum
                                                                        xAxis:self.chart.xAxis
                                                                        yAxis:self.chart.yAxis];
     

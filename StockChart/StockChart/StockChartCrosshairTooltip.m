@@ -129,7 +129,7 @@ static const CGFloat StockChartTooltipTopPadding = 50.f;
   }
   
   CGRect newFrame = self.frame;
-  CGRect plotArea = [chart getPlotAreaFrame];
+  CGRect plotArea = chart.plotAreaFrame;
   newFrame.size.width = maxLabelWidth + (2 * StockChartTooltipLabelPadding);
   newFrame.size.height = labelYPosition + StockChartTooltipLabelPadding;
   newFrame.origin.y = plotArea.origin.y + StockChartTooltipTopPadding;

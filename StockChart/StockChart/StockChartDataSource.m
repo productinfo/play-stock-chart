@@ -114,6 +114,10 @@
 // Returns the data point at the specified index for the given series/chart.
 - (id<SChartData>)sChart:(ShinobiChart *)chart dataPointAtIndex:(NSInteger)dataIndex
         forSeriesAtIndex:(NSInteger)seriesIndex {
+  return [self dataPointAtIndex:dataIndex forSeriesAtIndex:seriesIndex];
+}
+
+- (id<SChartData>)dataPointAtIndex:(NSInteger)dataIndex forSeriesAtIndex:(NSInteger)seriesIndex {
   switch (seriesIndex) {
     case 0:
       // Bollinger Band
@@ -229,7 +233,7 @@
     index = 0;
   }
   
-  SChartDataPoint *dp = [self sChart:nil dataPointAtIndex:index forSeriesAtIndex:idx];
+  SChartDataPoint *dp = [self dataPointAtIndex:index forSeriesAtIndex:idx];
   if ([dp isKindOfClass:[SChartMultiYDataPoint class]]) {
     NSDictionary *yValues = ((SChartMultiYDataPoint*)dp).yValues;
     if (yValues[@"Close"]) {
@@ -244,12 +248,12 @@
 
 - (NSDictionary *)getValuesForIndex:(NSInteger)dataPointIndex {
   // Create dictionary based on OHLC data
-  SChartMultiYDataPoint *ohlcDp = [self sChart:nil dataPointAtIndex:dataPointIndex forSeriesAtIndex:1];
+  SChartMultiYDataPoint *ohlcDp = [self dataPointAtIndex:dataPointIndex forSeriesAtIndex:1];
   NSMutableDictionary *values = [ohlcDp.yValues mutableCopy];
   values[@"Date"] = ohlcDp.xValue;
   
   // Get volume data and add it in
-  SChartDataPoint *volumeDp = [self sChart:nil dataPointAtIndex:dataPointIndex forSeriesAtIndex:2];
+  SChartDataPoint *volumeDp = [self dataPointAtIndex:dataPointIndex forSeriesAtIndex:2];
   values[@"Volume"] = volumeDp.yValue;
   
   return [values copy];
