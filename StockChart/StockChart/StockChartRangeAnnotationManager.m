@@ -71,23 +71,23 @@
   UIColor *color = [UIColor shinobiDarkGrayColor];
   
   // Lines are pretty simple
-  self.leftLine = [SChartAnnotation verticalLineAtPosition:nil
+  self.leftLine = [SChartAnnotation verticalLineAtPosition:@0
                                                  withXAxis:self.chart.xAxis
                                                   andYAxis:self.chart.yAxis
                                                  withWidth:3.f
                                                  withColor:color];
-  self.rightLine = [SChartAnnotation verticalLineAtPosition:nil
+  self.rightLine = [SChartAnnotation verticalLineAtPosition:@0
                                                   withXAxis:self.chart.xAxis
                                                    andYAxis:self.chart.yAxis
                                                   withWidth:3.f
                                                   withColor:color];
   // Shading is either side of the line
   self.leftShading = [SChartAnnotation verticalBandAtPosition:self.chart.xAxis.range.minimum
-                                                      andMaxX:nil
+                                                      andMaxX:@0
                                                     withXAxis:self.chart.xAxis
                                                      andYAxis:self.chart.yAxis
                                                     withColor:[UIColor colorWithWhite:0.1f alpha:0.3f]];
-  self.rightShading = [SChartAnnotation verticalBandAtPosition:nil
+  self.rightShading = [SChartAnnotation verticalBandAtPosition:@0
                                                        andMaxX:self.chart.xAxis.range.maximum
                                                      withXAxis:self.chart.xAxis
                                                       andYAxis:self.chart.yAxis
@@ -274,10 +274,10 @@
   SChartAxis *axis = self.chart.xAxis;
   
   // Find the axis range
-  SChartRange *rangeObj = axis.axisRange;
+  SChartRange *rangeObj = axis.range;
   
   // Find the frame of the plot area
-  CGRect glFrame = [self.chart getPlotAreaFrame];
+  CGRect glFrame = self.chart.plotAreaFrame;
   
   // Find the pixel width of the axis
   CGFloat pixelSpan;
@@ -307,31 +307,31 @@
 
 - (SChartRange*)ensureWithinChartBounds:(SChartRange*)range maintainingSpan:(BOOL)maintainSpan {
   // If the requested range is bigger than the available, then reset to min/max
-  if ([range.span compare:self.chart.xAxis.axisRange.span] == NSOrderedDescending) {
-    return [SChartRange rangeWithRange:self.chart.xAxis.axisRange];
+  if ([range.span compare:self.chart.xAxis.range.span] == NSOrderedDescending) {
+    return [SChartRange rangeWithRange:self.chart.xAxis.range];
   }
   
-  if ([range.minimum compare:self.chart.xAxis.axisRange.minimum] == NSOrderedAscending) {
+  if ([range.minimum compare:self.chart.xAxis.range.minimum] == NSOrderedAscending) {
     // Min is below axis range
     if (maintainSpan) {
-      CGFloat difference = [self.chart.xAxis.axisRange.minimum doubleValue] - [range.minimum doubleValue];
-      return [[SChartRange alloc] initWithMinimum:self.chart.xAxis.axisRange.minimum
+      CGFloat difference = [self.chart.xAxis.range.minimum doubleValue] - [range.minimum doubleValue];
+      return [[SChartRange alloc] initWithMinimum:self.chart.xAxis.range.minimum
                                        andMaximum:@([range.maximum doubleValue] + difference)];
     } else {
-      return [[SChartRange alloc] initWithMinimum:self.chart.xAxis.axisRange.minimum
+      return [[SChartRange alloc] initWithMinimum:self.chart.xAxis.range.minimum
                                        andMaximum:range.maximum];
     }
   }
   
-  if ([range.maximum compare:self.chart.xAxis.axisRange.maximum] == NSOrderedDescending) {
+  if ([range.maximum compare:self.chart.xAxis.range.maximum] == NSOrderedDescending) {
     // Max is above axis range
     if (maintainSpan) {
-      CGFloat difference = [range.maximum doubleValue] - [self.chart.xAxis.axisRange.maximum doubleValue];
+      CGFloat difference = [range.maximum doubleValue] - [self.chart.xAxis.range.maximum doubleValue];
       return [[SChartRange alloc] initWithMinimum:@([range.minimum doubleValue] - difference)
-                                       andMaximum:self.chart.xAxis.axisRange.maximum];
+                                       andMaximum:self.chart.xAxis.range.maximum];
     } else {
       return [[SChartRange alloc] initWithMinimum:range.minimum
-                                       andMaximum:self.chart.xAxis.axisRange.maximum];
+                                       andMaximum:self.chart.xAxis.range.maximum];
     }
   }
   
@@ -340,10 +340,10 @@
 
 - (id)estimateDataValueForPixelValue:(CGFloat)pixelValue onAxis:(SChartAxis*)axis {
   // What is the axis range?
-  SChartRange *range = axis.axisRange;
+  SChartRange *range = axis.range;
   
   // What's the frame of the plot area
-  CGRect glFrame = [self.chart getPlotAreaFrame];
+  CGRect glFrame = self.chart.plotAreaFrame;
   
   // Find the pixel width of the axis
   CGFloat pixelSpan;
@@ -386,10 +386,10 @@
   // range annotation
   self.leftLine.xValue = range.minimum;
   self.rightLine.xValue = range.maximum;
-  self.leftShading.xValue = self.chart.xAxis.axisRange.minimum;
+  self.leftShading.xValue = self.chart.xAxis.range.minimum;
   self.leftShading.xValueMax = range.minimum;
   self.rightShading.xValue = range.maximum;
-  self.rightShading.xValueMax = self.chart.xAxis.axisRange.maximum;
+  self.rightShading.xValueMax = self.chart.xAxis.range.maximum;
   self.leftGripper.xValue = range.minimum;
   self.rightGripper.xValue = range.maximum;
   self.rangeSelection.xValue = range.minimum;

@@ -40,7 +40,6 @@
 		68ECA6CD1A01342E00645A75 /* StockChartRangeChartDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6CC1A01342E00645A75 /* StockChartRangeChartDataSource.m */; };
 		68ECA6DB1A01362400645A75 /* StockChartArrowHead.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6DA1A01362400645A75 /* StockChartArrowHead.m */; };
 		68ECA6DE1A01363B00645A75 /* StockChartDashedLineAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6DD1A01363B00645A75 /* StockChartDashedLineAnnotation.m */; };
-		68ECA6E31A0137A200645A75 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 68ECA6E21A0137A200645A75 /* libstdc++.dylib */; };
 		68ECA6F41A07926A00645A75 /* StockChartRangeAnnotationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6EE1A07926A00645A75 /* StockChartRangeAnnotationManager.m */; };
 		68ECA6F51A07926A00645A75 /* StockChartRangeHandleAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6F11A07926A00645A75 /* StockChartRangeHandleAnnotation.m */; };
 		68ECA6F61A07926A00645A75 /* StockChartRangeSelectionAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA6F31A07926A00645A75 /* StockChartRangeSelectionAnnotation.m */; };
@@ -49,6 +48,7 @@
 		68ECA7021A07B62200645A75 /* StockChartValueView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA7001A07B62200645A75 /* StockChartValueView.m */; };
 		68ECA7061A07BB7600645A75 /* NSArray+StockChartUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 68ECA7051A07BB7600645A75 /* NSArray+StockChartUtils.m */; };
 		68FCB4D31A6E5E5700A48C86 /* StockChartCandlestickSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = 68FCB4D21A6E5E5700A48C86 /* StockChartCandlestickSeries.m */; };
+		B246372620516CA700827503 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B246372520516CA700827503 /* libc++.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +90,6 @@
 		68171BF519ADDBC5000AFEEB /* StockChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = StockChartViewController.h; sourceTree = "<group>"; };
 		68171BF619ADDBC5000AFEEB /* StockChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StockChartViewController.m; sourceTree = "<group>"; };
 		68171BF819ADDBC5000AFEEB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		68171BFF19ADDBC5000AFEEB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		68171C1519ADDC04000AFEEB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		68171C1719ADDC45000AFEEB /* ShinobiPlayUtils.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShinobiPlayUtils.xcodeproj; path = ShinobiPlayUtils/ShinobiPlayUtils/ShinobiPlayUtils.xcodeproj; sourceTree = "<group>"; };
 		682B66231A012BC400B04BDA /* StockChartData.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = StockChartData.plist; sourceTree = "<group>"; };
@@ -123,7 +122,6 @@
 		68ECA6DA1A01362400645A75 /* StockChartArrowHead.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartArrowHead.m; sourceTree = "<group>"; };
 		68ECA6DC1A01363B00645A75 /* StockChartDashedLineAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartDashedLineAnnotation.h; sourceTree = "<group>"; };
 		68ECA6DD1A01363B00645A75 /* StockChartDashedLineAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartDashedLineAnnotation.m; sourceTree = "<group>"; };
-		68ECA6E21A0137A200645A75 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		68ECA6ED1A07926A00645A75 /* StockChartRangeAnnotationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartRangeAnnotationManager.h; sourceTree = "<group>"; };
 		68ECA6EE1A07926A00645A75 /* StockChartRangeAnnotationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartRangeAnnotationManager.m; sourceTree = "<group>"; };
 		68ECA6EF1A07926A00645A75 /* StockChartRangeAnnotationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartRangeAnnotationDelegate.h; sourceTree = "<group>"; };
@@ -142,6 +140,7 @@
 		68ECA7051A07BB7600645A75 /* NSArray+StockChartUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+StockChartUtils.m"; sourceTree = "<group>"; };
 		68FCB4D11A6E5E5700A48C86 /* StockChartCandlestickSeries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockChartCandlestickSeries.h; sourceTree = "<group>"; };
 		68FCB4D21A6E5E5700A48C86 /* StockChartCandlestickSeries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockChartCandlestickSeries.m; sourceTree = "<group>"; };
+		B246372520516CA700827503 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,7 +148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68ECA6E31A0137A200645A75 /* libstdc++.dylib in Frameworks */,
+				B246372620516CA700827503 /* libc++.tbd in Frameworks */,
 				68ECA6AB1A01311900645A75 /* ShinobiCharts.framework in Frameworks */,
 				68171C2219ADDCD6000AFEEB /* libShinobiPlayUtils.a in Frameworks */,
 				68171C1619ADDC04000AFEEB /* QuartzCore.framework in Frameworks */,
@@ -183,13 +182,12 @@
 		68171BDF19ADDBC5000AFEEB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				68ECA6E21A0137A200645A75 /* libstdc++.dylib */,
+				B246372520516CA700827503 /* libc++.tbd */,
 				68ECA6AA1A01311900645A75 /* ShinobiCharts.framework */,
 				68171C1519ADDC04000AFEEB /* QuartzCore.framework */,
 				68171BE019ADDBC5000AFEEB /* Foundation.framework */,
 				68171BE219ADDBC5000AFEEB /* CoreGraphics.framework */,
 				68171BE419ADDBC5000AFEEB /* UIKit.framework */,
-				68171BFF19ADDBC5000AFEEB /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
