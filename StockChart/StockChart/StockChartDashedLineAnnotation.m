@@ -26,7 +26,7 @@
 
 - (instancetype)initWithYValue:(id)yValue xAxis:(SChartAxis *)xAxis yAxis:(SChartAxis*)yAxis {
   // Calculate the annotation width based on the xAxis range
-  CGFloat width = [xAxis pixelValueForDataValue:xAxis.axisRange.maximum] - [yAxis.width floatValue];
+  CGFloat width = [xAxis pixelValueForDataValue:xAxis.range.maximum] - [yAxis.width floatValue];
   self = [super initWithFrame:CGRectMake(100, 0, width, 1)];
   if (self) {
     self.xAxis = xAxis;

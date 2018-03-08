@@ -95,7 +95,7 @@ const float minYAxisRange = 10.f;
     // Save the current state
     self.mainChartRanges = [NSMutableArray new];
     for (SChartAxis *axis in self.mainChart.allAxes) {
-      [self.mainChartRanges addObject:axis.axisRange];
+      [self.mainChartRanges addObject:axis.range];
     }
     
     // Throw away the chart and datasource
@@ -158,8 +158,8 @@ const float minYAxisRange = 10.f;
   self.mainChart.title = @"Stock values and trading volume over time";
   
   // Set double tap in main chart to reset the zoom
-  self.mainChart.gestureDoubleTapResetsZoom = YES;
-  self.mainChart.gestureDoubleTapEnabled = YES;
+  self.mainChart.gestureManager.doubleTapResetsZoom = YES;
+  self.mainChart.gestureManager.doubleTapEnabled = YES;
   
   // Fix the xAxis width (which is the overall height of the x axis plus labels) to enable
   // us to draw a background behind it later on
@@ -183,7 +183,7 @@ const float minYAxisRange = 10.f;
   [self.mainView addSubview:self.mainChart];
   
   // Set the crosshair to our custom one (we can create it now the chart knows how big it is)
-  self.crosshair = [[StockChartCrosshair alloc] initWithFrame:[self.mainChart getPlotAreaFrame]];
+  self.crosshair = [[StockChartCrosshair alloc] initWithFrame:self.mainChart.plotAreaFrame];
   self.mainChart.crosshair = self.crosshair;
   
   // Set the initial start and end values for the x axis on the main chart
@@ -296,7 +296,7 @@ const float minYAxisRange = 10.f;
 
 - (void)rangeAnnotation:(StockChartRangeAnnotationManager *)annotation didMoveToRange:(SChartRange *)range
          autoscaleYAxis:(BOOL)autoscale {
-  [self.mainChart.xAxis setRangeWithMinimum:range.minimum andMaximum:range.maximum];
+  [self.mainChart.xAxis setRange:range withAnimation:NO];
   
   if (autoscale == YES)  {
     // Auto-scale the y axis to match the visible data
@@ -331,28 +331,28 @@ const float minYAxisRange = 10.f;
     double padding = 0.1 * (max - min);
     double minValue = min - padding;
     double maxValue = max + padding;
-    [self.mainChart.yAxis setRangeWithMinimum:@(minValue) andMaximum:@(maxValue)];
+    [self.mainChart.yAxis setRange:[[SChartRange alloc] initWithMinimum:@(minValue) andMaximum:@(maxValue)] withAnimation:NO];
   }
   
   // Update the location of the annotation line
   [self.valueAnnotationManager updateValueAnnotationForXAxisRange:range
-                                                       yAxisRange:self.mainChart.yAxis.axisRange
+                                                       yAxisRange:self.mainChart.yAxis.range
                                                            redraw:YES];
 }
 
 #pragma mark - SChartDelegate
 -(void)sChartIsPanning:(ShinobiChart *)chart withChartMovementInformation:(const SChartMovementInformation *)information {
   // Only redraw the chart after the second annotation has updated
-  [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange redraw:NO];
-  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
-                                                       yAxisRange:self.mainChart.yAxis.axisRange];
+  [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.range redraw:NO];
+  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.range
+                                                       yAxisRange:self.mainChart.yAxis.range];
 }
 
 -(void)sChartIsZooming:(ShinobiChart *)chart withChartMovementInformation:(const SChartMovementInformation *)information {
   // Only redraw the chart after the second annotation has updated
-  [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange redraw:NO];
-  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
-                                                       yAxisRange:self.mainChart.yAxis.axisRange];
+  [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.range redraw:NO];
+  [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.range
+                                                       yAxisRange:self.mainChart.yAxis.range];
 }
 
 - (void)sChartRenderFinished:(ShinobiChart *)chart {
@@ -364,8 +364,8 @@ const float minYAxisRange = 10.f;
     
     // Add a background view (gray box) for the x-axis
     // Box should be the width of the plot area without axes
-    CGFloat boxWidth = [self.mainChart getPlotAreaFrame].size.width;
-    CGFloat xPos = [self.mainChart getPlotAreaFrame].origin.x;
+    CGFloat boxWidth = self.mainChart.plotAreaFrame.size.width;
+    CGFloat xPos = self.mainChart.plotAreaFrame.origin.x;
     
     for (SChartAxis *axis in self.mainChart.allYAxes) {
       if (axis.axisPosition == SChartAxisPositionNormal) {
@@ -393,10 +393,10 @@ const float minYAxisRange = 10.f;
     }
     
     // Update the annotations (without triggering another redraw)
-    [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.axisRange
-                                                         yAxisRange:self.mainChart.yAxis.axisRange
+    [self.valueAnnotationManager updateValueAnnotationForXAxisRange:chart.xAxis.range
+                                                         yAxisRange:self.mainChart.yAxis.range
                                                              redraw:NO];
-    [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.axisRange redraw:NO];
+    [self.rangeAnnotationManager moveRangeSelectorToRange:chart.xAxis.range redraw:NO];
   }
 }
 
@@ -425,7 +425,7 @@ const float minYAxisRange = 10.f;
       for (int i=0; i < MIN(chart.allAxes.count, self.mainChartRanges.count); i++) {
         if (self.mainChartRanges[i]) {
           SChartRange *range = (SChartRange *)self.mainChartRanges[i];
-          [chart.allAxes[i] setRangeWithMinimum:range.minimum andMaximum:range.maximum];
+          [chart.allAxes[i] setRange:range withAnimation:NO];
         }
       }
     }
@@ -441,27 +441,27 @@ const float minYAxisRange = 10.f;
  either axis, reset the range of the axis to the minimum limit.
  */
 - (void)sChartIsZooming:(ShinobiChart *)chart {
-  NSNumber *xAxisSpan = chart.xAxis.axisRange.span;
+  NSNumber *xAxisSpan = chart.xAxis.range.span;
   if ([xAxisSpan intValue] < minXAxisRange)   {
-    NSNumber *min = chart.xAxis.axisRange.minimum;
+    NSNumber *min = chart.xAxis.range.minimum;
     int center = [min intValue] + ([xAxisSpan intValue] / 2);
     
     NSNumber *newMin = @(center - (minXAxisRange / 2));
     NSNumber *newMax = @(center + (minXAxisRange / 2));
     
-    [chart.xAxis setRangeWithMinimum:newMin andMaximum:newMax];
+    [chart.xAxis setRange:[[SChartRange alloc] initWithMinimum:newMin andMaximum:newMax] withAnimation:NO];
     [chart redrawChart];
   }
   
-  NSNumber *yAxisSpan = chart.yAxis.axisRange.span;
+  NSNumber *yAxisSpan = chart.yAxis.range.span;
   if ([yAxisSpan floatValue] < minYAxisRange) {
-    NSNumber *min = chart.yAxis.axisRange.minimum;
+    NSNumber *min = chart.yAxis.range.minimum;
     float center = [min floatValue] + ([yAxisSpan floatValue] / 2);
     
     NSNumber *newMin = @(center - (minYAxisRange / 2));
     NSNumber *newMax = @(center + (minYAxisRange / 2));
     
-    [chart.yAxis setRangeWithMinimum:newMin andMaximum:newMax];
+    [chart.yAxis setRange:[[SChartRange alloc] initWithMinimum:newMin andMaximum:newMax] withAnimation:NO];
     [chart redrawChart];
   }
 }

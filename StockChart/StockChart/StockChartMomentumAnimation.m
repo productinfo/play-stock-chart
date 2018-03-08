@@ -97,7 +97,7 @@
   if (self.animating) {
     // Let's update the position
     CGFloat currentTemporalProportion = (CACurrentMediaTime() - self.animationStartTime) / self.animationDuration;
-    CGFloat currentSpatialProportion = [self.animationCurve valueAtTime:currentTemporalProportion];
+    CGFloat currentSpatialProportion = [self.animationCurve valueAtProgress:currentTemporalProportion];
     CGFloat currentPosition = (self.endPos - self.startPos) * currentSpatialProportion + self.startPos;
     
     // Call the block which will perform the repositioning

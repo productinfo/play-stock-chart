@@ -6,21 +6,21 @@
 #
 Pod::Spec.new do |s|
   s.name             = "StockChart"
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = "A stock chart with a range selector"
   s.description      = <<-DESC
                        This chart demonstrates the various financial chart types offered by ShinobiCharts, as well
 			as containing a range selector.
                        DESC
-  s.homepage         = "http://www.shinobicontrols.com"
+  s.homepage         = "https://www.shinobicontrols.com"
   s.license          = 'Apache License, Version 2.0'
   s.author           = { "Alison Clarke" => "aclarke@shinobicontrols.com" }
   s.source           = { :git => "https://github.com/ShinobiControls/play-stock-chart.git",
                          :tag => s.version.to_s,
-                         :submodules => true 
+                         :submodules => true
                        }
   s.social_media_url = 'https://twitter.com/shinobicontrols'
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
   s.source_files = 'StockChart/StockChart/**/*.{h,m}'
   s.dependency 'ShinobiPlayUtils'

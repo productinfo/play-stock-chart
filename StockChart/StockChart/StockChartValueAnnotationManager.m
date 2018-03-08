@@ -96,7 +96,7 @@
     [self.lineAnnotation updateViewWithCanvas:self.chart.canvas];
     
     // Update position and text of value view
-    CGPoint pointInPlotArea = CGPointMake(CGRectGetMaxX([self.chart getPlotAreaFrame]),
+    CGPoint pointInPlotArea = CGPointMake(CGRectGetMaxX(self.chart.plotAreaFrame),
                                           [self.chart.yAxis pixelValueForDataValue:lastVisibleDPValue]);
     CGPoint pointInChart = [self.chart convertPoint:pointInPlotArea
                                            fromView:self.chart.canvas.glView];
