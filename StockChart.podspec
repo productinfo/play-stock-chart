@@ -26,5 +26,6 @@ Pod::Spec.new do |s|
   s.dependency 'ShinobiPlayUtils'
   s.resources = ['StockChart/**/*.storyboard', 'StockChart/**/*.xib', 'StockChart/**/*.xcassets', 'StockChart/**/StockChartData.plist']
   s.frameworks = 'QuartzCore', 'ShinobiCharts'
+  s.libraries = 'c++'
   s.xcconfig     = { 'FRAMEWORK_SEARCH_PATHS' => '"$(DEVELOPER_FRAMEWORKS_DIR)" "$(PROJECT_DIR)/../"' }
 end
